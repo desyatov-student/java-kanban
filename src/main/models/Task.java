@@ -9,6 +9,10 @@ public class Task {
     final public String description;
     final public TaskStatus status;
 
+    public int getId() {
+        return id;
+    }
+
     public Task(int id, String name, String description, TaskStatus status) {
         this.id = id;
         this.name = name;
