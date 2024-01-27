@@ -1,2 +1,7 @@
-package main.models;public enum TaskStatus {
+package main.models;
+
+public enum TaskStatus {
+    NEW,
+    IN_PROGRESS,
+    DONE,
 }
