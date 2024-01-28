@@ -2,30 +2,35 @@ package main.models;
 
 import java.util.Objects;
 
-public class Task {
-
-    final public int id;
-    final public String name;
-    final public String description;
-    final public TaskStatus status;
+public abstract class BaseTask {
+    private int id;
+    private String name;
+    private String description;
 
     public int getId() {
         return id;
     }
 
-    public Task(int id, String name, String description, TaskStatus status) {
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public BaseTask(int id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.status = status;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return id == task.id;
+        BaseTask baseTask = (BaseTask) o;
+        return id == baseTask.id;
     }
 
     @Override
