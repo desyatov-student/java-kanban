@@ -16,4 +16,12 @@ public class TaskRepository {
     public ArrayList<TaskEntity> getAllTasks() {
         return new ArrayList<>(tasks.values());
     }
+
+    public ArrayList<EpicEntity> getAllEpics() {
+        return new ArrayList<>(epics.values());
+    }
+
+    public ArrayList<SubtaskEntity> getAllSubtasks() {
+        return new ArrayList<>(subtasks.values());
+    }
 }
