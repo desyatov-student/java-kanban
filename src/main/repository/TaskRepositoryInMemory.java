@@ -11,8 +11,8 @@ import main.models.entity.TaskEntity;
 public class TaskRepositoryInMemory implements Repository {
     private final HashMap<Integer, TaskEntity> tasks;
     private final HashMap<Integer, EpicEntity> epics;
-    private final HashMap<Integer, List<Integer>> epicToSubtasksMap;
-    private final HashMap<Integer, Integer> subtaskToEpicMap;
+    private final HashMap<Integer, List<Integer>> epicToSubtasksMap; // Связка ID эпика и массив ID подзадач. Пример: 1 -> [2, 3]
+    private final HashMap<Integer, Integer> subtaskToEpicMap; // Связка ID подзадачи с ID эпика. Примеры: 2 -> 1, 3 -> 1
     private final HashMap<Integer, SubtaskEntity> subtasks;
 
     public TaskRepositoryInMemory() {
