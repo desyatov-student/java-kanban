@@ -49,25 +49,33 @@ public class TaskRepositoryInMemory implements Repository {
     }
 
     public void saveEpic(EpicEntity epicEntity, List<SubtaskEntity> subtaskEntities) {
+        // Сохранение эпика по id
         epics.put(epicEntity.getId(), epicEntity);
         if (subtaskEntities.isEmpty()) {
             return;
         }
         List<Integer> subtaskIds = subtaskEntities.stream().map(SubtaskEntity::getId).collect(Collectors.toList());
+        // Связка id эпика и id's подзадач
         epicToSubtasksMap.put(epicEntity.getId(), subtaskIds);
         for (SubtaskEntity subtaskEntity : subtaskEntities) {
+            // Для каждой подзадачи делаем связку id подзадачи и id эпика
             subtaskToEpicMap.put(subtaskEntity.getId(), epicEntity.getId());
+            // Сохранение подзадачи по id
             subtasks.put(subtaskEntity.getId(), subtaskEntity);
         }
     }
 
+    // Subtask's methods
+
     public List<SubtaskEntity> getAllSubtasks() {
         return new ArrayList<>(subtasks.values());
     }
-
     public List<SubtaskEntity> getSubtasksWithEpicId(int epicId) {
         return epicToSubtasksMap.getOrDefault(epicId, new ArrayList<>()).stream().map(
                 subtaskId -> subtasks.get(subtaskId)
         ).collect(Collectors.toList());
+    }
+    public void removeSubtask(int subtaskId) {
+        subtasks.remove(subtaskId);
     }
 }

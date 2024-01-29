@@ -5,8 +5,8 @@ import main.models.entity.TaskEntity;
 
 public interface TaskRepository {
 
-    public List<TaskEntity> getAllTasks();
-    public void saveTask(TaskEntity taskEntity);
+    List<TaskEntity> getAllTasks();
+    void saveTask(TaskEntity taskEntity);
 
 }
 

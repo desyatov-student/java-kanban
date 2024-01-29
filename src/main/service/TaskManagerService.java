@@ -1,4 +1,4 @@
-package service;
+package main.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,6 +53,7 @@ public class TaskManagerService {
     }
 
     // Epic's methods
+
     public List<EpicDto> getAllEpics() {
         List<EpicEntity> epics = repository.getAllEpics();
         return epics.stream()
@@ -73,6 +74,8 @@ public class TaskManagerService {
         return getEpicDtoWithEpicEntity(newEpicEntity);
     }
 
+    // Subtask's methods
+
     public List<SubtaskDto> getAllSubtasks() {
         return repository.getAllSubtasks().stream()
                 .map(mappingUtils::mapToSubtaskDto)
@@ -85,16 +88,28 @@ public class TaskManagerService {
 
     public SubtaskDto createSubtask(CreateSubtaskDto subtaskDto, int epicId) {
         SubtaskEntity subtaskEntity = mappingUtils.mapToSubtaskEntity(subtaskDto);
-        updateEpicWithSubtaskEntity(epicId, subtaskEntity);
+        updateEpicWithSubtask(epicId, subtaskEntity);
         return mappingUtils.mapToSubtaskDto(subtaskEntity);
     }
 
     public SubtaskDto updateSubtask(UpdateSubtaskDto subtaskDto) {
         EpicEntity epicEntity = repository.getEpicWithSubtaskId(subtaskDto.getId());
         SubtaskEntity subtaskEntity = mappingUtils.mapToSubtaskEntity(subtaskDto);
-        updateEpicWithSubtaskEntity(epicEntity.getId(), subtaskEntity);
+        updateEpicWithSubtask(epicEntity.getId(), subtaskEntity);
         return mappingUtils.mapToSubtaskDto(subtaskEntity);
     }
+
+    public void removeSubtask(int subtaskId) {
+        EpicEntity epicEntity = repository.getEpicWithSubtaskId(subtaskId);
+        List<SubtaskEntity> subtasks = repository.getSubtasksWithEpicId(epicEntity.getId())
+                .stream()
+                .filter(subtaskEntity -> subtaskEntity.getId() != subtaskId)
+                .collect(Collectors.toList());
+        updateEpicWithSubtasks(epicEntity, subtasks);
+        repository.removeSubtask(subtaskId);
+    }
+
+    // Helpers
 
     private TaskStatus calculateEpicStatusWithSubtasks(List<SubtaskEntity> subtaskEntities) {
         if (subtaskEntities.isEmpty()) {
@@ -117,7 +132,7 @@ public class TaskManagerService {
         return TaskStatus.IN_PROGRESS;
     }
 
-    private void updateEpicWithSubtaskEntity(int epicId, SubtaskEntity subtaskEntity) {
+    private void updateEpicWithSubtask(int epicId, SubtaskEntity subtaskEntity) {
         List<SubtaskEntity> subtasksEntities = repository.getSubtasksWithEpicId(epicId);
 
         List<Integer> subtasksIds = subtasksEntities.stream().map(SubtaskEntity::getId).collect(Collectors.toList());
@@ -134,10 +149,13 @@ public class TaskManagerService {
         repository.saveEpic(epicEntity, subtasksEntities);
     }
 
-    private void updateEpicWithSubtasks(int epicId, List<SubtaskEntity> subtasks) {
+    private void updateEpicWithSubtasks(EpicEntity epicEntity, List<SubtaskEntity> subtasks) {
         TaskStatus newStatus = calculateEpicStatusWithSubtasks(subtasks);
-        EpicEntity epicEntity = mappingUtils.mapToEpicEntity(repository.getEpicWithId(epicId), newStatus);
-        repository.saveEpic(epicEntity);
+        EpicEntity newEpicEntity = mappingUtils.mapToEpicEntity(epicEntity, newStatus);
+        repository.saveEpic(newEpicEntity);
+    }
+    private void updateEpicWithSubtasks(int epicId, List<SubtaskEntity> subtasks) {
+        updateEpicWithSubtasks(repository.getEpicWithId(epicId), subtasks);
     }
 
     private EpicDto getEpicDtoWithEpicEntity(EpicEntity epicEntity) {
