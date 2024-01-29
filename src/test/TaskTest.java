@@ -65,22 +65,26 @@ class TaskTest {
                                 new SubtaskDto(2, "", "", TaskStatus.NEW)
                         )),
                         true
+                ),
+                new TestExample(
+                        new TaskDto(1, "", "", TaskStatus.NEW),
+                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
+                        false
+                ),
+                new TestExample(
+                        new SubtaskDto(1, "", "", TaskStatus.NEW),
+                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
+                        false
+                ),
+                new TestExample(
+                        new SubtaskDto(1, "", "", TaskStatus.NEW),
+                        new TaskDto(1, "", "", TaskStatus.NEW),
+                        false
                 )
-
         };
 
         for (TestExample example : examples) {
             assertTrue(example.task1.equals(example.task2) == example.expectedResult);
         }
-    }
-
-    @Test
-    void testNotEquals() {
-        TaskDto task = new TaskDto(1, "", "", TaskStatus.NEW);
-        EpicDto epic = new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>());
-        SubtaskDto subtask = new SubtaskDto(1, "", "", TaskStatus.NEW);
-        assertNotEquals(task, epic);
-        assertNotEquals(subtask, epic);
-        assertNotEquals(subtask, task);
     }
 }
