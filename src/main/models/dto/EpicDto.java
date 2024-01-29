@@ -1,6 +1,7 @@
 package main.models.dto;
 
 import java.util.List;
+import java.util.Objects;
 import main.models.BaseTask;
 import main.models.TaskStatus;
 
@@ -21,5 +22,34 @@ public class EpicDto extends BaseTask {
         super(id, name, description);
         this.subtasks = subtasks;
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        EpicDto epicDto = (EpicDto) o;
+        return Objects.equals(getSubtasks(), epicDto.getSubtasks()) &&
+                getStatus() == epicDto.getStatus() &&
+                getId() == epicDto.getId() &&
+                Objects.equals(getName(), epicDto.getName()) &&
+                Objects.equals(getDescription(), epicDto.getDescription());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getSubtasks(), getStatus(), getId(), getName(), getDescription());
+    }
+
+    @Override
+    public String toString() {
+        return "EpicDto{" +
+                "id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", description='" + getDescription() + '\'' +
+                ", status=" + status +
+                ", subtasks=" + subtasks +
+                '}';
     }
 }

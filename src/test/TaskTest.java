@@ -1,6 +1,8 @@
 package test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import main.models.BaseTask;
 import main.models.dto.EpicDto;
 import main.models.dto.SubtaskDto;
@@ -8,30 +10,75 @@ import main.models.TaskStatus;
 import main.models.dto.TaskDto;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TaskTest {
 
+    private class TestExample {
+        BaseTask task1;
+        BaseTask task2;
+        boolean expectedResult;
+
+        public TestExample(BaseTask task1, BaseTask task2, boolean expectedResult) {
+            this.task1 = task1;
+            this.task2 = task2;
+            this.expectedResult = expectedResult;
+        }
+    }
+
     @Test
     void testEquals() {
-        BaseTask task1 = new TaskDto(1, "", "", TaskStatus.NEW);
-        BaseTask task2 = new TaskDto(1, "", "", TaskStatus.NEW);
-        assertEquals(task1, task2);
 
-        BaseTask epic1 = new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>());
-        BaseTask epic2 = new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>());
-        assertEquals(epic1, epic2);
+        TestExample[] examples = {
+                new TestExample(
+                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
+                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
+                        true
+                ),
+                new TestExample(
+                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
+                        new EpicDto(1, "2", "", TaskStatus.NEW, new ArrayList<>()),
+                        false
+                ),
+                new TestExample(
+                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
+                        new EpicDto(1, "", "2", TaskStatus.NEW, new ArrayList<>()),
+                        false
+                ),
+                new TestExample(
+                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
+                        new EpicDto(1, "", "", TaskStatus.DONE, new ArrayList<>()),
+                        false
+                ),
+                new TestExample(
+                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
+                        new EpicDto(1, "", "", TaskStatus.NEW, List.of(
+                                new SubtaskDto(2, "", "", TaskStatus.NEW)
+                        )),
+                        false
+                ),
+                new TestExample(
+                        new EpicDto(1, "", "", TaskStatus.NEW, List.of(
+                                new SubtaskDto(2, "", "", TaskStatus.NEW)
+                        )),
+                        new EpicDto(1, "", "", TaskStatus.NEW, List.of(
+                                new SubtaskDto(2, "", "", TaskStatus.NEW)
+                        )),
+                        true
+                )
 
+        };
 
-        assertEquals(epic1, epic2);
+        for (TestExample example : examples) {
+            assertTrue(example.task1.equals(example.task2) == example.expectedResult);
+        }
     }
 
     @Test
     void testNotEquals() {
-        BaseTask task = new TaskDto(1, "", "", TaskStatus.NEW);
+        TaskDto task = new TaskDto(1, "", "", TaskStatus.NEW);
         EpicDto epic = new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>());
-        BaseTask subtask = new SubtaskDto(1, "", "", TaskStatus.NEW, epic);
+        SubtaskDto subtask = new SubtaskDto(1, "", "", TaskStatus.NEW);
         assertNotEquals(task, epic);
         assertNotEquals(subtask, epic);
         assertNotEquals(subtask, task);

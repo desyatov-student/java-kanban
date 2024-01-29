@@ -1,17 +1,18 @@
-package main.models.entity;
+package main.models.dto;
 
 import main.models.BaseTask;
 import main.models.TaskStatus;
 
-public class EpicEntity extends BaseTask {
+public class CreateSubtaskDto extends BaseTask {
 
     private TaskStatus status;
+
     public TaskStatus getStatus() {
         return status;
     }
 
-    public EpicEntity(int id, String name, String description, TaskStatus status) {
+    public CreateSubtaskDto(int id, String name, String description) {
         super(id, name, description);
-        this.status = status;
+        this.status = TaskStatus.NEW;
     }
 }

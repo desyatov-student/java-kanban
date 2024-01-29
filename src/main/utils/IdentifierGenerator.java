@@ -2,7 +2,7 @@ package main.utils;
 
 public class IdentifierGenerator {
 
-    final static int INITIAL_IDENTIFIER = 1;
+    public final static int INITIAL_IDENTIFIER = 1;
     private int currentId;
 
     public IdentifierGenerator() {
@@ -10,7 +10,8 @@ public class IdentifierGenerator {
     }
 
     public int getNextId() {
+        int nextId = currentId;
         currentId++;
-        return currentId;
+        return nextId;
     }
 }
