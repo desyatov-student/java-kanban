@@ -12,7 +12,7 @@ import main.utils.IdentifierGenerator;
 import main.utils.MappingUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import service.TaskManagerService;
+import main.service.TaskManagerService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
