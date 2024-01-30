@@ -1,8 +1,8 @@
 package main.repository;
 
 import java.util.List;
-import main.models.entity.EpicEntity;
-import main.models.entity.SubtaskEntity;
+import main.model.entity.EpicEntity;
+import main.model.entity.SubtaskEntity;
 
 public interface EpicRepository {
 

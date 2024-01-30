@@ -1,8 +1,8 @@
-package main.models.dto;
+package main.model.dto;
 
 import java.util.Objects;
-import main.models.BaseTask;
-import main.models.TaskStatus;
+import main.model.BaseTask;
+import main.model.TaskStatus;
 
 public class SubtaskDto extends BaseTask {
 

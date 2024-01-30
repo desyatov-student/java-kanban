@@ -2,21 +2,21 @@ package main.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import main.models.TaskStatus;
-import main.models.dto.CreateEpicDto;
-import main.models.dto.CreateSubtaskDto;
-import main.models.dto.EpicDto;
-import main.models.dto.SubtaskDto;
-import main.models.dto.TaskDto;
-import main.models.dto.UpdateEpicDto;
-import main.models.dto.UpdateSubtaskDto;
-import main.models.dto.UpdateTaskDto;
-import main.models.entity.EpicEntity;
-import main.models.entity.SubtaskEntity;
-import main.models.entity.TaskEntity;
+import main.model.TaskStatus;
+import main.model.dto.CreateEpicDto;
+import main.model.dto.CreateSubtaskDto;
+import main.model.dto.EpicDto;
+import main.model.dto.SubtaskDto;
+import main.model.dto.TaskDto;
+import main.model.dto.UpdateEpicDto;
+import main.model.dto.UpdateSubtaskDto;
+import main.model.dto.UpdateTaskDto;
+import main.model.entity.EpicEntity;
+import main.model.entity.SubtaskEntity;
+import main.model.entity.TaskEntity;
 import main.repository.Repository;
-import main.utils.IdentifierGenerator;
-import main.utils.MappingUtils;
+import main.util.IdentifierGenerator;
+import main.util.MappingUtils;
 
 public class TaskManagerService {
     private final IdentifierGenerator identifierGenerator;

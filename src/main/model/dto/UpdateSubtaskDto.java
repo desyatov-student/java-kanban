@@ -1,7 +1,7 @@
-package main.models.dto;
+package main.model.dto;
 
-import main.models.TaskStatus;
-import main.models.BaseTask;
+import main.model.TaskStatus;
+import main.model.BaseTask;
 
 public class UpdateSubtaskDto extends BaseTask {
 

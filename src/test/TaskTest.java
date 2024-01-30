@@ -1,13 +1,12 @@
 package test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import main.models.BaseTask;
-import main.models.dto.EpicDto;
-import main.models.dto.SubtaskDto;
-import main.models.TaskStatus;
-import main.models.dto.TaskDto;
+import main.model.BaseTask;
+import main.model.dto.EpicDto;
+import main.model.dto.SubtaskDto;
+import main.model.TaskStatus;
+import main.model.dto.TaskDto;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

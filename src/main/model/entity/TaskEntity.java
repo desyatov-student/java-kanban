@@ -1,7 +1,7 @@
-package main.models.entity;
+package main.model.entity;
 
-import main.models.BaseTask;
-import main.models.TaskStatus;
+import main.model.BaseTask;
+import main.model.TaskStatus;
 
 public class TaskEntity extends BaseTask {
 

@@ -1,6 +1,6 @@
-package main.models.dto;
+package main.model.dto;
 
-import main.models.BaseTask;
+import main.model.BaseTask;
 
 public class UpdateEpicDto extends BaseTask {
 

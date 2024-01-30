@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
-import main.models.entity.EpicEntity;
-import main.models.entity.SubtaskEntity;
-import main.models.entity.TaskEntity;
+import main.model.entity.EpicEntity;
+import main.model.entity.SubtaskEntity;
+import main.model.entity.TaskEntity;
 
 public class TaskRepositoryInMemory implements Repository {
     private final HashMap<Integer, TaskEntity> tasks;

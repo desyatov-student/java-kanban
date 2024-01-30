@@ -1,16 +1,16 @@
 package test;
 
 import java.util.List;
-import main.models.TaskStatus;
-import main.models.dto.CreateEpicDto;
-import main.models.dto.CreateSubtaskDto;
-import main.models.dto.EpicDto;
-import main.models.dto.SubtaskDto;
-import main.models.dto.UpdateEpicDto;
-import main.models.dto.UpdateSubtaskDto;
+import main.model.TaskStatus;
+import main.model.dto.CreateEpicDto;
+import main.model.dto.CreateSubtaskDto;
+import main.model.dto.EpicDto;
+import main.model.dto.SubtaskDto;
+import main.model.dto.UpdateEpicDto;
+import main.model.dto.UpdateSubtaskDto;
 import main.repository.TaskRepositoryInMemory;
-import main.utils.IdentifierGenerator;
-import main.utils.MappingUtils;
+import main.util.IdentifierGenerator;
+import main.util.MappingUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import main.service.TaskManagerService;

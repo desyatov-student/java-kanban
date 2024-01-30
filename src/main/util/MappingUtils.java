@@ -1,17 +1,17 @@
-package main.utils;
+package main.util;
 
 import java.util.List;
-import main.models.TaskStatus;
-import main.models.dto.CreateEpicDto;
-import main.models.dto.CreateSubtaskDto;
-import main.models.dto.EpicDto;
-import main.models.dto.SubtaskDto;
-import main.models.dto.TaskDto;
-import main.models.dto.UpdateEpicDto;
-import main.models.dto.UpdateSubtaskDto;
-import main.models.entity.EpicEntity;
-import main.models.entity.SubtaskEntity;
-import main.models.entity.TaskEntity;
+import main.model.TaskStatus;
+import main.model.dto.CreateEpicDto;
+import main.model.dto.CreateSubtaskDto;
+import main.model.dto.EpicDto;
+import main.model.dto.SubtaskDto;
+import main.model.dto.TaskDto;
+import main.model.dto.UpdateEpicDto;
+import main.model.dto.UpdateSubtaskDto;
+import main.model.entity.EpicEntity;
+import main.model.entity.SubtaskEntity;
+import main.model.entity.TaskEntity;
 
 public class MappingUtils {
 
