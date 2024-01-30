@@ -6,6 +6,7 @@ import main.models.dto.CreateEpicDto;
 import main.models.dto.CreateSubtaskDto;
 import main.models.dto.EpicDto;
 import main.models.dto.SubtaskDto;
+import main.models.dto.UpdateEpicDto;
 import main.models.dto.UpdateSubtaskDto;
 import main.repository.TaskRepositoryInMemory;
 import main.utils.IdentifierGenerator;
@@ -54,10 +55,22 @@ class TaskManagerServiceTest {
     }
 
     @Test
+    void updateEpic() {
+        setupFirstEpicWithSubtask1(CREATE_SUBTASK_1);
+        taskManager.updateEpic(UPDATE_EPIC1);
+
+        assertEquals(
+                List.of(
+                        EPIC1_ST1NEW_UPDATED
+                ),
+                taskManager.getAllEpics()
+        );
+    }
+
+    @Test
     void createSubtask() {
 
-        EpicDto epicDto = setupFirstEpic();
-        taskManager.createSubtask(CREATE_SUBTASK_1, epicDto.getId());
+        setupFirstEpicWithSubtask1(CREATE_SUBTASK_1);
 
         assertEquals(
                 List.of(
@@ -157,6 +170,10 @@ class TaskManagerServiceTest {
     }
 
     private final CreateEpicDto CREATE_EPIC1 = new CreateEpicDto(1, "Epic1", "EpicDesc1");
+    private final UpdateEpicDto UPDATE_EPIC1 = new UpdateEpicDto(1, "UE1", "UED1");
+    private final EpicDto EPIC1_ST1NEW_UPDATED = new EpicDto(1, "UE1", "UED1", TaskStatus.NEW, List.of(
+            new SubtaskDto(2, "ST1", "STD1", TaskStatus.NEW)
+    ));
     private final EpicDto EPIC_WITHOUT_SUBTASKS1 = new EpicDto(1, "Epic1", "EpicDesc1", TaskStatus.NEW, List.of());
     private final CreateSubtaskDto CREATE_SUBTASK_1 = new CreateSubtaskDto(2, "ST1", "STD1");
     private final CreateSubtaskDto CREATE_SUBTASK_2 = new CreateSubtaskDto(3, "ST2", "STD2");
