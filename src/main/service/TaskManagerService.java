@@ -74,6 +74,10 @@ public class TaskManagerService {
         return getEpicWithEpicEntity(newEpicEntity);
     }
 
+    public void removeEpic(int epicId) {
+        repository.removeEpic(epicId);
+    }
+
     // Subtask's methods
 
     public List<SubtaskDto> getAllSubtasks() {

@@ -65,6 +65,16 @@ public class TaskRepositoryInMemory implements Repository {
         }
     }
 
+    public void removeEpic(int epicId) {
+        List<Integer> subtaskIds = epicToSubtasksMap.get(epicId);
+        for (Integer subtaskId : subtaskIds) {
+            subtaskToEpicMap.remove(subtaskId);
+            subtasks.remove(subtaskId);
+        }
+        epicToSubtasksMap.remove(epicId);
+        epics.remove(epicId);
+    }
+
     // Subtask's methods
 
     public List<SubtaskEntity> getAllSubtasks() {

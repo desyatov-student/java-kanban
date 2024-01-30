@@ -11,6 +11,7 @@ public interface EpicRepository {
     EpicEntity getEpicWithSubtaskId(int subtaskId);
     void saveEpic(EpicEntity epicEntity);
     void saveEpic(EpicEntity epicEntity, List<SubtaskEntity> subtaskEntities);
+    public void removeEpic(int epicId);
 
 }
 
