@@ -44,13 +44,24 @@ class TaskManagerServiceTest {
     }
     @Test
     void createEpic() {
-        setupFirstEpic();
+        taskManager.createEpic(CREATE_EPIC1);
 
         assertEquals(
                 List.of(
                         EPIC1_EMPTY
                 ),
                 taskManager.getAllEpics()
+        );
+    }
+
+    @Test
+    void getEpic() {
+        EpicDto epic1 = taskManager.createEpic(CREATE_EPIC1);
+        taskManager.createSubtask(CREATE_SUBTASK2, epic1.getId());
+
+        assertEquals(
+                EPIC1_ST2NEW,
+                taskManager.getEpic(epic1.getId())
         );
     }
 
@@ -89,7 +100,8 @@ class TaskManagerServiceTest {
 
     @Test
     void updateEpic() {
-        setupFirstEpicWithSubtask1(CREATE_SUBTASK2);
+        EpicDto epicDto = taskManager.createEpic(CREATE_EPIC1);
+        taskManager.createSubtask(CREATE_SUBTASK2, epicDto.getId());
         taskManager.updateEpic(UPDATE_EPIC1);
 
         assertEquals(
@@ -103,7 +115,8 @@ class TaskManagerServiceTest {
     @Test
     void createSubtask() {
 
-        setupFirstEpicWithSubtask1(CREATE_SUBTASK2);
+        EpicDto epicDto = taskManager.createEpic(CREATE_EPIC1);
+        taskManager.createSubtask(CREATE_SUBTASK2, epicDto.getId());
 
         assertEquals(
                 List.of(
@@ -114,9 +127,22 @@ class TaskManagerServiceTest {
     }
 
     @Test
+    void getSubtask() {
+
+        EpicDto epicDto = taskManager.createEpic(CREATE_EPIC1);
+        SubtaskDto subtaskDto = taskManager.createSubtask(CREATE_SUBTASK2, epicDto.getId());
+
+        assertEquals(
+                SUBTASK2NEW,
+                taskManager.getSubtask(subtaskDto.getId())
+        );
+    }
+
+    @Test
     void updateSubtask() {
 
-        EpicDto epicDto = setupFirstEpicWithSubtask1(CREATE_SUBTASK2);
+        EpicDto epicDto = taskManager.createEpic(CREATE_EPIC1);
+        taskManager.createSubtask(CREATE_SUBTASK2, epicDto.getId());
 
         taskManager.updateSubtask(UPDATE_SUBTASK_1_DONE);
 
@@ -168,7 +194,9 @@ class TaskManagerServiceTest {
 
     @Test
     void removeSubtask() {
-        EpicDto epicDto = setupFirstEpicWithSubtask1(CREATE_SUBTASK2);
+        EpicDto epicDto = taskManager.createEpic(CREATE_EPIC1);
+        taskManager.createSubtask(CREATE_SUBTASK2, epicDto.getId());
+
         taskManager.createSubtask(CREATE_SUBTASK3, epicDto.getId());
         SubtaskDto subtaskDto = taskManager.createSubtask(CREATE_SUBTASK4, epicDto.getId());
 
@@ -190,16 +218,6 @@ class TaskManagerServiceTest {
                 ),
                 taskManager.getAllEpics()
         );
-    }
-
-    private EpicDto setupFirstEpic() {
-        return taskManager.createEpic(CREATE_EPIC1);
-    }
-
-    private EpicDto setupFirstEpicWithSubtask1(CreateSubtaskDto createSubtaskDto) {
-        EpicDto epicDto = setupFirstEpic();
-        taskManager.createSubtask(createSubtaskDto, epicDto.getId());
-        return taskManager.getAllEpics().get(0);
     }
 
     private final CreateEpicDto CREATE_EPIC1 = new CreateEpicDto(1, "Epic1", "EpicDesc1");

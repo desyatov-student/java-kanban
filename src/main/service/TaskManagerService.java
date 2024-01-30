@@ -61,6 +61,11 @@ public class TaskManagerService {
                 .collect(Collectors.toList());
     }
 
+    public EpicDto getEpic(int epicId) {
+        EpicEntity epicEntity = repository.getEpicWithId(epicId);
+        return getEpicWithEpicEntity(epicEntity);
+    }
+
     public EpicDto createEpic(CreateEpicDto epicDto) {
         EpicEntity epicEntity = mappingUtils.mapToEpicEntity(epicDto);
         repository.saveEpic(epicEntity);
@@ -86,7 +91,11 @@ public class TaskManagerService {
                 .collect(Collectors.toList());
     }
 
-    public List<SubtaskDto> getSubtasksWithEpicId(int epicId) {
+    public SubtaskDto getSubtask(int subtaskId) {
+        return mappingUtils.mapToSubtaskDto(repository.getSubtask(subtaskId));
+    }
+
+    private List<SubtaskDto> getSubtasksWithEpicId(int epicId) {
         List<SubtaskDto> subtask = repository.getSubtasksWithEpicId(epicId).stream()
                 .map(mappingUtils::mapToSubtaskDto)
                 .collect(Collectors.toList());

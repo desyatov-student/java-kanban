@@ -80,6 +80,10 @@ public class TaskRepositoryInMemory implements Repository {
     public List<SubtaskEntity> getAllSubtasks() {
         return new ArrayList<>(subtasks.values());
     }
+    @Override
+    public SubtaskEntity getSubtask(int subtaskId) {
+        return subtasks.get(subtaskId);
+    }
     public List<SubtaskEntity> getSubtasksWithEpicId(int epicId) {
         return epicToSubtasksMap.getOrDefault(epicId, new ArrayList<>()).stream().map(
                 subtaskId -> subtasks.get(subtaskId)
