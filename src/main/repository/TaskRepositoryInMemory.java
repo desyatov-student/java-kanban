@@ -45,7 +45,7 @@ public class TaskRepositoryInMemory implements Repository {
     }
 
     public void saveEpic(EpicEntity epicEntity) {
-        saveEpic(epicEntity, new ArrayList<>());
+        saveEpic(epicEntity, List.of());
     }
 
     public void saveEpic(EpicEntity epicEntity, List<SubtaskEntity> subtaskEntities) {
@@ -74,13 +74,17 @@ public class TaskRepositoryInMemory implements Repository {
         epicToSubtasksMap.remove(epicId);
         epics.remove(epicId);
     }
-
+    public void removeAllEpics() {
+        subtasks.clear();
+        subtaskToEpicMap.clear();
+        epicToSubtasksMap.clear();
+        epics.clear();
+    }
     // Subtask's methods
 
     public List<SubtaskEntity> getAllSubtasks() {
         return new ArrayList<>(subtasks.values());
     }
-    @Override
     public SubtaskEntity getSubtask(int subtaskId) {
         return subtasks.get(subtaskId);
     }
@@ -90,6 +94,16 @@ public class TaskRepositoryInMemory implements Repository {
         ).collect(Collectors.toList());
     }
     public void removeSubtask(int subtaskId) {
+        int epicId = subtaskToEpicMap.get(subtaskId);
+        List<Integer> subtasksIds = epicToSubtasksMap.get(epicId);
+        subtasksIds.removeIf(id -> id == subtaskId);
+        epicToSubtasksMap.put(epicId, subtasksIds);
+        subtaskToEpicMap.remove(subtaskId);
         subtasks.remove(subtaskId);
+    }
+    public void removeAllSubtasks() {
+        subtasks.clear();
+        subtaskToEpicMap.clear();
+        epicToSubtasksMap.clear();
     }
 }

@@ -6,7 +6,8 @@ import main.model.entity.SubtaskEntity;
 public interface SubtaskRepository {
 
     List<SubtaskEntity> getAllSubtasks();
+    SubtaskEntity getSubtask(int subtaskId);
     List<SubtaskEntity> getSubtasksWithEpicId(int epicId);
     void removeSubtask(int subtaskId);
-    SubtaskEntity getSubtask(int subtaskId);
+    public void removeAllSubtasks();
 }

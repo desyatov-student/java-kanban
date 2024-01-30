@@ -83,6 +83,10 @@ public class TaskManagerService {
         repository.removeEpic(epicId);
     }
 
+    public void removeAllEpics() {
+        repository.removeAllEpics();
+    }
+
     // Subtask's methods
 
     public List<SubtaskDto> getAllSubtasks() {
@@ -117,12 +121,16 @@ public class TaskManagerService {
 
     public void removeSubtask(int subtaskId) {
         EpicEntity epicEntity = repository.getEpicWithSubtaskId(subtaskId);
-        List<SubtaskEntity> subtasks = repository.getSubtasksWithEpicId(epicEntity.getId())
-                .stream()
-                .filter(subtaskEntity -> subtaskEntity.getId() != subtaskId)
-                .collect(Collectors.toList());
-        updateEpicWithSubtasks(epicEntity, subtasks);
         repository.removeSubtask(subtaskId);
+        List<SubtaskEntity> subtasks = repository.getSubtasksWithEpicId(epicEntity.getId());
+        updateEpicStatusWithSubtasks(epicEntity, subtasks);
+    }
+
+    public void removeAllSubtasks() {
+        repository.removeAllSubtasks();
+        for (EpicEntity epic : repository.getAllEpics()) {
+            repository.saveEpic(mappingUtils.mapToEpicEntity(epic, TaskStatus.NEW));
+        }
     }
 
     // Helpers
@@ -165,13 +173,10 @@ public class TaskManagerService {
         repository.saveEpic(epicEntity, subtasksEntities);
     }
 
-    private void updateEpicWithSubtasks(EpicEntity epicEntity, List<SubtaskEntity> subtasks) {
+    private void updateEpicStatusWithSubtasks(EpicEntity epicEntity, List<SubtaskEntity> subtasks) {
         TaskStatus newStatus = calculateEpicStatusWithSubtasks(subtasks);
         EpicEntity newEpicEntity = mappingUtils.mapToEpicEntity(epicEntity, newStatus);
-        repository.saveEpic(newEpicEntity, subtasks);
-    }
-    private void updateEpicWithSubtasks(int epicId, List<SubtaskEntity> subtasks) {
-        updateEpicWithSubtasks(repository.getEpicWithId(epicId), subtasks);
+        repository.saveEpic(newEpicEntity);
     }
 
     private EpicDto getEpicWithEpicEntity(EpicEntity epicEntity) {
