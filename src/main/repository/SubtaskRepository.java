@@ -9,5 +9,5 @@ public interface SubtaskRepository {
     SubtaskEntity getSubtask(int subtaskId);
     List<SubtaskEntity> getSubtasksWithEpicId(int epicId);
     void removeSubtask(int subtaskId);
-    public void removeAllSubtasks();
+    void removeAllSubtasks();
 }

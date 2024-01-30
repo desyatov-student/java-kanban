@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import main.model.TaskStatus;
 import main.model.dto.CreateEpicDto;
 import main.model.dto.CreateSubtaskDto;
+import main.model.dto.CreateTaskDto;
 import main.model.dto.EpicDto;
 import main.model.dto.SubtaskDto;
 import main.model.dto.TaskDto;
@@ -41,15 +42,26 @@ public class TaskManagerService {
                 .collect(Collectors.toList());
     }
 
-    public TaskDto createTask(TaskDto taskDto) {
-        TaskEntity taskEntity = mappingUtils.mapToTaskEntity(taskDto);
+    public TaskDto createTask(CreateTaskDto createTaskDto) {
+        TaskEntity taskEntity = mappingUtils.mapToTaskEntity(createTaskDto);
         repository.saveTask(taskEntity);
         return mappingUtils.mapToTaskDto(taskEntity);
     }
 
     public TaskDto updateTask(UpdateTaskDto updateTaskDto) {
-        // TODO not implemented
-        return null;
+        TaskEntity taskEntity = mappingUtils.mapToTaskEntity(updateTaskDto);
+        repository.saveTask(taskEntity);
+        return mappingUtils.mapToTaskDto(taskEntity);
+    }
+
+    public TaskEntity getTask(int taskId) {
+        return repository.getTask(taskId);
+    }
+    public void removeTask(int taskId) {
+        repository.removeTask(taskId);
+    }
+    public void removeAllTasks() {
+        repository.removeAllTasks();
     }
 
     // Epic's methods

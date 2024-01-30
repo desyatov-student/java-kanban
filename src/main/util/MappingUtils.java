@@ -4,11 +4,13 @@ import java.util.List;
 import main.model.TaskStatus;
 import main.model.dto.CreateEpicDto;
 import main.model.dto.CreateSubtaskDto;
+import main.model.dto.CreateTaskDto;
 import main.model.dto.EpicDto;
 import main.model.dto.SubtaskDto;
 import main.model.dto.TaskDto;
 import main.model.dto.UpdateEpicDto;
 import main.model.dto.UpdateSubtaskDto;
+import main.model.dto.UpdateTaskDto;
 import main.model.entity.EpicEntity;
 import main.model.entity.SubtaskEntity;
 import main.model.entity.TaskEntity;
@@ -25,12 +27,22 @@ public class MappingUtils {
         return dto;
     }
 
-    public TaskEntity mapToTaskEntity(TaskDto taskDto){
+    public TaskEntity mapToTaskEntity(UpdateTaskDto updateTaskDto){
         TaskEntity entity = new TaskEntity(
-                taskDto.getId(),
-                taskDto.getName(),
-                taskDto.getDescription(),
-                taskDto.getStatus()
+                updateTaskDto.getId(),
+                updateTaskDto.getName(),
+                updateTaskDto.getDescription(),
+                updateTaskDto.getStatus()
+        );
+        return entity;
+    }
+
+    public TaskEntity mapToTaskEntity(CreateTaskDto createTaskDto){
+        TaskEntity entity = new TaskEntity(
+                createTaskDto.getId(),
+                createTaskDto.getName(),
+                createTaskDto.getDescription(),
+                createTaskDto.getStatus()
         );
         return entity;
     }

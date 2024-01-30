@@ -3,6 +3,7 @@ package test;
 import java.util.ArrayList;
 import java.util.List;
 import main.model.BaseTask;
+import main.model.dto.BaseTaskDto;
 import main.model.dto.EpicDto;
 import main.model.dto.SubtaskDto;
 import main.model.TaskStatus;
@@ -14,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class TaskTest {
 
     private class TestExample {
-        BaseTask task1;
-        BaseTask task2;
+        BaseTaskDto task1;
+        BaseTaskDto task2;
         boolean expectedResult;
 
-        public TestExample(BaseTask task1, BaseTask task2, boolean expectedResult) {
+        public TestExample(BaseTaskDto task1, BaseTaskDto task2, boolean expectedResult) {
             this.task1 = task1;
             this.task2 = task2;
             this.expectedResult = expectedResult;
