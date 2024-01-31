@@ -1,8 +1,11 @@
-package main.model;
+package main.model.dto.update;
 
 import java.util.Objects;
+import main.model.TaskStatus;
+import main.model.dto.create.BaseCreateTask;
+import main.model.dto.response.BaseTaskDto;
 
-public abstract class BaseTask {
+public abstract class BaseUpdateTask {
     private int id;
     private String name;
     private String description;
@@ -19,7 +22,7 @@ public abstract class BaseTask {
         return description;
     }
 
-    public BaseTask(int id, String name, String description) {
+    public BaseUpdateTask(int id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -29,18 +32,20 @@ public abstract class BaseTask {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BaseTask baseTask = (BaseTask) o;
-        return id == baseTask.id;
+        BaseUpdateTask that = (BaseUpdateTask) o;
+        return id == that.id &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, name, description);
     }
 
     @Override
     public String toString() {
-        return "BaseTask{" +
+        return getClass().getSimpleName() + "{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

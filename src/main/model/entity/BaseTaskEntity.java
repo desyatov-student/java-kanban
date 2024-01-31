@@ -1,7 +1,6 @@
 package main.model.entity;
 
 import java.util.Objects;
-import main.model.BaseTask;
 import main.model.TaskStatus;
 
 public abstract class BaseTaskEntity {

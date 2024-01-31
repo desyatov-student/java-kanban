@@ -3,7 +3,7 @@ package main.model.dto.create;
 import java.util.Objects;
 import main.model.TaskStatus;
 
-public abstract class BaseCreateTaskDto {
+public abstract class BaseCreateTask {
     private String name;
     private String description;
     private TaskStatus status;
@@ -18,7 +18,7 @@ public abstract class BaseCreateTaskDto {
         return status;
     }
 
-    public BaseCreateTaskDto(String name, String description) {
+    public BaseCreateTask(String name, String description) {
         this.name = name;
         this.description = description;
         this.status = TaskStatus.NEW;
@@ -28,7 +28,7 @@ public abstract class BaseCreateTaskDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BaseCreateTaskDto that = (BaseCreateTaskDto) o;
+        BaseCreateTask that = (BaseCreateTask) o;
         return Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
                 status == that.status;
