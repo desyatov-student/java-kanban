@@ -1,4 +1,4 @@
-package main.model.dto;
+package main.model.dto.create;
 
 import main.model.BaseTask;
 import main.model.TaskStatus;

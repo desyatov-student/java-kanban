@@ -1,4 +1,4 @@
-package main.model.dto;
+package main.model.dto.update;
 
 import main.model.BaseTask;
 

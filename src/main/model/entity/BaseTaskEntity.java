@@ -1,10 +1,10 @@
-package main.model.dto;
+package main.model.entity;
 
 import java.util.Objects;
 import main.model.BaseTask;
 import main.model.TaskStatus;
 
-public abstract class BaseTaskDto {
+public abstract class BaseTaskEntity {
     private int id;
     private String name;
     private String description;
@@ -23,7 +23,7 @@ public abstract class BaseTaskDto {
         return status;
     }
 
-    public BaseTaskDto(int id, String name, String description, TaskStatus status) {
+    public BaseTaskEntity(int id, String name, String description, TaskStatus status) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -34,16 +34,13 @@ public abstract class BaseTaskDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BaseTaskDto that = (BaseTaskDto) o;
-        return getId() == that.getId() &&
-                Objects.equals(getName(), that.getName()) &&
-                Objects.equals(getDescription(), that.getDescription()) &&
-                getStatus() == that.getStatus();
+        BaseTaskEntity baseTask = (BaseTaskEntity) o;
+        return id == baseTask.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getDescription(), getStatus());
+        return Objects.hash(id);
     }
 
     @Override

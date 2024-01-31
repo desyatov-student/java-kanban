@@ -2,12 +2,12 @@ package test;
 
 import java.util.List;
 import main.model.TaskStatus;
-import main.model.dto.CreateEpicDto;
-import main.model.dto.CreateSubtaskDto;
-import main.model.dto.EpicDto;
-import main.model.dto.SubtaskDto;
-import main.model.dto.UpdateEpicDto;
-import main.model.dto.UpdateSubtaskDto;
+import main.model.dto.create.CreateEpicDto;
+import main.model.dto.create.CreateSubtaskDto;
+import main.model.dto.response.EpicDto;
+import main.model.dto.response.SubtaskDto;
+import main.model.dto.update.UpdateEpicDto;
+import main.model.dto.update.UpdateSubtaskDto;
 import main.repository.TaskRepositoryInMemory;
 import main.util.IdentifierGenerator;
 import main.util.MappingUtils;

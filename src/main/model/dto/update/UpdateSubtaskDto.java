@@ -1,9 +1,9 @@
-package main.model.dto;
+package main.model.dto.update;
 
 import main.model.TaskStatus;
 import main.model.BaseTask;
 
-public class UpdateTaskDto extends BaseTask {
+public class UpdateSubtaskDto extends BaseTask {
 
     private TaskStatus status;
 
@@ -11,7 +11,7 @@ public class UpdateTaskDto extends BaseTask {
         return status;
     }
 
-    public UpdateTaskDto(int id, String name, String description, TaskStatus status) {
+    public UpdateSubtaskDto(int id, String name, String description, TaskStatus status) {
         super(id, name, description);
         this.status = status;
     }
