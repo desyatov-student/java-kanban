@@ -168,6 +168,22 @@ class TaskManagerServiceTest {
     }
 
     @Test
+    void getSubtaskWithEpicId() {
+
+        EpicDto epic = taskManager.createEpic(CREATE_EPIC());
+        SubtaskDto subtask1 = taskManager.createSubtask(CREATE_SUBTASK(), epic.getId());
+        SubtaskDto subtask2 = taskManager.createSubtask(CREATE_SUBTASK(), epic.getId());
+
+        assertEquals(
+                List.of(
+                        SUBTASK(subtask1.getId(), TaskStatus.NEW),
+                        SUBTASK(subtask2.getId(), TaskStatus.NEW)
+                ),
+                taskManager.getSubtasksWithEpicId(epic.getId())
+        );
+    }
+
+    @Test
     void updateSubtask() {
 
         EpicDto epic = taskManager.createEpic(CREATE_EPIC());

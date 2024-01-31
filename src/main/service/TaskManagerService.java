@@ -111,7 +111,7 @@ public class TaskManagerService {
         return mappingUtils.mapToSubtaskDto(repository.getSubtask(subtaskId));
     }
 
-    private List<SubtaskDto> getSubtasksWithEpicId(int epicId) {
+    public List<SubtaskDto> getSubtasksWithEpicId(int epicId) {
         List<SubtaskDto> subtask = repository.getSubtasksWithEpicId(epicId).stream()
                 .map(mappingUtils::mapToSubtaskDto)
                 .collect(Collectors.toList());
