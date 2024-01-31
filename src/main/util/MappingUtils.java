@@ -68,9 +68,9 @@ public class MappingUtils {
         return entity;
     }
 
-    public EpicEntity mapToEpicEntity(CreateEpicDto createEpicDto){
+    public EpicEntity mapToEpicEntity(CreateEpicDto createEpicDto, int epicId){
         EpicEntity entity = new EpicEntity(
-                createEpicDto.getId(),
+                epicId,
                 createEpicDto.getName(),
                 createEpicDto.getDescription(),
                 TaskStatus.NEW
@@ -118,9 +118,9 @@ public class MappingUtils {
         return entity;
     }
 
-    public SubtaskEntity mapToSubtaskEntity(CreateSubtaskDto createSubtaskDto){
+    public SubtaskEntity mapToSubtaskEntity(CreateSubtaskDto createSubtaskDto, int subtaskId){
         SubtaskEntity entity = new SubtaskEntity(
-                createSubtaskDto.getId(),
+                subtaskId,
                 createSubtaskDto.getName(),
                 createSubtaskDto.getDescription(),
                 createSubtaskDto.getStatus()

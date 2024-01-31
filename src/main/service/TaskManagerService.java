@@ -30,7 +30,7 @@ public class TaskManagerService {
         this.mappingUtils = mappingUtils;
     }
 
-    public int getNextTaskId() {
+    private int getNextTaskId() {
         return identifierGenerator.getNextId();
     }
 
@@ -79,7 +79,7 @@ public class TaskManagerService {
     }
 
     public EpicDto createEpic(CreateEpicDto epicDto) {
-        EpicEntity epicEntity = mappingUtils.mapToEpicEntity(epicDto);
+        EpicEntity epicEntity = mappingUtils.mapToEpicEntity(epicDto, getNextTaskId());
         repository.saveEpic(epicEntity);
         return getEpicWithEpicEntity(epicEntity);
     }
@@ -119,7 +119,7 @@ public class TaskManagerService {
     }
 
     public SubtaskDto createSubtask(CreateSubtaskDto subtaskDto, int epicId) {
-        SubtaskEntity subtaskEntity = mappingUtils.mapToSubtaskEntity(subtaskDto);
+        SubtaskEntity subtaskEntity = mappingUtils.mapToSubtaskEntity(subtaskDto, getNextTaskId());
         updateEpicWithSubtask(epicId, subtaskEntity);
         return mappingUtils.mapToSubtaskDto(subtaskEntity);
     }
