@@ -43,7 +43,7 @@ public class TaskManagerService {
     }
 
     public TaskDto createTask(CreateTaskDto createTaskDto) {
-        TaskEntity taskEntity = mappingUtils.mapToTaskEntity(createTaskDto);
+        TaskEntity taskEntity = mappingUtils.mapToTaskEntity(createTaskDto, getNextTaskId());
         repository.saveTask(taskEntity);
         return mappingUtils.mapToTaskDto(taskEntity);
     }
@@ -54,8 +54,8 @@ public class TaskManagerService {
         return mappingUtils.mapToTaskDto(taskEntity);
     }
 
-    public TaskEntity getTask(int taskId) {
-        return repository.getTask(taskId);
+    public TaskDto getTask(int taskId) {
+        return mappingUtils.mapToTaskDto(repository.getTask(taskId));
     }
     public void removeTask(int taskId) {
         repository.removeTask(taskId);

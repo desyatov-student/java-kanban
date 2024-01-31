@@ -3,16 +3,9 @@ package main.model.dto.create;
 import main.model.BaseTask;
 import main.model.TaskStatus;
 
-public class CreateTaskDto extends BaseTask {
+public class CreateTaskDto extends BaseCreateTaskDto {
 
-    private TaskStatus status;
-
-    public TaskStatus getStatus() {
-        return status;
-    }
-
-    public CreateTaskDto(int id, String name, String description) {
-        super(id, name, description);
-        this.status = TaskStatus.NEW;
+    public CreateTaskDto(String name, String description) {
+        super(name, description);
     }
 }

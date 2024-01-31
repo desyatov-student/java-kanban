@@ -37,9 +37,9 @@ public class MappingUtils {
         return entity;
     }
 
-    public TaskEntity mapToTaskEntity(CreateTaskDto createTaskDto){
+    public TaskEntity mapToTaskEntity(CreateTaskDto createTaskDto, int taskId){
         TaskEntity entity = new TaskEntity(
-                createTaskDto.getId(),
+                taskId,
                 createTaskDto.getName(),
                 createTaskDto.getDescription(),
                 createTaskDto.getStatus()

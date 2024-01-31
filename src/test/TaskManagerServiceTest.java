@@ -4,10 +4,13 @@ import java.util.List;
 import main.model.TaskStatus;
 import main.model.dto.create.CreateEpicDto;
 import main.model.dto.create.CreateSubtaskDto;
+import main.model.dto.create.CreateTaskDto;
 import main.model.dto.response.EpicDto;
 import main.model.dto.response.SubtaskDto;
+import main.model.dto.response.TaskDto;
 import main.model.dto.update.UpdateEpicDto;
 import main.model.dto.update.UpdateSubtaskDto;
+import main.model.dto.update.UpdateTaskDto;
 import main.repository.TaskRepositoryInMemory;
 import main.util.IdentifierGenerator;
 import main.util.MappingUtils;
@@ -285,6 +288,74 @@ class TaskManagerServiceTest {
         );
     }
 
+    @Test
+    void createTask() {
+
+        TaskDto task = taskManager.createTask(CREATE_TASK);
+        assertEquals(
+                List.of(
+                        TASK(task.getId(), TaskStatus.NEW)
+                ),
+                taskManager.getAllTasks()
+        );
+    }
+    @Test
+    void updateTask() {
+        TaskDto task = taskManager.createTask(CREATE_TASK);
+        assertEquals(
+                List.of(
+                        TASK(task.getId(), TaskStatus.NEW)
+                ),
+                taskManager.getAllTasks()
+        );
+        taskManager.updateTask(UPDATE_TASK(task.getId(), TaskStatus.DONE));
+
+        assertEquals(
+                TASK(task.getId(), TaskStatus.DONE),
+                taskManager.getTask(task.getId())
+        );
+    }
+
+    @Test
+    void removeTask() {
+        TaskDto task1 = taskManager.createTask(CREATE_TASK);
+        TaskDto task2 = taskManager.createTask(CREATE_TASK);
+        assertEquals(
+                List.of(
+                        TASK(task1.getId(), TaskStatus.NEW),
+                        TASK(task2.getId(), TaskStatus.NEW)
+                ),
+                taskManager.getAllTasks()
+        );
+        taskManager.removeTask(task1.getId());
+
+        assertEquals(
+                List.of(
+                        TASK(task2.getId(), TaskStatus.NEW)
+                ),
+                taskManager.getAllTasks()
+        );
+    }
+
+    @Test
+    void removeAllTask() {
+        TaskDto task1 = taskManager.createTask(CREATE_TASK);
+        TaskDto task2 = taskManager.createTask(CREATE_TASK);
+        assertEquals(
+                List.of(
+                        TASK(task1.getId(), TaskStatus.NEW),
+                        TASK(task2.getId(), TaskStatus.NEW)
+                ),
+                taskManager.getAllTasks()
+        );
+        taskManager.removeAllTasks();
+
+        assertEquals(
+                List.of(),
+                taskManager.getAllTasks()
+        );
+    }
+
     private final CreateEpicDto CREATE_EPIC1 = new CreateEpicDto(1, "name", "desc");
     private final CreateEpicDto CREATE_EPIC5 = new CreateEpicDto(5, "name", "desc");
     private final UpdateEpicDto UPDATE_EPIC1_NEW_NAME = new UpdateEpicDto(1, "new_name", "desc");
@@ -338,6 +409,10 @@ class TaskManagerServiceTest {
             new SubtaskDto(3, "name", "desc", TaskStatus.DONE),
             new SubtaskDto(4, "name", "desc", TaskStatus.NEW)
     ));
+
+    private final CreateTaskDto CREATE_TASK = new CreateTaskDto("name", "desc");
+    private UpdateTaskDto UPDATE_TASK(int id, TaskStatus status) { return new UpdateTaskDto(id, "name", "desc", status); }
+    private TaskDto TASK(int id, TaskStatus status) { return new TaskDto(id, "name", "desc", status); }
 
     private TaskManagerService createTaskManagerService() {
         return new TaskManagerService(
