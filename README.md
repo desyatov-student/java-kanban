@@ -18,15 +18,15 @@ CreateSubtaskDto newSubtask = new CreateSubtaskDto("Имя", "описание")
 CreateTaskDto newTask = new CreateTaskDto("Имя", "описание");
 ```
  ## Обновление задач
-Обвновление эпика:
+Обновление эпика:
 ```Java
 UpdateEpicDto updateEpic = new UpdateEpicDto(10, "Имя", "описание");
 ```
 Обновление подзадачи:
 ```Java
-UpdateSubtaskDto updateSubtask = new UpdateSubtaskDto(11, "Имя", "описание", TaskStatus.DONE)
+UpdateSubtaskDto updateSubtask = new UpdateSubtaskDto(11, "Имя", "описание", TaskStatus.DONE);
 ```
 Создание задачи:
 ```Java
-UpdateTaskDto updateTask = new UpdateTaskDto(12, "Имя", "описание", TaskStatus.DONE)
+UpdateTaskDto updateTask = new UpdateTaskDto(12, "Имя", "описание", TaskStatus.DONE);
 ```
