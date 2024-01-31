@@ -46,11 +46,11 @@ class TaskManagerServiceTest {
     }
     @Test
     void createEpic() {
-        taskManager.createEpic(CREATE_EPIC1);
+        EpicDto epic = taskManager.createEpic(CREATE_EPIC(1));
 
         assertEquals(
                 List.of(
-                        EPIC1_EMPTY
+                        EPIC(epic.getId(), TaskStatus.NEW, List.of())
                 ),
                 taskManager.getAllEpics()
         );
@@ -58,27 +58,27 @@ class TaskManagerServiceTest {
 
     @Test
     void getEpic() {
-        EpicDto epic1 = taskManager.createEpic(CREATE_EPIC1);
-        taskManager.createSubtask(CREATE_SUBTASK2, epic1.getId());
+        EpicDto epic = taskManager.createEpic(CREATE_EPIC(1));
+        SubtaskDto subtaskDto = taskManager.createSubtask(CREATE_SUBTASK(2), epic.getId());
 
         assertEquals(
-                EPIC1_ST2NEW,
-                taskManager.getEpic(epic1.getId())
+                EPIC(epic.getId(), TaskStatus.NEW, List.of(SUBTASK(subtaskDto.getId(), TaskStatus.NEW))),
+                taskManager.getEpic(epic.getId())
         );
     }
 
     @Test
     void removeEpic() {
-        EpicDto epic1 = taskManager.createEpic(CREATE_EPIC1);
-        taskManager.createSubtask(CREATE_SUBTASK2, epic1.getId());
+        EpicDto epic1 = taskManager.createEpic(CREATE_EPIC(1));
+        SubtaskDto subtask1 = taskManager.createSubtask(CREATE_SUBTASK(2), epic1.getId());
 
-        EpicDto epic2 = taskManager.createEpic(CREATE_EPIC5);
-        taskManager.createSubtask(CREATE_SUBTASK4, epic2.getId());
+        EpicDto epic2 = taskManager.createEpic(CREATE_EPIC(5));
+        SubtaskDto subtask2 = taskManager.createSubtask(CREATE_SUBTASK(4), epic2.getId());
 
         assertEquals(
                 List.of(
-                        EPIC1_ST2NEW,
-                        EPIC5_ST4NEW
+                        EPIC(epic1.getId(), TaskStatus.NEW, List.of(SUBTASK(subtask1.getId(), TaskStatus.NEW))),
+                        EPIC(epic2.getId(), TaskStatus.NEW, List.of(SUBTASK(subtask2.getId(), TaskStatus.NEW)))
                 ),
                 taskManager.getAllEpics()
         );
@@ -87,14 +87,14 @@ class TaskManagerServiceTest {
 
         assertEquals(
                 List.of(
-                        EPIC5_ST4NEW
+                        EPIC(epic2.getId(), TaskStatus.NEW, List.of(SUBTASK(subtask2.getId(), TaskStatus.NEW)))
                 ),
                 taskManager.getAllEpics()
         );
 
         assertEquals(
                 List.of(
-                        SUBTASK4NEW
+                        SUBTASK(subtask2.getId(), TaskStatus.NEW)
                 ),
                 taskManager.getAllSubtasks()
         );
@@ -102,13 +102,14 @@ class TaskManagerServiceTest {
 
     @Test
     void updateEpic() {
-        EpicDto epicDto = taskManager.createEpic(CREATE_EPIC1);
-        taskManager.createSubtask(CREATE_SUBTASK2, epicDto.getId());
-        taskManager.updateEpic(UPDATE_EPIC1_NEW_NAME);
+        String newName = "new_name";
+        EpicDto epic = taskManager.createEpic(CREATE_EPIC(1));
+        SubtaskDto subtask = taskManager.createSubtask(CREATE_SUBTASK(2), epic.getId());
+        taskManager.updateEpic(UPDATE_EPIC(epic.getId(), newName));
 
         assertEquals(
                 List.of(
-                        EPIC1_NEW_NAME_ST1NEW
+                        EPIC(epic.getId(), newName, TaskStatus.NEW, List.of(SUBTASK(subtask.getId(), TaskStatus.NEW)))
                 ),
                 taskManager.getAllEpics()
         );
@@ -116,17 +117,22 @@ class TaskManagerServiceTest {
 
     @Test
     void removeAllEpics() {
-        EpicDto epicDto = taskManager.createEpic(CREATE_EPIC1);
-        taskManager.createSubtask(CREATE_SUBTASK2, epicDto.getId());
-        taskManager.createSubtask(CREATE_SUBTASK3, epicDto.getId());
+        EpicDto epic1 = taskManager.createEpic(CREATE_EPIC(1));
+        SubtaskDto subtask1 = taskManager.createSubtask(CREATE_SUBTASK(2), epic1.getId());
+        SubtaskDto subtask2 = taskManager.createSubtask(CREATE_SUBTASK(3), epic1.getId());
 
-        EpicDto epic2 = taskManager.createEpic(CREATE_EPIC5);
-        taskManager.createSubtask(CREATE_SUBTASK4, epic2.getId());
+        EpicDto epic2 = taskManager.createEpic(CREATE_EPIC(5));
+        SubtaskDto subtask3 = taskManager.createSubtask(CREATE_SUBTASK(4), epic2.getId());
 
         assertEquals(
                 List.of(
-                        EPIC1_ST2NEW_ST3NEW,
-                        EPIC5_ST4NEW
+                        EPIC(epic1.getId(), TaskStatus.NEW, List.of(
+                                SUBTASK(subtask1.getId(), TaskStatus.NEW),
+                                SUBTASK(subtask2.getId(), TaskStatus.NEW)
+                        )),
+                        EPIC(epic2.getId(), TaskStatus.NEW, List.of(
+                                SUBTASK(subtask3.getId(), TaskStatus.NEW)
+                        ))
                 ),
                 taskManager.getAllEpics()
         );
@@ -147,12 +153,12 @@ class TaskManagerServiceTest {
     @Test
     void createSubtask() {
 
-        EpicDto epicDto = taskManager.createEpic(CREATE_EPIC1);
-        taskManager.createSubtask(CREATE_SUBTASK2, epicDto.getId());
+        EpicDto epic = taskManager.createEpic(CREATE_EPIC(1));
+        SubtaskDto subtask = taskManager.createSubtask(CREATE_SUBTASK(2), epic.getId());
 
         assertEquals(
                 List.of(
-                        EPIC1_ST2NEW
+                        EPIC(epic.getId(), TaskStatus.NEW, List.of(SUBTASK(subtask.getId(), TaskStatus.NEW)))
                 ),
                 taskManager.getAllEpics()
         );
@@ -161,11 +167,11 @@ class TaskManagerServiceTest {
     @Test
     void getSubtask() {
 
-        EpicDto epicDto = taskManager.createEpic(CREATE_EPIC1);
-        SubtaskDto subtaskDto = taskManager.createSubtask(CREATE_SUBTASK2, epicDto.getId());
+        EpicDto epicDto = taskManager.createEpic(CREATE_EPIC(1));
+        SubtaskDto subtaskDto = taskManager.createSubtask(CREATE_SUBTASK(2), epicDto.getId());
 
         assertEquals(
-                SUBTASK2NEW,
+                SUBTASK(2, TaskStatus.NEW),
                 taskManager.getSubtask(subtaskDto.getId())
         );
     }
@@ -173,52 +179,66 @@ class TaskManagerServiceTest {
     @Test
     void updateSubtask() {
 
-        EpicDto epicDto = taskManager.createEpic(CREATE_EPIC1);
-        taskManager.createSubtask(CREATE_SUBTASK2, epicDto.getId());
+        EpicDto epic = taskManager.createEpic(CREATE_EPIC(1));
+        SubtaskDto subtask1 = taskManager.createSubtask(CREATE_SUBTASK(2), epic.getId());
 
-        taskManager.updateSubtask(UPDATE_SUBTASK2_DONE);
+        taskManager.updateSubtask(UPDATE_SUBTASK(subtask1.getId(), TaskStatus.DONE));
 
         assertEquals(
                 List.of(
-                        EPIC1_ST2DONE
+                        EPIC(epic.getId(), TaskStatus.DONE, List.of(
+                                SUBTASK(subtask1.getId(), TaskStatus.DONE)
+                        ))
                 ),
                 taskManager.getAllEpics()
         );
 
-        taskManager.createSubtask(CREATE_SUBTASK3, epicDto.getId());
+        SubtaskDto subtask2 = taskManager.createSubtask(CREATE_SUBTASK(3), epic.getId());
 
         assertEquals(
                 List.of(
-                        EPIC1_ST2DONE_ST3NEW
+                        EPIC(epic.getId(), TaskStatus.IN_PROGRESS, List.of(
+                                SUBTASK(subtask1.getId(), TaskStatus.DONE),
+                                SUBTASK(subtask2.getId(), TaskStatus.NEW)
+                        ))
                 ),
                 taskManager.getAllEpics()
         );
 
-        taskManager.updateSubtask(UPDATE_SUBTASK3_DONE);
+        taskManager.updateSubtask(UPDATE_SUBTASK(subtask2.getId(), TaskStatus.DONE));
 
         assertEquals(
                 List.of(
-                        EPIC1_ST2DONE_ST3DONE
+                        EPIC(epic.getId(), TaskStatus.DONE, List.of(
+                                SUBTASK(subtask1.getId(), TaskStatus.DONE),
+                                SUBTASK(subtask2.getId(), TaskStatus.DONE)
+                        ))
                 ),
                 taskManager.getAllEpics()
         );
 
-        taskManager.updateSubtask(UPDATE_SUBTASK2_NEW);
-        taskManager.updateSubtask(UPDATE_SUBTASK3_NEW);
+        taskManager.updateSubtask(UPDATE_SUBTASK(subtask1.getId(), TaskStatus.NEW));
+        taskManager.updateSubtask(UPDATE_SUBTASK(subtask2.getId(), TaskStatus.NEW));
 
         assertEquals(
                 List.of(
-                        EPIC1_ST2NEW_ST3NEW
+                        EPIC(epic.getId(), TaskStatus.NEW, List.of(
+                                SUBTASK(subtask1.getId(), TaskStatus.NEW),
+                                SUBTASK(subtask2.getId(), TaskStatus.NEW)
+                        ))
                 ),
                 taskManager.getAllEpics()
         );
 
-        taskManager.updateSubtask(UPDATE_SUBTASK2_NEW);
-        taskManager.updateSubtask(UPDATE_SUBTASK3_IN_PG);
+        taskManager.updateSubtask(UPDATE_SUBTASK(subtask1.getId(), TaskStatus.NEW));
+        taskManager.updateSubtask(UPDATE_SUBTASK(subtask2.getId(), TaskStatus.IN_PROGRESS));
 
         assertEquals(
                 List.of(
-                        EPIC1_ST2NEW_ST3IN_PG
+                        EPIC(epic.getId(), TaskStatus.IN_PROGRESS, List.of(
+                                SUBTASK(subtask1.getId(), TaskStatus.NEW),
+                                SUBTASK(subtask2.getId(), TaskStatus.IN_PROGRESS)
+                        ))
                 ),
                 taskManager.getAllEpics()
         );
@@ -226,27 +246,34 @@ class TaskManagerServiceTest {
 
     @Test
     void removeSubtask() {
-        EpicDto epicDto = taskManager.createEpic(CREATE_EPIC1);
-        taskManager.createSubtask(CREATE_SUBTASK2, epicDto.getId());
+        EpicDto epic = taskManager.createEpic(CREATE_EPIC(1));
+        SubtaskDto subtask1 = taskManager.createSubtask(CREATE_SUBTASK(2), epic.getId());
 
-        taskManager.createSubtask(CREATE_SUBTASK3, epicDto.getId());
-        SubtaskDto subtaskDto = taskManager.createSubtask(CREATE_SUBTASK4, epicDto.getId());
+        SubtaskDto subtask2 = taskManager.createSubtask(CREATE_SUBTASK(3), epic.getId());
+        SubtaskDto subtask3 = taskManager.createSubtask(CREATE_SUBTASK(4), epic.getId());
 
-        taskManager.updateSubtask(UPDATE_SUBTASK2_DONE);
-        taskManager.updateSubtask(UPDATE_SUBTASK3_DONE);
+        taskManager.updateSubtask(UPDATE_SUBTASK(subtask1.getId(), TaskStatus.DONE));
+        taskManager.updateSubtask(UPDATE_SUBTASK(subtask2.getId(), TaskStatus.DONE));
 
         assertEquals(
                 List.of(
-                        EPIC1_ST2DONE_ST3DONE_ST4NEW
+                        EPIC(epic.getId(), TaskStatus.IN_PROGRESS, List.of(
+                                SUBTASK(subtask1.getId(), TaskStatus.DONE),
+                                SUBTASK(subtask2.getId(), TaskStatus.DONE),
+                                SUBTASK(subtask3.getId(), TaskStatus.NEW)
+                        ))
                 ),
                 taskManager.getAllEpics()
         );
 
-        taskManager.removeSubtask(subtaskDto.getId());
+        taskManager.removeSubtask(subtask3.getId());
 
         assertEquals(
                 List.of(
-                        EPIC1_ST2DONE_ST3DONE
+                        EPIC(epic.getId(), TaskStatus.DONE, List.of(
+                                SUBTASK(subtask1.getId(), TaskStatus.DONE),
+                                SUBTASK(subtask2.getId(), TaskStatus.DONE)
+                        ))
                 ),
                 taskManager.getAllEpics()
         );
@@ -254,20 +281,25 @@ class TaskManagerServiceTest {
 
     @Test
     void removeAllSubtasks() {
-        EpicDto epicDto = taskManager.createEpic(CREATE_EPIC1);
-        taskManager.createSubtask(CREATE_SUBTASK2, epicDto.getId());
-        taskManager.createSubtask(CREATE_SUBTASK3, epicDto.getId());
+        EpicDto epic1 = taskManager.createEpic(CREATE_EPIC(1));
+        SubtaskDto subtask1 = taskManager.createSubtask(CREATE_SUBTASK(2), epic1.getId());
+        SubtaskDto subtask2 = taskManager.createSubtask(CREATE_SUBTASK(3), epic1.getId());
 
-        taskManager.updateSubtask(UPDATE_SUBTASK2_DONE);
-        taskManager.updateSubtask(UPDATE_SUBTASK3_DONE);
+        taskManager.updateSubtask(UPDATE_SUBTASK(subtask1.getId(), TaskStatus.DONE));
+        taskManager.updateSubtask(UPDATE_SUBTASK(subtask2.getId(), TaskStatus.DONE));
 
-        EpicDto epic2 = taskManager.createEpic(CREATE_EPIC5);
-        taskManager.createSubtask(CREATE_SUBTASK4, epic2.getId());
+        EpicDto epic2 = taskManager.createEpic(CREATE_EPIC(5));
+        SubtaskDto subtask3 = taskManager.createSubtask(CREATE_SUBTASK(4), epic2.getId());
 
         assertEquals(
                 List.of(
-                        EPIC1_ST2DONE_ST3DONE,
-                        EPIC5_ST4NEW
+                        EPIC(epic1.getId(), TaskStatus.DONE, List.of(
+                                SUBTASK(subtask1.getId(), TaskStatus.DONE),
+                                SUBTASK(subtask2.getId(), TaskStatus.DONE)
+                        )),
+                        EPIC(epic2.getId(), TaskStatus.NEW, List.of(
+                                SUBTASK(subtask3.getId(), TaskStatus.NEW)
+                        ))
                 ),
                 taskManager.getAllEpics()
         );
@@ -276,8 +308,8 @@ class TaskManagerServiceTest {
 
         assertEquals(
                 List.of(
-                        EPIC1_EMPTY,
-                        EPIC5_EMPTY
+                        EPIC(epic1.getId(), TaskStatus.NEW, List.of()),
+                        EPIC(epic2.getId(), TaskStatus.NEW, List.of())
                 ),
                 taskManager.getAllEpics()
         );
@@ -356,59 +388,13 @@ class TaskManagerServiceTest {
         );
     }
 
-    private final CreateEpicDto CREATE_EPIC1 = new CreateEpicDto(1, "name", "desc");
-    private final CreateEpicDto CREATE_EPIC5 = new CreateEpicDto(5, "name", "desc");
-    private final UpdateEpicDto UPDATE_EPIC1_NEW_NAME = new UpdateEpicDto(1, "new_name", "desc");
-    private final CreateSubtaskDto CREATE_SUBTASK2 = new CreateSubtaskDto(2, "name", "desc");
-    private final CreateSubtaskDto CREATE_SUBTASK3 = new CreateSubtaskDto(3, "name", "desc");
-    private final CreateSubtaskDto CREATE_SUBTASK4 = new CreateSubtaskDto(4, "name", "desc");
-    private final UpdateSubtaskDto UPDATE_SUBTASK2_DONE = new UpdateSubtaskDto(2, "name", "desc", TaskStatus.DONE);
-    private final UpdateSubtaskDto UPDATE_SUBTASK2_NEW = new UpdateSubtaskDto(2, "name", "desc", TaskStatus.NEW);
-    private final UpdateSubtaskDto UPDATE_SUBTASK3_DONE = new UpdateSubtaskDto(3, "name", "desc", TaskStatus.DONE);
-    private final UpdateSubtaskDto UPDATE_SUBTASK3_NEW = new UpdateSubtaskDto(3, "name", "desc", TaskStatus.NEW);
-    private final UpdateSubtaskDto UPDATE_SUBTASK3_IN_PG = new UpdateSubtaskDto(3, "name", "desc", TaskStatus.IN_PROGRESS);
-
-    private final SubtaskDto SUBTASK2NEW = new SubtaskDto(2, "name", "desc", TaskStatus.NEW);
-    private final SubtaskDto SUBTASK4NEW = new SubtaskDto(4, "name", "desc", TaskStatus.NEW);
-
-    private final EpicDto EPIC1_ST2NEW = new EpicDto(1, "name", "desc", TaskStatus.NEW, List.of(
-            SUBTASK2NEW
-    ));
-    private final EpicDto EPIC1_ST1NEW = new EpicDto(1, "name", "desc", TaskStatus.NEW, List.of(
-            new SubtaskDto(2, "name", "desc", TaskStatus.NEW)
-    ));
-    private final EpicDto EPIC1_NEW_NAME_ST1NEW = new EpicDto(1, "new_name", "desc", TaskStatus.NEW, List.of(
-            new SubtaskDto(2, "name", "desc", TaskStatus.NEW)
-    ));
-    private final EpicDto EPIC1_EMPTY = new EpicDto(1, "name", "desc", TaskStatus.NEW, List.of());
-    private final EpicDto EPIC5_EMPTY = new EpicDto(5, "name", "desc", TaskStatus.NEW, List.of());
-    private final EpicDto EPIC5_ST4NEW = new EpicDto(5, "name", "desc", TaskStatus.NEW, List.of(
-            new SubtaskDto(4, "name", "desc", TaskStatus.NEW)
-    ));
-    private final EpicDto EPIC1_ST2DONE = new EpicDto(1, "name", "desc", TaskStatus.DONE, List.of(
-            new SubtaskDto(2, "name", "desc", TaskStatus.DONE)
-    ));
-    private final EpicDto EPIC1_ST2DONE_ST3NEW = new EpicDto(1, "name", "desc", TaskStatus.IN_PROGRESS, List.of(
-            new SubtaskDto(2, "name", "desc", TaskStatus.DONE),
-            new SubtaskDto(3, "name", "desc", TaskStatus.NEW)
-    ));
-    private final EpicDto EPIC1_ST2DONE_ST3DONE = new EpicDto(1, "name", "desc", TaskStatus.DONE, List.of(
-            new SubtaskDto(2, "name", "desc", TaskStatus.DONE),
-            new SubtaskDto(3, "name", "desc", TaskStatus.DONE)
-    ));
-    private final EpicDto EPIC1_ST2NEW_ST3NEW = new EpicDto(1, "name", "desc", TaskStatus.NEW, List.of(
-            new SubtaskDto(2, "name", "desc", TaskStatus.NEW),
-            new SubtaskDto(3, "name", "desc", TaskStatus.NEW)
-    ));
-    private final EpicDto EPIC1_ST2NEW_ST3IN_PG = new EpicDto(1, "name", "desc", TaskStatus.IN_PROGRESS, List.of(
-            new SubtaskDto(2, "name", "desc", TaskStatus.NEW),
-            new SubtaskDto(3, "name", "desc", TaskStatus.IN_PROGRESS)
-    ));
-    private final EpicDto EPIC1_ST2DONE_ST3DONE_ST4NEW = new EpicDto(1, "name", "desc", TaskStatus.IN_PROGRESS, List.of(
-            new SubtaskDto(2, "name", "desc", TaskStatus.DONE),
-            new SubtaskDto(3, "name", "desc", TaskStatus.DONE),
-            new SubtaskDto(4, "name", "desc", TaskStatus.NEW)
-    ));
+    private CreateEpicDto CREATE_EPIC(int id) { return new CreateEpicDto(id, "name", "desc"); }
+    private UpdateEpicDto UPDATE_EPIC(int id, String name) { return new UpdateEpicDto(id, name, "desc"); }
+    private CreateSubtaskDto CREATE_SUBTASK(int id)  { return new CreateSubtaskDto(id, "name", "desc"); }
+    private UpdateSubtaskDto UPDATE_SUBTASK(int id, TaskStatus status) { return new UpdateSubtaskDto(id, "name", "desc", status); }
+    private SubtaskDto SUBTASK(int id, TaskStatus status) { return new SubtaskDto(id, "name", "desc", status); }
+    private EpicDto EPIC(int id, TaskStatus status, List<SubtaskDto> subtasks) { return EPIC(id, "name", status, subtasks); }
+    private EpicDto EPIC(int id, String name, TaskStatus status, List<SubtaskDto> subtasks) { return new EpicDto(id, name, "desc", status, subtasks); }
 
     private final CreateTaskDto CREATE_TASK = new CreateTaskDto("name", "desc");
     private UpdateTaskDto UPDATE_TASK(int id, TaskStatus status) { return new UpdateTaskDto(id, "name", "desc", status); }
