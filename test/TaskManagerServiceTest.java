@@ -1,4 +1,3 @@
-package test;
 
 import java.util.List;
 import ru.praktikum.kanban.model.TaskStatus;
