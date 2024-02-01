@@ -7,7 +7,7 @@ import main.model.entity.SubtaskEntity;
 public interface EpicRepository {
 
     List<EpicEntity> getAllEpics();
-    EpicEntity getEpicWithId(int epicId);
+    EpicEntity getEpic(int epicId);
     EpicEntity getEpicWithSubtaskId(int subtaskId);
     void saveEpic(EpicEntity epicEntity);
     void saveEpic(EpicEntity epicEntity, List<SubtaskEntity> subtaskEntities);

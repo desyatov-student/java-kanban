@@ -74,7 +74,7 @@ public class TaskManagerService {
     }
 
     public EpicDto getEpic(int epicId) {
-        EpicEntity epicEntity = repository.getEpicWithId(epicId);
+        EpicEntity epicEntity = repository.getEpic(epicId);
         return getEpicWithEpicEntity(epicEntity);
     }
 
@@ -85,7 +85,7 @@ public class TaskManagerService {
     }
 
     public EpicDto updateEpic(UpdateEpicDto epicDto) {
-        EpicEntity epicEntity = repository.getEpicWithId(epicDto.getId());
+        EpicEntity epicEntity = repository.getEpic(epicDto.getId());
         EpicEntity newEpicEntity = mappingUtils.mapToEpicEntity(epicDto, epicEntity.getStatus());
         repository.saveEpic(newEpicEntity);
         return getEpicWithEpicEntity(newEpicEntity);
@@ -181,7 +181,7 @@ public class TaskManagerService {
         }
 
         TaskStatus newStatus = calculateEpicStatusWithSubtasks(subtasksEntities);
-        EpicEntity epicEntity = mappingUtils.mapToEpicEntity(repository.getEpicWithId(epicId), newStatus);
+        EpicEntity epicEntity = mappingUtils.mapToEpicEntity(repository.getEpic(epicId), newStatus);
         repository.saveEpic(epicEntity, subtasksEntities);
     }
 
