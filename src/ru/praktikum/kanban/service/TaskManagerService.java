@@ -165,20 +165,27 @@ public class TaskManagerService {
         if (subtaskEntities.isEmpty()) {
             return TaskStatus.NEW;
         }
-        List<TaskStatus> taskStatuses = subtaskEntities.stream()
-                .map(SubtaskEntity::getStatus)
-                .collect(Collectors.toList());
-
-        boolean isNew = taskStatuses.stream().allMatch(taskStatus -> taskStatus == TaskStatus.NEW);
-        if (isNew) {
-            return TaskStatus.NEW;
+        int size = subtaskEntities.size();
+        int newCount = 0;
+        int doneCount = 0;
+        for (SubtaskEntity subtaskEntity : subtaskEntities) {
+            switch (subtaskEntity.status) {
+                case NEW:
+                    newCount++;
+                    break;
+                case DONE:
+                    doneCount++;
+                    break;
+                case IN_PROGRESS:
+                    return TaskStatus.IN_PROGRESS;
+            }
         }
 
-        boolean isDone = taskStatuses.stream().allMatch(taskStatus -> taskStatus == TaskStatus.DONE);
-        if (isDone) {
+        if (newCount == size) {
+            return TaskStatus.NEW;
+        } else if (doneCount == size){
             return TaskStatus.DONE;
         }
-
         return TaskStatus.IN_PROGRESS;
     }
 
