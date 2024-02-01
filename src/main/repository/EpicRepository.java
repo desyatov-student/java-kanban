@@ -8,10 +8,8 @@ public interface EpicRepository {
 
     List<EpicEntity> getAllEpics();
     EpicEntity getEpic(int epicId);
-    EpicEntity getEpicWithSubtaskId(int subtaskId);
     void saveEpic(EpicEntity epicEntity);
-    void saveEpic(EpicEntity epicEntity, List<SubtaskEntity> subtaskEntities);
-    void removeEpic(int epicId);
+    void removeEpic(EpicEntity epicEntity);
     void removeAllEpics();
 }
 

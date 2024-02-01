@@ -8,7 +8,7 @@ import main.model.dto.response.EpicDto;
 import main.model.dto.response.SubtaskDto;
 import main.model.dto.response.TaskDto;
 import main.model.dto.update.UpdateSubtaskDto;
-import main.repository.TaskRepositoryInMemory;
+import main.repository.impl.TaskRepositoryInMemory;
 import main.service.TaskManagerService;
 import main.util.IdentifierGenerator;
 import main.util.MappingUtils;

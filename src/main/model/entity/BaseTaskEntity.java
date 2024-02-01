@@ -5,21 +5,16 @@ import main.model.TaskStatus;
 
 public abstract class BaseTaskEntity {
     private int id;
-    private String name;
-    private String description;
-    private TaskStatus status;
+    public String name;
+    public String description;
+    public TaskStatus status;
+
+    public TaskStatus getStatus() {
+        return status;
+    }
 
     public int getId() {
         return id;
-    }
-    public String getName() {
-        return name;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public TaskStatus getStatus() {
-        return status;
     }
 
     public BaseTaskEntity(int id, String name, String description, TaskStatus status) {

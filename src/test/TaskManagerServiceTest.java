@@ -11,7 +11,7 @@ import main.model.dto.response.TaskDto;
 import main.model.dto.update.UpdateEpicDto;
 import main.model.dto.update.UpdateSubtaskDto;
 import main.model.dto.update.UpdateTaskDto;
-import main.repository.TaskRepositoryInMemory;
+import main.repository.impl.TaskRepositoryInMemory;
 import main.util.IdentifierGenerator;
 import main.util.MappingUtils;
 import org.junit.jupiter.api.BeforeEach;

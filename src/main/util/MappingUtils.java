@@ -1,6 +1,7 @@
 package main.util;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import main.model.TaskStatus;
 import main.model.dto.create.CreateEpicDto;
 import main.model.dto.create.CreateSubtaskDto;
@@ -20,8 +21,8 @@ public class MappingUtils {
     public TaskDto mapToTaskDto(TaskEntity entity){
         TaskDto dto = new TaskDto(
                 entity.getId(),
-                entity.getName(),
-                entity.getDescription(),
+                entity.name,
+                entity.description,
                 entity.getStatus()
         );
         return dto;
@@ -50,22 +51,12 @@ public class MappingUtils {
     public EpicDto mapToEpicDto(EpicEntity epicEntity, List<SubtaskDto> subtasks){
         EpicDto dto = new EpicDto(
                 epicEntity.getId(),
-                epicEntity.getName(),
-                epicEntity.getDescription(),
+                epicEntity.name,
+                epicEntity.description,
                 epicEntity.getStatus(),
                 subtasks
         );
         return dto;
-    }
-
-    public EpicEntity mapToEpicEntity(EpicDto epicDto){
-        EpicEntity entity = new EpicEntity(
-                epicDto.getId(),
-                epicDto.getName(),
-                epicDto.getDescription(),
-                epicDto.getStatus()
-        );
-        return entity;
     }
 
     public EpicEntity mapToEpicEntity(CreateEpicDto createEpicDto, int epicId){
@@ -78,44 +69,27 @@ public class MappingUtils {
         return entity;
     }
 
-    public EpicEntity mapToEpicEntity(EpicEntity epicEntity, TaskStatus newStatus){
-        EpicEntity entity = new EpicEntity(
-                epicEntity.getId(),
-                epicEntity.getName(),
-                epicEntity.getDescription(),
-                newStatus
-        );
-        return entity;
-    }
-
-    public EpicEntity mapToEpicEntity(UpdateEpicDto updateEpicDto, TaskStatus newStatus){
-        EpicEntity entity = new EpicEntity(
-                updateEpicDto.getId(),
-                updateEpicDto.getName(),
-                updateEpicDto.getDescription(),
-                newStatus
-        );
-        return entity;
+    public EpicEntity updateEpicEntity(EpicEntity epicEntity, UpdateEpicDto updateEpicDto){
+        epicEntity.name = updateEpicDto.getName();
+        epicEntity.description = updateEpicDto.getDescription();
+        return epicEntity;
     }
 
     public SubtaskDto mapToSubtaskDto(SubtaskEntity subtaskEntity){
         SubtaskDto dto = new SubtaskDto(
                 subtaskEntity.getId(),
-                subtaskEntity.getName(),
-                subtaskEntity.getDescription(),
+                subtaskEntity.name,
+                subtaskEntity.description,
                 subtaskEntity.getStatus()
         );
         return dto;
     }
 
-    public SubtaskEntity mapToSubtaskEntity(UpdateSubtaskDto updateSubtaskDto){
-        SubtaskEntity entity = new SubtaskEntity(
-                updateSubtaskDto.getId(),
-                updateSubtaskDto.getName(),
-                updateSubtaskDto.getDescription(),
-                updateSubtaskDto.getStatus()
-        );
-        return entity;
+    public SubtaskEntity updateSubtaskEntity(SubtaskEntity subtaskEntity, UpdateSubtaskDto updateSubtaskDto){
+        subtaskEntity.name = updateSubtaskDto.getName();
+        subtaskEntity.description = updateSubtaskDto.getDescription();
+        subtaskEntity.status = updateSubtaskDto.getStatus();
+        return subtaskEntity;
     }
 
     public SubtaskEntity mapToSubtaskEntity(CreateSubtaskDto createSubtaskDto, int subtaskId){
