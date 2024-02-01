@@ -1,22 +1,22 @@
 package test;
 
 import java.util.List;
-import main.model.TaskStatus;
-import main.model.dto.create.CreateEpicDto;
-import main.model.dto.create.CreateSubtaskDto;
-import main.model.dto.create.CreateTaskDto;
-import main.model.dto.response.EpicDto;
-import main.model.dto.response.SubtaskDto;
-import main.model.dto.response.TaskDto;
-import main.model.dto.update.UpdateEpicDto;
-import main.model.dto.update.UpdateSubtaskDto;
-import main.model.dto.update.UpdateTaskDto;
-import main.repository.impl.TaskRepositoryInMemory;
-import main.util.IdentifierGenerator;
-import main.util.MappingUtils;
+import ru.praktikum.kanban.model.TaskStatus;
+import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
+import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
+import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
+import ru.praktikum.kanban.model.dto.response.EpicDto;
+import ru.praktikum.kanban.model.dto.response.SubtaskDto;
+import ru.praktikum.kanban.model.dto.response.TaskDto;
+import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
+import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
+import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
+import ru.praktikum.kanban.repository.impl.TaskRepositoryInMemory;
+import ru.praktikum.kanban.util.IdentifierGenerator;
+import ru.praktikum.kanban.util.MappingUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import main.service.TaskManagerService;
+import ru.praktikum.kanban.service.TaskManagerService;
 
 import static org.junit.jupiter.api.Assertions.*;
 

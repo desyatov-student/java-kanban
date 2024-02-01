@@ -1,6 +1,6 @@
 package test;
 
-import main.util.IdentifierGenerator;
+import ru.praktikum.kanban.util.IdentifierGenerator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
