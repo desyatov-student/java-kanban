@@ -154,7 +154,7 @@ public class TaskManagerService {
     public void removeAllSubtasks() {
         repository.removeAllSubtasks();
         for (EpicEntity epic : repository.getAllEpics()) {
-            epic.subtasks = new ArrayList<>();
+            epic.subtasks.clear();
             epic.status = TaskStatus.NEW;
         }
     }
