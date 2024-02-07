@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.List;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
@@ -7,10 +8,12 @@ import ru.praktikum.kanban.model.dto.create.CreateSimpleTaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.dto.response.SimpleTaskDto;
+import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
 import ru.praktikum.kanban.service.TaskManager;
+import ru.praktikum.kanban.service.impl.InMemoryHistoryManager;
 import ru.praktikum.kanban.service.impl.Managers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -390,6 +393,50 @@ class InMemoryTaskManagerTest {
                 List.of(),
                 taskManager.getAllTasks()
         );
+    }
+
+    @Test
+    void getHistory() {
+        EpicDto epicDto = taskManager.createEpic(CREATE_EPIC());
+        SimpleTaskDto simpleTaskDto = taskManager.createTask(CREATE_TASK);
+        SubtaskDto subtaskDto = taskManager.createSubtask(CREATE_SUBTASK(), epicDto.getId());
+
+        taskManager.getSubtask(subtaskDto.getId());
+        taskManager.getEpic(epicDto.getId());
+        taskManager.getTask(simpleTaskDto.getId());
+        taskManager.getSubtask(subtaskDto.getId());
+
+        final List<TaskDto> history = taskManager.getHistory();
+        assertEquals(
+                List.of(
+                        subtaskDto,
+                        EPIC(epicDto.getId(), TaskStatus.NEW, List.of(subtaskDto)),
+                        simpleTaskDto,
+                        subtaskDto
+                ),
+                history
+        );
+    }
+
+    @Test
+    void shouldHistorySizeIs10() {
+
+        final ArrayList<TaskDto> expected = new ArrayList<>();
+
+        for (int i = 1; i <= 12; i++) {
+            EpicDto epicDto = taskManager.createEpic(new CreateEpicDto("", ""));
+            expected.add(epicDto);
+        }
+        expected.remove(0);
+        expected.remove(0);
+
+        for (int i = 1; i <= 12; i++) {
+            taskManager.getEpic(i);
+        }
+
+        final List<TaskDto> history = taskManager.getHistory();
+        assertEquals(InMemoryHistoryManager.DEFAULT_MAX_SIZE, history.size());
+        assertEquals(expected, history);
     }
 
     private CreateEpicDto CREATE_EPIC() { return new CreateEpicDto("name", "desc"); }

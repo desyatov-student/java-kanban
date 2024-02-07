@@ -17,7 +17,7 @@ import ru.praktikum.kanban.model.entity.SimpleTaskEntity;
 
 public class MappingUtils {
 
-    public SimpleTaskDto mapToTaskDto(SimpleTaskEntity entity){
+    static public SimpleTaskDto mapToTaskDto(SimpleTaskEntity entity){
         SimpleTaskDto dto = new SimpleTaskDto(
                 entity.getId(),
                 entity.name,
@@ -27,7 +27,7 @@ public class MappingUtils {
         return dto;
     }
 
-    public SimpleTaskEntity mapToTaskEntity(UpdateTaskDto updateTaskDto){
+    static public SimpleTaskEntity mapToTaskEntity(UpdateTaskDto updateTaskDto){
         SimpleTaskEntity entity = new SimpleTaskEntity(
                 updateTaskDto.getId(),
                 updateTaskDto.getName(),
@@ -37,7 +37,7 @@ public class MappingUtils {
         return entity;
     }
 
-    public SimpleTaskEntity mapToTaskEntity(CreateSimpleTaskDto createSimpleTaskDto, int taskId){
+    static public SimpleTaskEntity mapToTaskEntity(CreateSimpleTaskDto createSimpleTaskDto, int taskId){
         SimpleTaskEntity entity = new SimpleTaskEntity(
                 taskId,
                 createSimpleTaskDto.getName(),
@@ -47,7 +47,7 @@ public class MappingUtils {
         return entity;
     }
 
-    public EpicDto mapToEpicDto(EpicEntity epicEntity, List<SubtaskDto> subtasks){
+    static public EpicDto mapToEpicDto(EpicEntity epicEntity, List<SubtaskDto> subtasks){
         EpicDto dto = new EpicDto(
                 epicEntity.getId(),
                 epicEntity.name,
@@ -58,7 +58,7 @@ public class MappingUtils {
         return dto;
     }
 
-    public EpicEntity mapToEpicEntity(CreateEpicDto createEpicDto, int epicId){
+    static public EpicEntity mapToEpicEntity(CreateEpicDto createEpicDto, int epicId){
         EpicEntity entity = new EpicEntity(
                 epicId,
                 createEpicDto.getName(),
@@ -68,13 +68,13 @@ public class MappingUtils {
         return entity;
     }
 
-    public EpicEntity updateEpicEntity(EpicEntity epicEntity, UpdateEpicDto updateEpicDto){
+    static public EpicEntity updateEpicEntity(EpicEntity epicEntity, UpdateEpicDto updateEpicDto){
         epicEntity.name = updateEpicDto.getName();
         epicEntity.description = updateEpicDto.getDescription();
         return epicEntity;
     }
 
-    public SubtaskDto mapToSubtaskDto(SubtaskEntity subtaskEntity){
+    static public SubtaskDto mapToSubtaskDto(SubtaskEntity subtaskEntity){
         SubtaskDto dto = new SubtaskDto(
                 subtaskEntity.getId(),
                 subtaskEntity.name,
@@ -84,14 +84,14 @@ public class MappingUtils {
         return dto;
     }
 
-    public SubtaskEntity updateSubtaskEntity(SubtaskEntity subtaskEntity, UpdateSubtaskDto updateSubtaskDto){
+    static public SubtaskEntity updateSubtaskEntity(SubtaskEntity subtaskEntity, UpdateSubtaskDto updateSubtaskDto){
         subtaskEntity.name = updateSubtaskDto.getName();
         subtaskEntity.description = updateSubtaskDto.getDescription();
         subtaskEntity.status = updateSubtaskDto.getStatus();
         return subtaskEntity;
     }
 
-    public SubtaskEntity mapToSubtaskEntity(CreateSubtaskDto createSubtaskDto, int subtaskId){
+    static public SubtaskEntity mapToSubtaskEntity(CreateSubtaskDto createSubtaskDto, int subtaskId){
         SubtaskEntity entity = new SubtaskEntity(
                 subtaskId,
                 createSubtaskDto.getName(),

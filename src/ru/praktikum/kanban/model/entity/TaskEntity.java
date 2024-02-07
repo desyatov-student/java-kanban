@@ -1,7 +1,11 @@
 package ru.praktikum.kanban.model.entity;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 import ru.praktikum.kanban.model.TaskStatus;
+import ru.praktikum.kanban.model.dto.response.SubtaskDto;
+import ru.praktikum.kanban.model.dto.response.TaskDto;
 
 public abstract class TaskEntity {
     private final int id;
@@ -23,6 +27,8 @@ public abstract class TaskEntity {
         this.description = description;
         this.status = status;
     }
+
+    public abstract TaskDto toTaskDto(Function<EpicEntity, List<SubtaskDto>> getSubtasks);
 
     @Override
     public boolean equals(Object o) {

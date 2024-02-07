@@ -1,11 +1,10 @@
 package ru.praktikum.kanban.service.impl;
 
-import ru.praktikum.kanban.model.dto.response.TaskDto;
+import ru.praktikum.kanban.model.entity.TaskEntity;
 import ru.praktikum.kanban.repository.impl.TaskRepositoryInMemory;
 import ru.praktikum.kanban.service.HistoryManager;
 import ru.praktikum.kanban.service.TaskManager;
 import ru.praktikum.kanban.util.IdentifierGenerator;
-import ru.praktikum.kanban.util.MappingUtils;
 
 public class Managers {
 
@@ -13,12 +12,11 @@ public class Managers {
         return new InMemoryTaskManager(
                 new IdentifierGenerator(),
                 new TaskRepositoryInMemory(),
-                Managers.getDefaultHistory(),
-                new MappingUtils()
+                Managers.getDefaultHistory()
         );
     }
 
-    static public HistoryManager<TaskDto> getDefaultHistory() {
+    static public HistoryManager<TaskEntity> getDefaultHistory() {
         return new InMemoryHistoryManager<>(InMemoryHistoryManager.DEFAULT_MAX_SIZE);
     }
 }
