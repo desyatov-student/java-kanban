@@ -11,17 +11,18 @@ import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
 import ru.praktikum.kanban.repository.impl.TaskRepositoryInMemory;
+import ru.praktikum.kanban.service.TaskManager;
 import ru.praktikum.kanban.util.IdentifierGenerator;
 import ru.praktikum.kanban.util.MappingUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.praktikum.kanban.service.TaskManagerService;
+import ru.praktikum.kanban.service.impl.InMemoryTaskManager;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TaskManagerServiceTest {
+class InMemoryTaskManagerTest {
 
-    TaskManagerService taskManager;
+    TaskManager taskManager;
 
     @BeforeEach
     void setUp() {
@@ -406,8 +407,8 @@ class TaskManagerServiceTest {
     private UpdateTaskDto UPDATE_TASK(int id, TaskStatus status) { return new UpdateTaskDto(id, "name", "desc", status); }
     private TaskDto TASK(int id, TaskStatus status) { return new TaskDto(id, "name", "desc", status); }
 
-    private TaskManagerService createTaskManagerService() {
-        return new TaskManagerService(
+    private InMemoryTaskManager createTaskManagerService() {
+        return new InMemoryTaskManager(
                 new IdentifierGenerator(),
                 new TaskRepositoryInMemory(),
                 new MappingUtils()

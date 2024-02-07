@@ -9,7 +9,8 @@ import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.repository.impl.TaskRepositoryInMemory;
-import ru.praktikum.kanban.service.TaskManagerService;
+import ru.praktikum.kanban.service.TaskManager;
+import ru.praktikum.kanban.service.impl.InMemoryTaskManager;
 import ru.praktikum.kanban.util.IdentifierGenerator;
 import ru.praktikum.kanban.util.MappingUtils;
 
@@ -21,7 +22,7 @@ public class Main {
             Полное тестирование функционала смотрите в тестах
         */
 
-        TaskManagerService taskManager = new TaskManagerService(
+        TaskManager taskManager = new InMemoryTaskManager(
                 new IdentifierGenerator(),
                 new TaskRepositoryInMemory(),
                 new MappingUtils()
