@@ -23,7 +23,7 @@ class InMemoryTaskManagerTest {
 
     @BeforeEach
     void setUp() {
-        taskManager = new Managers().getDefault();
+        taskManager = Managers.getDefault();
     }
 
     @Test

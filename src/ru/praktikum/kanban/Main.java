@@ -19,7 +19,7 @@ public class Main {
             Полное тестирование функционала смотрите в тестах
         */
 
-        TaskManager taskManager = new Managers().getDefault();
+        TaskManager taskManager = Managers.getDefault();
 
         EpicDto epic = taskManager.createEpic(
                 new CreateEpicDto("Техническое задание", "Технические задание 4 спринта")
