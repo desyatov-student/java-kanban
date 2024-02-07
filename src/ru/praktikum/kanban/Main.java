@@ -2,18 +2,14 @@ package ru.praktikum.kanban;
 
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
-import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
 import ru.praktikum.kanban.model.dto.create.CreateSimpleTaskDto;
+import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
-import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.dto.response.SimpleTaskDto;
+import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
-import ru.praktikum.kanban.repository.impl.TaskRepositoryInMemory;
 import ru.praktikum.kanban.service.TaskManager;
-import ru.praktikum.kanban.service.impl.HistoryServiceImpl;
-import ru.praktikum.kanban.service.impl.InMemoryTaskManager;
-import ru.praktikum.kanban.util.IdentifierGenerator;
-import ru.praktikum.kanban.util.MappingUtils;
+import ru.praktikum.kanban.service.impl.Managers;
 
 public class Main {
 
@@ -23,12 +19,7 @@ public class Main {
             Полное тестирование функционала смотрите в тестах
         */
 
-        TaskManager taskManager = new InMemoryTaskManager(
-                new IdentifierGenerator(),
-                new TaskRepositoryInMemory(),
-                new HistoryServiceImpl<>(),
-                new MappingUtils()
-        );
+        TaskManager taskManager = new Managers().getDefault();
 
         EpicDto epic = taskManager.createEpic(
                 new CreateEpicDto("Техническое задание", "Технические задание 4 спринта")

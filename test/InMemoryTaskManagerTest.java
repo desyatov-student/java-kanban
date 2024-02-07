@@ -10,14 +10,10 @@ import ru.praktikum.kanban.model.dto.response.SimpleTaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
-import ru.praktikum.kanban.repository.impl.TaskRepositoryInMemory;
 import ru.praktikum.kanban.service.TaskManager;
-import ru.praktikum.kanban.service.impl.HistoryServiceImpl;
-import ru.praktikum.kanban.util.IdentifierGenerator;
-import ru.praktikum.kanban.util.MappingUtils;
+import ru.praktikum.kanban.service.impl.Managers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.praktikum.kanban.service.impl.InMemoryTaskManager;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,7 +23,7 @@ class InMemoryTaskManagerTest {
 
     @BeforeEach
     void setUp() {
-        taskManager = createTaskManagerService();
+        taskManager = new Managers().getDefault();
     }
 
     @Test
@@ -407,13 +403,4 @@ class InMemoryTaskManagerTest {
     private final CreateSimpleTaskDto CREATE_TASK = new CreateSimpleTaskDto("name", "desc");
     private UpdateTaskDto UPDATE_TASK(int id, TaskStatus status) { return new UpdateTaskDto(id, "name", "desc", status); }
     private SimpleTaskDto TASK(int id, TaskStatus status) { return new SimpleTaskDto(id, "name", "desc", status); }
-
-    private InMemoryTaskManager createTaskManagerService() {
-        return new InMemoryTaskManager(
-                new IdentifierGenerator(),
-                new TaskRepositoryInMemory(),
-                new HistoryServiceImpl<>(),
-                new MappingUtils()
-        );
-    }
 }
