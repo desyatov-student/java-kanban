@@ -1,11 +1,11 @@
 
 import java.util.ArrayList;
 import java.util.List;
-import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
+import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
+import ru.praktikum.kanban.model.dto.response.SimpleTaskDto;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,14 +13,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class TaskTest {
 
     private class TestExample {
-        BaseTaskDto task1;
-        BaseTaskDto task2;
-        boolean expectedResult;
+        TaskDto task1;
+        TaskDto task2;
+        boolean isEquals;
 
-        public TestExample(BaseTaskDto task1, BaseTaskDto task2, boolean expectedResult) {
+        public TestExample(TaskDto task1, TaskDto task2, boolean isEquals) {
             this.task1 = task1;
             this.task2 = task2;
-            this.expectedResult = expectedResult;
+            this.isEquals = isEquals;
         }
     }
 
@@ -65,7 +65,7 @@ class TaskTest {
                         true
                 ),
                 new TestExample(
-                        new TaskDto(1, "", "", TaskStatus.NEW),
+                        new SimpleTaskDto(1, "", "", TaskStatus.NEW),
                         new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
                         false
                 ),
@@ -76,13 +76,17 @@ class TaskTest {
                 ),
                 new TestExample(
                         new SubtaskDto(1, "", "", TaskStatus.NEW),
-                        new TaskDto(1, "", "", TaskStatus.NEW),
+                        new SimpleTaskDto(1, "", "", TaskStatus.NEW),
                         false
                 )
         };
 
         for (TestExample example : examples) {
-            assertTrue(example.task1.equals(example.task2) == example.expectedResult);
+            if (example.isEquals) {
+                assertEquals(example.task1, example.task2);
+            } else {
+                assertNotEquals(example.task1, example.task2);
+            }
         }
     }
 }

@@ -1,17 +1,13 @@
-package ru.praktikum.kanban.model.dto.response;
+package ru.praktikum.kanban.model.dto.create;
 
 import java.util.Objects;
 import ru.praktikum.kanban.model.TaskStatus;
 
-public abstract class BaseTaskDto {
-    private int id;
+public abstract class CreateTask {
     private String name;
     private String description;
     private TaskStatus status;
 
-    public int getId() {
-        return id;
-    }
     public String getName() {
         return name;
     }
@@ -22,33 +18,30 @@ public abstract class BaseTaskDto {
         return status;
     }
 
-    public BaseTaskDto(int id, String name, String description, TaskStatus status) {
-        this.id = id;
+    public CreateTask(String name, String description) {
         this.name = name;
         this.description = description;
-        this.status = status;
+        this.status = TaskStatus.NEW;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BaseTaskDto that = (BaseTaskDto) o;
-        return id == that.id &&
-                Objects.equals(name, that.name) &&
+        CreateTask that = (CreateTask) o;
+        return Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
                 status == that.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, status);
+        return Objects.hash(name, description, status);
     }
 
     @Override
     public String toString() {
         return getClass().getSimpleName() + "{" +
-                "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", status=" + status +

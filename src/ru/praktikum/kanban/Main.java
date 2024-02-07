@@ -3,13 +3,14 @@ package ru.praktikum.kanban;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
 import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
-import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
+import ru.praktikum.kanban.model.dto.create.CreateSimpleTaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
+import ru.praktikum.kanban.model.dto.response.SimpleTaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.repository.impl.TaskRepositoryInMemory;
 import ru.praktikum.kanban.service.TaskManager;
+import ru.praktikum.kanban.service.impl.HistoryServiceImpl;
 import ru.praktikum.kanban.service.impl.InMemoryTaskManager;
 import ru.praktikum.kanban.util.IdentifierGenerator;
 import ru.praktikum.kanban.util.MappingUtils;
@@ -25,6 +26,7 @@ public class Main {
         TaskManager taskManager = new InMemoryTaskManager(
                 new IdentifierGenerator(),
                 new TaskRepositoryInMemory(),
+                new HistoryServiceImpl<>(),
                 new MappingUtils()
         );
 
@@ -53,8 +55,8 @@ public class Main {
         System.out.println(taskManager.getEpic(epic.getId()));
 
         System.out.println("Создана задача:");
-        TaskDto task = taskManager.createTask(
-                new CreateTaskDto("Опрос", "Пройти опрос после технического задания")
+        SimpleTaskDto task = taskManager.createTask(
+                new CreateSimpleTaskDto("Опрос", "Пройти опрос после технического задания")
         );
         System.out.println(taskManager.getAllTasks());
 

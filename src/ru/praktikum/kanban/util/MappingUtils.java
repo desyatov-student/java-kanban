@@ -4,21 +4,21 @@ import java.util.List;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
 import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
-import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
+import ru.praktikum.kanban.model.dto.create.CreateSimpleTaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
+import ru.praktikum.kanban.model.dto.response.SimpleTaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
 import ru.praktikum.kanban.model.entity.EpicEntity;
 import ru.praktikum.kanban.model.entity.SubtaskEntity;
-import ru.praktikum.kanban.model.entity.TaskEntity;
+import ru.praktikum.kanban.model.entity.SimpleTaskEntity;
 
 public class MappingUtils {
 
-    public TaskDto mapToTaskDto(TaskEntity entity){
-        TaskDto dto = new TaskDto(
+    public SimpleTaskDto mapToTaskDto(SimpleTaskEntity entity){
+        SimpleTaskDto dto = new SimpleTaskDto(
                 entity.getId(),
                 entity.name,
                 entity.description,
@@ -27,8 +27,8 @@ public class MappingUtils {
         return dto;
     }
 
-    public TaskEntity mapToTaskEntity(UpdateTaskDto updateTaskDto){
-        TaskEntity entity = new TaskEntity(
+    public SimpleTaskEntity mapToTaskEntity(UpdateTaskDto updateTaskDto){
+        SimpleTaskEntity entity = new SimpleTaskEntity(
                 updateTaskDto.getId(),
                 updateTaskDto.getName(),
                 updateTaskDto.getDescription(),
@@ -37,12 +37,12 @@ public class MappingUtils {
         return entity;
     }
 
-    public TaskEntity mapToTaskEntity(CreateTaskDto createTaskDto, int taskId){
-        TaskEntity entity = new TaskEntity(
+    public SimpleTaskEntity mapToTaskEntity(CreateSimpleTaskDto createSimpleTaskDto, int taskId){
+        SimpleTaskEntity entity = new SimpleTaskEntity(
                 taskId,
-                createTaskDto.getName(),
-                createTaskDto.getDescription(),
-                createTaskDto.getStatus()
+                createSimpleTaskDto.getName(),
+                createSimpleTaskDto.getDescription(),
+                createSimpleTaskDto.getStatus()
         );
         return entity;
     }

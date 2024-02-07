@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import ru.praktikum.kanban.model.entity.EpicEntity;
 import ru.praktikum.kanban.model.entity.SubtaskEntity;
-import ru.praktikum.kanban.model.entity.TaskEntity;
+import ru.praktikum.kanban.model.entity.SimpleTaskEntity;
 import ru.praktikum.kanban.repository.Repository;
 
 public class TaskRepositoryInMemory implements Repository {
-    private final HashMap<Integer, TaskEntity> tasks;
+    private final HashMap<Integer, SimpleTaskEntity> tasks;
     private final HashMap<Integer, EpicEntity> epics;
     private final HashMap<Integer, SubtaskEntity> subtasks;
 
@@ -22,15 +22,15 @@ public class TaskRepositoryInMemory implements Repository {
     // Task's methods
 
     @Override
-    public List<TaskEntity> getAllTasks() {
+    public List<SimpleTaskEntity> getAllTasks() {
         return new ArrayList<>(tasks.values());
     }
     @Override
-    public void saveTask(TaskEntity taskEntity) {
-        tasks.put(taskEntity.getId(), taskEntity);
+    public void saveTask(SimpleTaskEntity simpleTaskEntity) {
+        tasks.put(simpleTaskEntity.getId(), simpleTaskEntity);
     }
     @Override
-    public TaskEntity getTask(int taskId) {
+    public SimpleTaskEntity getTask(int taskId) {
         return tasks.get(taskId);
     }
     @Override

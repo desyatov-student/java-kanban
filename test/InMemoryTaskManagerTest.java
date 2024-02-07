@@ -3,15 +3,16 @@ import java.util.List;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
 import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
-import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
+import ru.praktikum.kanban.model.dto.create.CreateSimpleTaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
+import ru.praktikum.kanban.model.dto.response.SimpleTaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
 import ru.praktikum.kanban.repository.impl.TaskRepositoryInMemory;
 import ru.praktikum.kanban.service.TaskManager;
+import ru.praktikum.kanban.service.impl.HistoryServiceImpl;
 import ru.praktikum.kanban.util.IdentifierGenerator;
 import ru.praktikum.kanban.util.MappingUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -330,7 +331,7 @@ class InMemoryTaskManagerTest {
     @Test
     void createTask() {
 
-        TaskDto task = taskManager.createTask(CREATE_TASK);
+        SimpleTaskDto task = taskManager.createTask(CREATE_TASK);
         assertEquals(
                 List.of(
                         TASK(task.getId(), TaskStatus.NEW)
@@ -340,7 +341,7 @@ class InMemoryTaskManagerTest {
     }
     @Test
     void updateTask() {
-        TaskDto task = taskManager.createTask(CREATE_TASK);
+        SimpleTaskDto task = taskManager.createTask(CREATE_TASK);
         assertEquals(
                 List.of(
                         TASK(task.getId(), TaskStatus.NEW)
@@ -357,8 +358,8 @@ class InMemoryTaskManagerTest {
 
     @Test
     void removeTask() {
-        TaskDto task1 = taskManager.createTask(CREATE_TASK);
-        TaskDto task2 = taskManager.createTask(CREATE_TASK);
+        SimpleTaskDto task1 = taskManager.createTask(CREATE_TASK);
+        SimpleTaskDto task2 = taskManager.createTask(CREATE_TASK);
         assertEquals(
                 List.of(
                         TASK(task1.getId(), TaskStatus.NEW),
@@ -378,8 +379,8 @@ class InMemoryTaskManagerTest {
 
     @Test
     void removeAllTask() {
-        TaskDto task1 = taskManager.createTask(CREATE_TASK);
-        TaskDto task2 = taskManager.createTask(CREATE_TASK);
+        SimpleTaskDto task1 = taskManager.createTask(CREATE_TASK);
+        SimpleTaskDto task2 = taskManager.createTask(CREATE_TASK);
         assertEquals(
                 List.of(
                         TASK(task1.getId(), TaskStatus.NEW),
@@ -403,14 +404,15 @@ class InMemoryTaskManagerTest {
     private EpicDto EPIC(int id, TaskStatus status, List<SubtaskDto> subtasks) { return EPIC(id, "name", status, subtasks); }
     private EpicDto EPIC(int id, String name, TaskStatus status, List<SubtaskDto> subtasks) { return new EpicDto(id, name, "desc", status, subtasks); }
 
-    private final CreateTaskDto CREATE_TASK = new CreateTaskDto("name", "desc");
+    private final CreateSimpleTaskDto CREATE_TASK = new CreateSimpleTaskDto("name", "desc");
     private UpdateTaskDto UPDATE_TASK(int id, TaskStatus status) { return new UpdateTaskDto(id, "name", "desc", status); }
-    private TaskDto TASK(int id, TaskStatus status) { return new TaskDto(id, "name", "desc", status); }
+    private SimpleTaskDto TASK(int id, TaskStatus status) { return new SimpleTaskDto(id, "name", "desc", status); }
 
     private InMemoryTaskManager createTaskManagerService() {
         return new InMemoryTaskManager(
                 new IdentifierGenerator(),
                 new TaskRepositoryInMemory(),
+                new HistoryServiceImpl<>(),
                 new MappingUtils()
         );
     }

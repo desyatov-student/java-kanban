@@ -2,7 +2,7 @@ package ru.praktikum.kanban.model.entity;
 
 import ru.praktikum.kanban.model.TaskStatus;
 
-public class SubtaskEntity extends BaseTaskEntity {
+public class SubtaskEntity extends TaskEntity {
 
     int epicId;
 

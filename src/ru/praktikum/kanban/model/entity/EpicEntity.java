@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import ru.praktikum.kanban.model.TaskStatus;
 
-public class EpicEntity extends BaseTaskEntity {
+public class EpicEntity extends TaskEntity {
 
     public List<Integer> subtasks = new ArrayList<>();
 
