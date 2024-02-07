@@ -17,7 +17,7 @@ import ru.praktikum.kanban.model.entity.EpicEntity;
 import ru.praktikum.kanban.model.entity.SubtaskEntity;
 import ru.praktikum.kanban.model.entity.SimpleTaskEntity;
 import ru.praktikum.kanban.repository.Repository;
-import ru.praktikum.kanban.service.HistoryService;
+import ru.praktikum.kanban.service.HistoryManager;
 import ru.praktikum.kanban.service.TaskManager;
 import ru.praktikum.kanban.util.IdentifierGenerator;
 import ru.praktikum.kanban.util.MappingUtils;
@@ -25,18 +25,18 @@ import ru.praktikum.kanban.util.MappingUtils;
 public class InMemoryTaskManager implements TaskManager {
     private final IdentifierGenerator identifierGenerator;
     private final Repository repository;
-    private final HistoryService<TaskDto> historyService;
+    private final HistoryManager<TaskDto> historyManager;
     private final MappingUtils mappingUtils;
 
     public InMemoryTaskManager(
             IdentifierGenerator identifierGenerator,
             Repository repository,
-            HistoryService<TaskDto> historyService,
+            HistoryManager<TaskDto> historyManager,
             MappingUtils mappingUtils
     ) {
         this.identifierGenerator = identifierGenerator;
         this.repository = repository;
-        this.historyService = historyService;
+        this.historyManager = historyManager;
         this.mappingUtils = mappingUtils;
     }
 
@@ -70,7 +70,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public SimpleTaskDto getTask(int taskId) {
         SimpleTaskDto simpleTaskDto = mappingUtils.mapToTaskDto(repository.getTask(taskId));
-        historyService.addTask(simpleTaskDto);
+        historyManager.addTask(simpleTaskDto);
         return simpleTaskDto;
     }
 
@@ -98,7 +98,7 @@ public class InMemoryTaskManager implements TaskManager {
     public EpicDto getEpic(int epicId) {
         EpicEntity epicEntity = repository.getEpic(epicId);
         EpicDto epicDto = getEpicWithEpicEntity(epicEntity);
-        historyService.addTask(epicDto);
+        historyManager.addTask(epicDto);
         return epicDto;
     }
 
@@ -140,7 +140,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public SubtaskDto getSubtask(int subtaskId) {
         SubtaskDto subtaskDto = mappingUtils.mapToSubtaskDto(repository.getSubtask(subtaskId));
-        historyService.addTask(subtaskDto);
+        historyManager.addTask(subtaskDto);
         return subtaskDto;
     }
 
@@ -196,7 +196,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<TaskDto> getHistory() {
-        return historyService.getHistory();
+        return historyManager.getHistory();
     }
 
     // Helpers

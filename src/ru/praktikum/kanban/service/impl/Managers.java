@@ -11,7 +11,7 @@ public class Managers {
         return new InMemoryTaskManager(
                 new IdentifierGenerator(),
                 new TaskRepositoryInMemory(),
-                new HistoryServiceImpl<>(),
+                new InMemoryHistoryManager<>(),
                 new MappingUtils()
         );
     }
