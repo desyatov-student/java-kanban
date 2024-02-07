@@ -6,6 +6,6 @@ public interface HistoryManager<T> {
 
     List<T> getHistory();
 
-    void addTask(T object);
+    void add(T object);
 
 }

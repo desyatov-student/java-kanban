@@ -70,7 +70,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public SimpleTaskDto getTask(int taskId) {
         SimpleTaskDto simpleTaskDto = mappingUtils.mapToTaskDto(repository.getTask(taskId));
-        historyManager.addTask(simpleTaskDto);
+        historyManager.add(simpleTaskDto);
         return simpleTaskDto;
     }
 
@@ -98,7 +98,7 @@ public class InMemoryTaskManager implements TaskManager {
     public EpicDto getEpic(int epicId) {
         EpicEntity epicEntity = repository.getEpic(epicId);
         EpicDto epicDto = getEpicWithEpicEntity(epicEntity);
-        historyManager.addTask(epicDto);
+        historyManager.add(epicDto);
         return epicDto;
     }
 
@@ -140,7 +140,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public SubtaskDto getSubtask(int subtaskId) {
         SubtaskDto subtaskDto = mappingUtils.mapToSubtaskDto(repository.getSubtask(subtaskId));
-        historyManager.addTask(subtaskDto);
+        historyManager.add(subtaskDto);
         return subtaskDto;
     }
 

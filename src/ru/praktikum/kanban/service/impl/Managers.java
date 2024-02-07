@@ -19,6 +19,6 @@ public class Managers {
     }
 
     static public HistoryManager<TaskDto> getDefaultHistory() {
-        return new InMemoryHistoryManager<>();
+        return new InMemoryHistoryManager<>(InMemoryHistoryManager.DEFAULT_MAX_SIZE);
     }
 }

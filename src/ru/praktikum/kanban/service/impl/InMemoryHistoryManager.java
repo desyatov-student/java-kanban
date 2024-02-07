@@ -6,12 +6,14 @@ import ru.praktikum.kanban.service.HistoryManager;
 
 public class InMemoryHistoryManager<T> implements HistoryManager<T> {
 
-    static int MAX_NUMBER_OF_ELEMENTS = 10;
+    public static int DEFAULT_MAX_SIZE = 10;
 
     private final ArrayList<T> tasks;
+    private final int maxSize;
 
-    public InMemoryHistoryManager() {
+    public InMemoryHistoryManager(int maxSize) {
         this.tasks = new ArrayList<>();
+        this.maxSize = maxSize;
     }
 
     @Override
@@ -20,8 +22,8 @@ public class InMemoryHistoryManager<T> implements HistoryManager<T> {
     }
 
     @Override
-    public void addTask(T object) {
-        if (tasks.size() == MAX_NUMBER_OF_ELEMENTS) {
+    public void add(T object) {
+        if (tasks.size() == maxSize) {
             tasks.remove(0);
         }
         tasks.add(object);
