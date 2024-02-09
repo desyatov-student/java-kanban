@@ -4,21 +4,21 @@ import java.util.List;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
 import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
-import ru.praktikum.kanban.model.dto.create.CreateSimpleTaskDto;
+import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.dto.response.SimpleTaskDto;
+import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
 import ru.praktikum.kanban.model.entity.EpicEntity;
-import ru.praktikum.kanban.model.entity.SubtaskEntity;
-import ru.praktikum.kanban.model.entity.SimpleTaskEntity;
+import ru.praktikum.kanban.model.entity.SubtaskEntityBase;
+import ru.praktikum.kanban.model.entity.TaskEntity;
 
 public class MappingUtils {
 
-    static public SimpleTaskDto mapToTaskDto(SimpleTaskEntity entity){
-        SimpleTaskDto dto = new SimpleTaskDto(
+    static public TaskDto mapToTaskDto(TaskEntity entity){
+        TaskDto dto = new TaskDto(
                 entity.getId(),
                 entity.name,
                 entity.description,
@@ -27,8 +27,8 @@ public class MappingUtils {
         return dto;
     }
 
-    static public SimpleTaskEntity mapToTaskEntity(UpdateTaskDto updateTaskDto){
-        SimpleTaskEntity entity = new SimpleTaskEntity(
+    static public TaskEntity mapToTaskEntity(UpdateTaskDto updateTaskDto){
+        TaskEntity entity = new TaskEntity(
                 updateTaskDto.getId(),
                 updateTaskDto.getName(),
                 updateTaskDto.getDescription(),
@@ -37,12 +37,12 @@ public class MappingUtils {
         return entity;
     }
 
-    static public SimpleTaskEntity mapToTaskEntity(CreateSimpleTaskDto createSimpleTaskDto, int taskId){
-        SimpleTaskEntity entity = new SimpleTaskEntity(
+    static public TaskEntity mapToTaskEntity(CreateTaskDto createTaskDto, int taskId){
+        TaskEntity entity = new TaskEntity(
                 taskId,
-                createSimpleTaskDto.getName(),
-                createSimpleTaskDto.getDescription(),
-                createSimpleTaskDto.getStatus()
+                createTaskDto.getName(),
+                createTaskDto.getDescription(),
+                createTaskDto.getStatus()
         );
         return entity;
     }
@@ -74,7 +74,7 @@ public class MappingUtils {
         return epicEntity;
     }
 
-    static public SubtaskDto mapToSubtaskDto(SubtaskEntity subtaskEntity){
+    static public SubtaskDto mapToSubtaskDto(SubtaskEntityBase subtaskEntity){
         SubtaskDto dto = new SubtaskDto(
                 subtaskEntity.getId(),
                 subtaskEntity.name,
@@ -84,15 +84,15 @@ public class MappingUtils {
         return dto;
     }
 
-    static public SubtaskEntity updateSubtaskEntity(SubtaskEntity subtaskEntity, UpdateSubtaskDto updateSubtaskDto){
+    static public SubtaskEntityBase updateSubtaskEntity(SubtaskEntityBase subtaskEntity, UpdateSubtaskDto updateSubtaskDto){
         subtaskEntity.name = updateSubtaskDto.getName();
         subtaskEntity.description = updateSubtaskDto.getDescription();
         subtaskEntity.status = updateSubtaskDto.getStatus();
         return subtaskEntity;
     }
 
-    static public SubtaskEntity mapToSubtaskEntity(CreateSubtaskDto createSubtaskDto, int subtaskId){
-        SubtaskEntity entity = new SubtaskEntity(
+    static public SubtaskEntityBase mapToSubtaskEntity(CreateSubtaskDto createSubtaskDto, int subtaskId){
+        SubtaskEntityBase entity = new SubtaskEntityBase(
                 subtaskId,
                 createSubtaskDto.getName(),
                 createSubtaskDto.getDescription(),

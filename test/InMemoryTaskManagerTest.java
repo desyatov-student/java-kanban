@@ -4,11 +4,11 @@ import java.util.List;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
 import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
-import ru.praktikum.kanban.model.dto.create.CreateSimpleTaskDto;
+import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.dto.response.SimpleTaskDto;
 import ru.praktikum.kanban.model.dto.response.TaskDto;
+import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
@@ -330,7 +330,7 @@ class InMemoryTaskManagerTest {
     @Test
     void createTask() {
 
-        SimpleTaskDto task = taskManager.createTask(CREATE_TASK);
+        TaskDto task = taskManager.createTask(CREATE_TASK);
         assertEquals(
                 List.of(
                         TASK(task.getId(), TaskStatus.NEW)
@@ -340,7 +340,7 @@ class InMemoryTaskManagerTest {
     }
     @Test
     void updateTask() {
-        SimpleTaskDto task = taskManager.createTask(CREATE_TASK);
+        TaskDto task = taskManager.createTask(CREATE_TASK);
         assertEquals(
                 List.of(
                         TASK(task.getId(), TaskStatus.NEW)
@@ -357,8 +357,8 @@ class InMemoryTaskManagerTest {
 
     @Test
     void removeTask() {
-        SimpleTaskDto task1 = taskManager.createTask(CREATE_TASK);
-        SimpleTaskDto task2 = taskManager.createTask(CREATE_TASK);
+        TaskDto task1 = taskManager.createTask(CREATE_TASK);
+        TaskDto task2 = taskManager.createTask(CREATE_TASK);
         assertEquals(
                 List.of(
                         TASK(task1.getId(), TaskStatus.NEW),
@@ -378,8 +378,8 @@ class InMemoryTaskManagerTest {
 
     @Test
     void removeAllTask() {
-        SimpleTaskDto task1 = taskManager.createTask(CREATE_TASK);
-        SimpleTaskDto task2 = taskManager.createTask(CREATE_TASK);
+        TaskDto task1 = taskManager.createTask(CREATE_TASK);
+        TaskDto task2 = taskManager.createTask(CREATE_TASK);
         assertEquals(
                 List.of(
                         TASK(task1.getId(), TaskStatus.NEW),
@@ -398,20 +398,20 @@ class InMemoryTaskManagerTest {
     @Test
     void getHistory() {
         EpicDto epicDto = taskManager.createEpic(CREATE_EPIC());
-        SimpleTaskDto simpleTaskDto = taskManager.createTask(CREATE_TASK);
+        TaskDto taskDto = taskManager.createTask(CREATE_TASK);
         SubtaskDto subtaskDto = taskManager.createSubtask(CREATE_SUBTASK(), epicDto.getId());
 
         taskManager.getSubtask(subtaskDto.getId());
         taskManager.getEpic(epicDto.getId());
-        taskManager.getTask(simpleTaskDto.getId());
+        taskManager.getTask(taskDto.getId());
         taskManager.getSubtask(subtaskDto.getId());
 
-        final List<TaskDto> history = taskManager.getHistory();
+        final List<BaseTaskDto> history = taskManager.getHistory();
         assertEquals(
                 List.of(
                         subtaskDto,
                         EPIC(epicDto.getId(), TaskStatus.NEW, List.of(subtaskDto)),
-                        simpleTaskDto,
+                        taskDto,
                         subtaskDto
                 ),
                 history
@@ -421,7 +421,7 @@ class InMemoryTaskManagerTest {
     @Test
     void shouldHistorySizeIs10() {
 
-        final ArrayList<TaskDto> expected = new ArrayList<>();
+        final ArrayList<BaseTaskDto> expected = new ArrayList<>();
 
         for (int i = 1; i <= 12; i++) {
             EpicDto epicDto = taskManager.createEpic(new CreateEpicDto("", ""));
@@ -434,7 +434,7 @@ class InMemoryTaskManagerTest {
             taskManager.getEpic(i);
         }
 
-        final List<TaskDto> history = taskManager.getHistory();
+        final List<BaseTaskDto> history = taskManager.getHistory();
         assertEquals(InMemoryHistoryManager.DEFAULT_MAX_SIZE, history.size());
         assertEquals(expected, history);
     }
@@ -447,7 +447,7 @@ class InMemoryTaskManagerTest {
     private EpicDto EPIC(int id, TaskStatus status, List<SubtaskDto> subtasks) { return EPIC(id, "name", status, subtasks); }
     private EpicDto EPIC(int id, String name, TaskStatus status, List<SubtaskDto> subtasks) { return new EpicDto(id, name, "desc", status, subtasks); }
 
-    private final CreateSimpleTaskDto CREATE_TASK = new CreateSimpleTaskDto("name", "desc");
+    private final CreateTaskDto CREATE_TASK = new CreateTaskDto("name", "desc");
     private UpdateTaskDto UPDATE_TASK(int id, TaskStatus status) { return new UpdateTaskDto(id, "name", "desc", status); }
-    private SimpleTaskDto TASK(int id, TaskStatus status) { return new SimpleTaskDto(id, "name", "desc", status); }
+    private TaskDto TASK(int id, TaskStatus status) { return new TaskDto(id, "name", "desc", status); }
 }

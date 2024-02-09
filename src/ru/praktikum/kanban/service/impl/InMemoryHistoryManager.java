@@ -1,31 +1,40 @@
 package ru.praktikum.kanban.service.impl;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 import ru.praktikum.kanban.service.HistoryManager;
 
-public class InMemoryHistoryManager<T> implements HistoryManager<T> {
+public class InMemoryHistoryManager implements HistoryManager {
 
     public static int DEFAULT_MAX_SIZE = 10;
 
-    private final ArrayList<T> tasks;
+    private final LinkedList<BaseTaskEntity> history;
     private final int maxSize;
 
     public InMemoryHistoryManager(int maxSize) {
-        this.tasks = new ArrayList<>();
+        this.history = new LinkedList<>();
         this.maxSize = maxSize;
     }
 
-    @Override
-    public List<T> getHistory() {
-        return tasks;
+    public InMemoryHistoryManager() {
+        this(DEFAULT_MAX_SIZE);
     }
 
     @Override
-    public void add(T object) {
-        if (tasks.size() == maxSize) {
-            tasks.remove(0);
+    public List<BaseTaskEntity> getHistory() {
+        return new ArrayList<>(history);
+    }
+
+    @Override
+    public void add(BaseTaskEntity object) {
+        if (object == null) {
+            return;
         }
-        tasks.add(object);
+        if (history.size() == maxSize) {
+            history.remove(0);
+        }
+        history.add(object);
     }
 }

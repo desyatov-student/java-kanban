@@ -3,11 +3,11 @@ package ru.praktikum.kanban.service;
 import java.util.List;
 import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
 import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
-import ru.praktikum.kanban.model.dto.create.CreateSimpleTaskDto;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
+import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
+import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.dto.response.SimpleTaskDto;
+import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
@@ -15,13 +15,13 @@ import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
 public interface TaskManager {
 
     // Task's methods
-    List<SimpleTaskDto> getAllTasks();
+    List<TaskDto> getAllTasks();
 
-    SimpleTaskDto createTask(CreateSimpleTaskDto createSimpleTaskDto);
+    TaskDto createTask(CreateTaskDto createTaskDto);
 
-    SimpleTaskDto updateTask(UpdateTaskDto updateTaskDto);
+    TaskDto updateTask(UpdateTaskDto updateTaskDto);
 
-    SimpleTaskDto getTask(int taskId);
+    TaskDto getTask(int taskId);
 
     void removeTask(int taskId);
 
@@ -59,5 +59,5 @@ public interface TaskManager {
 
     // History's methods
 
-    List<TaskDto> getHistory();
+    List<BaseTaskDto> getHistory();
 }

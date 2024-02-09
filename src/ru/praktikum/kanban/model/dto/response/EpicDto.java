@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Objects;
 import ru.praktikum.kanban.model.TaskStatus;
 
-public class EpicDto extends TaskDto {
+public class EpicDto extends BaseTaskDto {
 
-    private List<SubtaskDto> subtasks;
+    private final List<SubtaskDto> subtasks;
 
     public List<SubtaskDto> getSubtasks() {
         return subtasks;

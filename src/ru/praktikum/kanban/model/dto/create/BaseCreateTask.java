@@ -3,7 +3,7 @@ package ru.praktikum.kanban.model.dto.create;
 import java.util.Objects;
 import ru.praktikum.kanban.model.TaskStatus;
 
-public abstract class CreateTask {
+public abstract class BaseCreateTask {
     private String name;
     private String description;
     private TaskStatus status;
@@ -18,7 +18,7 @@ public abstract class CreateTask {
         return status;
     }
 
-    public CreateTask(String name, String description) {
+    public BaseCreateTask(String name, String description) {
         this.name = name;
         this.description = description;
         this.status = TaskStatus.NEW;
@@ -28,7 +28,7 @@ public abstract class CreateTask {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CreateTask that = (CreateTask) o;
+        BaseCreateTask that = (BaseCreateTask) o;
         return Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
                 status == that.status;
