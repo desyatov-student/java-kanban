@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.entity.EpicEntity;
 import ru.praktikum.kanban.model.entity.TaskEntity;
-import ru.praktikum.kanban.model.entity.SubtaskEntityBase;
+import ru.praktikum.kanban.model.entity.SubtaskEntity;
 import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 import ru.praktikum.kanban.service.HistoryManager;
 import ru.praktikum.kanban.service.impl.InMemoryHistoryManager;
@@ -24,7 +24,7 @@ class InMemoryHistoryManagerTest {
 
     @Test
     void getHistory() {
-        SubtaskEntityBase subtask = new SubtaskEntityBase(1, "", "", TaskStatus.NEW);
+        SubtaskEntity subtask = new SubtaskEntity(1, "", "", TaskStatus.NEW);
         EpicEntity epic = new EpicEntity(1, "", "", TaskStatus.NEW);
         TaskEntity simpleTaskDto = new TaskEntity(1, "", "", TaskStatus.NEW);
 

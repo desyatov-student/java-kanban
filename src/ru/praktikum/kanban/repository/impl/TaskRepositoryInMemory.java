@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import ru.praktikum.kanban.model.entity.EpicEntity;
-import ru.praktikum.kanban.model.entity.SubtaskEntityBase;
+import ru.praktikum.kanban.model.entity.SubtaskEntity;
 import ru.praktikum.kanban.model.entity.TaskEntity;
 import ru.praktikum.kanban.repository.Repository;
 
 public class TaskRepositoryInMemory implements Repository {
     private final HashMap<Integer, TaskEntity> tasks;
     private final HashMap<Integer, EpicEntity> epics;
-    private final HashMap<Integer, SubtaskEntityBase> subtasks;
+    private final HashMap<Integer, SubtaskEntity> subtasks;
 
     public TaskRepositoryInMemory() {
         this.tasks = new HashMap<>();
@@ -57,7 +57,7 @@ public class TaskRepositoryInMemory implements Repository {
         epics.put(epicEntity.getId(), epicEntity);
     }
     @Override
-    public void saveSubtask(SubtaskEntityBase subtaskEntity) {
+    public void saveSubtask(SubtaskEntity subtaskEntity) {
         subtasks.put(subtaskEntity.getId(), subtaskEntity);
     }
     @Override
@@ -76,11 +76,11 @@ public class TaskRepositoryInMemory implements Repository {
     // Subtask's methods
 
     @Override
-    public List<SubtaskEntityBase> getAllSubtasks() {
+    public List<SubtaskEntity> getAllSubtasks() {
         return new ArrayList<>(subtasks.values());
     }
     @Override
-    public SubtaskEntityBase getSubtask(int subtaskId) {
+    public SubtaskEntity getSubtask(int subtaskId) {
         return subtasks.get(subtaskId);
     }
     @Override

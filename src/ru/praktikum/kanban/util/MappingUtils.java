@@ -12,7 +12,7 @@ import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
 import ru.praktikum.kanban.model.entity.EpicEntity;
-import ru.praktikum.kanban.model.entity.SubtaskEntityBase;
+import ru.praktikum.kanban.model.entity.SubtaskEntity;
 import ru.praktikum.kanban.model.entity.TaskEntity;
 
 public class MappingUtils {
@@ -74,7 +74,7 @@ public class MappingUtils {
         return epicEntity;
     }
 
-    static public SubtaskDto mapToSubtaskDto(SubtaskEntityBase subtaskEntity){
+    static public SubtaskDto mapToSubtaskDto(SubtaskEntity subtaskEntity){
         SubtaskDto dto = new SubtaskDto(
                 subtaskEntity.getId(),
                 subtaskEntity.name,
@@ -84,15 +84,15 @@ public class MappingUtils {
         return dto;
     }
 
-    static public SubtaskEntityBase updateSubtaskEntity(SubtaskEntityBase subtaskEntity, UpdateSubtaskDto updateSubtaskDto){
+    static public SubtaskEntity updateSubtaskEntity(SubtaskEntity subtaskEntity, UpdateSubtaskDto updateSubtaskDto){
         subtaskEntity.name = updateSubtaskDto.getName();
         subtaskEntity.description = updateSubtaskDto.getDescription();
         subtaskEntity.status = updateSubtaskDto.getStatus();
         return subtaskEntity;
     }
 
-    static public SubtaskEntityBase mapToSubtaskEntity(CreateSubtaskDto createSubtaskDto, int subtaskId){
-        SubtaskEntityBase entity = new SubtaskEntityBase(
+    static public SubtaskEntity mapToSubtaskEntity(CreateSubtaskDto createSubtaskDto, int subtaskId){
+        SubtaskEntity entity = new SubtaskEntity(
                 subtaskId,
                 createSubtaskDto.getName(),
                 createSubtaskDto.getDescription(),

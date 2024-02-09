@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 import ru.praktikum.kanban.model.entity.EpicEntity;
-import ru.praktikum.kanban.model.entity.SubtaskEntityBase;
+import ru.praktikum.kanban.model.entity.SubtaskEntity;
 import ru.praktikum.kanban.model.entity.TaskEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,19 +37,19 @@ public class EntityTest {
                         true
                 ),
                 Arguments.of(
-                        new SubtaskEntityBase(1, "", "", TaskStatus.NEW),
+                        new SubtaskEntity(1, "", "", TaskStatus.NEW),
                         new EpicEntity(1, "1", "1", TaskStatus.DONE),
                         true
                 ),
                 Arguments.of(
-                        new SubtaskEntityBase(1, "", "", TaskStatus.NEW),
+                        new SubtaskEntity(1, "", "", TaskStatus.NEW),
                         new TaskEntity(1, "1", "1", TaskStatus.DONE),
                         true
                 )
                 ,
                 Arguments.of(
-                        new SubtaskEntityBase(1, "", "", TaskStatus.NEW),
-                        new SubtaskEntityBase(2, "", "", TaskStatus.NEW),
+                        new SubtaskEntity(1, "", "", TaskStatus.NEW),
+                        new SubtaskEntity(2, "", "", TaskStatus.NEW),
                         false
                 )
         );
