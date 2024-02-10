@@ -25,21 +25,17 @@ public class Main {
                 new CreateEpicDto("Техническое задание", "Технические задание 4 спринта")
         );
         SubtaskDto subtask1 = taskManager.createSubtask(
-                new CreateSubtaskDto("Проектирование", "Спроектировать хранение данных"),
-                epic.getId()
+                new CreateSubtaskDto("Проектирование", "Спроектировать хранение данных", epic.getId())
         );
         SubtaskDto subtask2 = taskManager.createSubtask(
-                new CreateSubtaskDto("Тест", "Написать тесты заглушки"),
-                epic.getId()
+                new CreateSubtaskDto("Тест", "Написать тесты заглушки", epic.getId())
         );
         SubtaskDto subtask3 = taskManager.createSubtask(
-                new CreateSubtaskDto("Тест", "Написать тесты заглушки"),
-                epic.getId()
+                new CreateSubtaskDto("Тест", "Написать тесты заглушки", epic.getId())
         );
 
         SubtaskDto subtask4 = taskManager.createSubtask(
-                new CreateSubtaskDto("Код", "Написать код"),
-                epic.getId()
+                new CreateSubtaskDto("Код", "Написать код", epic.getId())
         );
 
         System.out.println("Создан новый эпик с подзадачами:");

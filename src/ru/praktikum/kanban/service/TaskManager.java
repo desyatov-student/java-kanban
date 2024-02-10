@@ -49,7 +49,7 @@ public interface TaskManager {
 
     List<SubtaskDto> getSubtasksWithEpicId(int epicId);
 
-    SubtaskDto createSubtask(CreateSubtaskDto subtaskDto, int epicId);
+    SubtaskDto createSubtask(CreateSubtaskDto subtaskDto);
 
     SubtaskDto updateSubtask(UpdateSubtaskDto updateSubtaskDto);
 

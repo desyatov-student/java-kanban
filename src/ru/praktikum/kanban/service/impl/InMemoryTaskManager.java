@@ -167,7 +167,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public SubtaskDto createSubtask(CreateSubtaskDto subtaskDto, int epicId) {
+    public SubtaskDto createSubtask(CreateSubtaskDto subtaskDto) {
+        int epicId = subtaskDto.getEpicId();
         SubtaskEntity subtaskEntity = MappingUtils.mapToSubtaskEntity(subtaskDto, getNextTaskId());
         subtaskEntity.setEpicId(epicId);
         repository.saveSubtask(subtaskEntity);
