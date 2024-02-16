@@ -3,6 +3,9 @@
 
 ### IntelliJ IDEA ###
 .idea
+.DS_Store
+/target
+/*/target
 
 # Log file
 *.log
