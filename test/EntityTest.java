@@ -3,11 +3,11 @@ import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
-import ru.praktikum.kanban.model.entity.EpicEntity;
-import ru.praktikum.kanban.model.entity.SubtaskEntity;
-import ru.praktikum.kanban.model.entity.TaskEntity;
+import main.java.ru.praktikum.kanban.model.TaskStatus;
+import main.java.ru.praktikum.kanban.model.entity.BaseTaskEntity;
+import main.java.ru.praktikum.kanban.model.entity.EpicEntity;
+import main.java.ru.praktikum.kanban.model.entity.SubtaskEntity;
+import main.java.ru.praktikum.kanban.model.entity.TaskEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;

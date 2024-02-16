@@ -1,11 +1,11 @@
 
 import java.util.ArrayList;
 import java.util.List;
-import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
-import ru.praktikum.kanban.model.dto.response.EpicDto;
-import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
+import main.java.ru.praktikum.kanban.model.dto.response.BaseTaskDto;
+import main.java.ru.praktikum.kanban.model.dto.response.EpicDto;
+import main.java.ru.praktikum.kanban.model.dto.response.SubtaskDto;
+import main.java.ru.praktikum.kanban.model.TaskStatus;
+import main.java.ru.praktikum.kanban.model.dto.response.TaskDto;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,12 +1,12 @@
 import org.junit.jupiter.api.Test;
-import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
-import ru.praktikum.kanban.model.entity.EpicEntity;
-import ru.praktikum.kanban.model.entity.TaskEntity;
-import ru.praktikum.kanban.util.EntityMapper;
-import ru.praktikum.kanban.util.MappingUtils;
+import main.java.ru.praktikum.kanban.model.TaskStatus;
+import main.java.ru.praktikum.kanban.model.dto.response.BaseTaskDto;
+import main.java.ru.praktikum.kanban.model.dto.response.TaskDto;
+import main.java.ru.praktikum.kanban.model.entity.BaseTaskEntity;
+import main.java.ru.praktikum.kanban.model.entity.EpicEntity;
+import main.java.ru.praktikum.kanban.model.entity.TaskEntity;
+import main.java.ru.praktikum.kanban.util.EntityMapper;
+import main.java.ru.praktikum.kanban.util.MappingUtils;
 
 import static org.junit.jupiter.api.Assertions.*;
 

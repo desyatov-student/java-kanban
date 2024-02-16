@@ -2,14 +2,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.entity.EpicEntity;
-import ru.praktikum.kanban.model.entity.TaskEntity;
-import ru.praktikum.kanban.model.entity.SubtaskEntity;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
-import ru.praktikum.kanban.service.HistoryManager;
-import ru.praktikum.kanban.service.impl.InMemoryHistoryManager;
-import ru.praktikum.kanban.service.impl.Managers;
+import main.java.ru.praktikum.kanban.model.TaskStatus;
+import main.java.ru.praktikum.kanban.model.entity.EpicEntity;
+import main.java.ru.praktikum.kanban.model.entity.TaskEntity;
+import main.java.ru.praktikum.kanban.model.entity.SubtaskEntity;
+import main.java.ru.praktikum.kanban.model.entity.BaseTaskEntity;
+import main.java.ru.praktikum.kanban.service.HistoryManager;
+import main.java.ru.praktikum.kanban.service.impl.InMemoryHistoryManager;
+import main.java.ru.praktikum.kanban.service.impl.Managers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

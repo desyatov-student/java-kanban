@@ -1,0 +1,4 @@
+main/java/ru/praktikum/kanban/Main.class
+main/java/ru/praktikum/kanban/service/impl/InMemoryTaskManager$1.class
+main/java/ru/praktikum/kanban/service/impl/Managers.class
+main/java/ru/praktikum/kanban/service/impl/InMemoryTaskManager.class

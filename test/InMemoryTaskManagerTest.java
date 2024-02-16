@@ -1,20 +1,20 @@
 
 import java.util.ArrayList;
 import java.util.List;
-import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
-import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
-import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
-import ru.praktikum.kanban.model.dto.response.EpicDto;
-import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
-import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
-import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
-import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
-import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
-import ru.praktikum.kanban.service.TaskManager;
-import ru.praktikum.kanban.service.impl.InMemoryHistoryManager;
-import ru.praktikum.kanban.service.impl.Managers;
+import main.java.ru.praktikum.kanban.model.TaskStatus;
+import main.java.ru.praktikum.kanban.model.dto.create.CreateEpicDto;
+import main.java.ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
+import main.java.ru.praktikum.kanban.model.dto.create.CreateTaskDto;
+import main.java.ru.praktikum.kanban.model.dto.response.EpicDto;
+import main.java.ru.praktikum.kanban.model.dto.response.SubtaskDto;
+import main.java.ru.praktikum.kanban.model.dto.response.TaskDto;
+import main.java.ru.praktikum.kanban.model.dto.response.BaseTaskDto;
+import main.java.ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
+import main.java.ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
+import main.java.ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
+import main.java.ru.praktikum.kanban.service.TaskManager;
+import main.java.ru.praktikum.kanban.service.impl.InMemoryHistoryManager;
+import main.java.ru.praktikum.kanban.service.impl.Managers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
