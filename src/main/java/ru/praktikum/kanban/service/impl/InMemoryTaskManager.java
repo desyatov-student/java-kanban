@@ -21,7 +21,7 @@ import ru.praktikum.kanban.repository.Repository;
 import ru.praktikum.kanban.repository.impl.TaskRepositoryInMemory;
 import ru.praktikum.kanban.service.HistoryManager;
 import ru.praktikum.kanban.service.TaskManager;
-import ru.praktikum.kanban.util.EntityMapper;
+import ru.praktikum.kanban.util.AbstractMapper;
 import ru.praktikum.kanban.util.IdentifierGenerator;
 import ru.praktikum.kanban.util.MappingUtils;
 
@@ -29,7 +29,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final IdentifierGenerator identifierGenerator;
     private final Repository repository;
     private final HistoryManager historyManager;
-    private EntityMapper<BaseTaskEntity, BaseTaskDto> entityMapper;
+    private final AbstractMapper<BaseTaskEntity, BaseTaskDto> abstractMapper;
 
     public InMemoryTaskManager(
             IdentifierGenerator identifierGenerator,
@@ -39,11 +39,11 @@ public class InMemoryTaskManager implements TaskManager {
         this.identifierGenerator = identifierGenerator;
         this.repository = repository;
         this.historyManager = historyManager;
-        this.entityMapper = new EntityMapper<>();
+        this.abstractMapper = new AbstractMapper<>();
 
-        entityMapper.put(TaskEntity.class, value -> MappingUtils.mapToTaskDto((TaskEntity) value));
-        entityMapper.put(SubtaskEntity.class, value -> MappingUtils.mapToSubtaskDto((SubtaskEntity) value));
-        entityMapper.put(EpicEntity.class, value -> this.getEpicDtoWithEpicEntity((EpicEntity) value));
+        abstractMapper.put(TaskEntity.class, value -> MappingUtils.mapToTaskDto((TaskEntity) value));
+        abstractMapper.put(SubtaskEntity.class, value -> MappingUtils.mapToSubtaskDto((SubtaskEntity) value));
+        abstractMapper.put(EpicEntity.class, value -> this.getEpicDtoWithEpicEntity((EpicEntity) value));
 
     }
 
@@ -211,7 +211,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<BaseTaskDto> getHistory() {
         return historyManager.getHistory().stream()
-                .map(entityMapper::mapToTaskDto)
+                .map(abstractMapper::tryMap)
                 .collect(Collectors.toList());
     }
 
