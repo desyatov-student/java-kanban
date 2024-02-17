@@ -2,7 +2,7 @@ package ru.praktikum.kanban.util;
 
 public class IdentifierGenerator {
 
-    public final static int INITIAL_IDENTIFIER = 1;
+    public static final int INITIAL_IDENTIFIER = 1;
     private int currentId;
 
     public IdentifierGenerator() {

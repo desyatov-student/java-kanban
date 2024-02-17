@@ -24,7 +24,7 @@ public class Main {
         EpicDto epic = taskManager.createEpic(
                 new CreateEpicDto("Техническое задание", "Технические задание 4 спринта")
         );
-        SubtaskDto subtask1 = taskManager.createSubtask(
+        final SubtaskDto subtask1 = taskManager.createSubtask(
                 new CreateSubtaskDto("Проектирование", "Спроектировать хранение данных", epic.getId())
         );
         SubtaskDto subtask2 = taskManager.createSubtask(

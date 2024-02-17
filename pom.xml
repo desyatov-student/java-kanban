@@ -13,7 +13,6 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mockitoversion>5.2.0</mockitoversion>
-        <ktlint-maven-plugin.version>0.10.0</ktlint-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -30,18 +29,6 @@
                 <artifactId>lombok</artifactId>
                 <scope>provided</scope>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>org.mockito</groupId>-->
-<!--                <artifactId>mockito-inline</artifactId>-->
-<!--                <version>{mockitoversion}</version>-->
-<!--                <scope>test</scope>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.mockito</groupId>-->
-<!--                <artifactId>mockito-junit-jupiter</artifactId>-->
-<!--                <version>{mockitoversion}</version>-->
-<!--                <scope>test</scope>-->
-<!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
 
@@ -69,34 +56,50 @@
         </repository>
     </repositories>
 
+    <reporting>
+        <plugins>
+
+        </plugins>
+    </reporting>
+
     <build>
         <plugins>
             <plugin>
-                <groupId>com.github.z3d1k</groupId>
-                <artifactId>ktlint-maven-plugin</artifactId>
-                <version>${ktlint-maven-plugin.version}</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <sourceDirectories>${project.build.sourceDirectory}</sourceDirectories>
+                    <configLocation>checkstyle.xml</configLocation>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>lint</id>
+                        <id>checkstyle-check</id>
+                        <phase>validate</phase>
+                        <configuration>
+                            <sourceDirectories>${project.build.sourceDirectory}</sourceDirectories>
+                            <configLocation>checkstyle.xml</configLocation>
+                            <consoleOutput>true</consoleOutput>
+                            <failsOnError>true</failsOnError>
+                            <failOnViolation>true</failOnViolation>
+                        </configuration>
                         <goals>
-                            <goal>lint</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>format</id>
-                        <goals>
-                            <goal>format</goal>
+                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <reporters>
-                        <checkstyle.output>${project.build.directory}/ktlint.xml</checkstyle.output>
-                        <json.output>${project.build.directory}/ktlint.json</json.output>
-                    </reporters>
-                    <failOnError>true</failOnError>
-                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>10.13.0</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>

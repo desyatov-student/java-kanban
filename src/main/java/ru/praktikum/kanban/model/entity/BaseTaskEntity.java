@@ -26,10 +26,14 @@ public abstract class BaseTaskEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
         if (!(o instanceof BaseTaskEntity)) {
-           return false;
+            return false;
         }
         BaseTaskEntity baseTask = (BaseTaskEntity) o;
         return id == baseTask.id;

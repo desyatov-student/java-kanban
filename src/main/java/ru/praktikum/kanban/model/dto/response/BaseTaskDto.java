@@ -12,12 +12,15 @@ public abstract class BaseTaskDto {
     public int getId() {
         return id;
     }
+
     public String getName() {
         return name;
     }
+
     public String getDescription() {
         return description;
     }
+
     public TaskStatus getStatus() {
         return status;
     }
@@ -31,8 +34,12 @@ public abstract class BaseTaskDto {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         BaseTaskDto that = (BaseTaskDto) o;
         return id == that.id &&
                 Objects.equals(name, that.name) &&

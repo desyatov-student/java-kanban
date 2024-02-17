@@ -19,16 +19,22 @@ public class EpicDto extends BaseTaskDto {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
         EpicDto that = (EpicDto) o;
         return Objects.equals(subtasks, that.subtasks);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(),subtasks);
+        return Objects.hash(super.hashCode(), subtasks);
     }
 
     @Override

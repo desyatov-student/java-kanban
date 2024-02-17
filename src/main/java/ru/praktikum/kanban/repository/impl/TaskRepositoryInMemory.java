@@ -25,18 +25,22 @@ public class TaskRepositoryInMemory implements Repository {
     public List<TaskEntity> getAllTasks() {
         return new ArrayList<>(tasks.values());
     }
+
     @Override
     public void saveTask(TaskEntity simpleTaskEntity) {
         tasks.put(simpleTaskEntity.getId(), simpleTaskEntity);
     }
+
     @Override
     public TaskEntity getTask(int taskId) {
         return tasks.get(taskId);
     }
+
     @Override
     public void removeTask(int taskId) {
         tasks.remove(taskId);
     }
+
     @Override
     public void removeAllTasks() {
         tasks.clear();
@@ -48,18 +52,22 @@ public class TaskRepositoryInMemory implements Repository {
     public List<EpicEntity> getAllEpics() {
         return new ArrayList<>(epics.values());
     }
+
     @Override
     public EpicEntity getEpic(int epicId) {
         return epics.get(epicId);
     }
+
     @Override
     public void saveEpic(EpicEntity epicEntity) {
         epics.put(epicEntity.getId(), epicEntity);
     }
+
     @Override
     public void saveSubtask(SubtaskEntity subtaskEntity) {
         subtasks.put(subtaskEntity.getId(), subtaskEntity);
     }
+
     @Override
     public void removeEpic(EpicEntity epicEntity) {
         for (Integer subtaskId : epicEntity.subtasks) {
@@ -67,6 +75,7 @@ public class TaskRepositoryInMemory implements Repository {
         }
         epics.remove(epicEntity.getId());
     }
+
     @Override
     public void removeAllEpics() {
         subtasks.clear();
@@ -79,14 +88,17 @@ public class TaskRepositoryInMemory implements Repository {
     public List<SubtaskEntity> getAllSubtasks() {
         return new ArrayList<>(subtasks.values());
     }
+
     @Override
     public SubtaskEntity getSubtask(int subtaskId) {
         return subtasks.get(subtaskId);
     }
+
     @Override
     public void removeSubtask(int subtaskId) {
         subtasks.remove(subtaskId);
     }
+
     @Override
     public void removeAllSubtasks() {
         subtasks.clear();

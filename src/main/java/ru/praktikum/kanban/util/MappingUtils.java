@@ -1,9 +1,9 @@
 package ru.praktikum.kanban.util;
 
 import java.util.List;
+import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
 import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
-import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
@@ -17,7 +17,7 @@ import ru.praktikum.kanban.model.entity.TaskEntity;
 
 public class MappingUtils {
 
-    static public TaskDto mapToTaskDto(TaskEntity entity){
+    public static TaskDto mapToTaskDto(TaskEntity entity) {
         TaskDto dto = new TaskDto(
                 entity.getId(),
                 entity.name,
@@ -27,7 +27,7 @@ public class MappingUtils {
         return dto;
     }
 
-    static public TaskEntity mapToTaskEntity(UpdateTaskDto updateTaskDto){
+    public static TaskEntity mapToTaskEntity(UpdateTaskDto updateTaskDto) {
         TaskEntity entity = new TaskEntity(
                 updateTaskDto.getId(),
                 updateTaskDto.getName(),
@@ -37,7 +37,7 @@ public class MappingUtils {
         return entity;
     }
 
-    static public TaskEntity mapToTaskEntity(CreateTaskDto createTaskDto, int taskId){
+    public static TaskEntity mapToTaskEntity(CreateTaskDto createTaskDto, int taskId) {
         TaskEntity entity = new TaskEntity(
                 taskId,
                 createTaskDto.getName(),
@@ -47,7 +47,7 @@ public class MappingUtils {
         return entity;
     }
 
-    static public EpicDto mapToEpicDto(EpicEntity epicEntity, List<SubtaskDto> subtasks){
+    public static EpicDto mapToEpicDto(EpicEntity epicEntity, List<SubtaskDto> subtasks) {
         EpicDto dto = new EpicDto(
                 epicEntity.getId(),
                 epicEntity.name,
@@ -58,7 +58,7 @@ public class MappingUtils {
         return dto;
     }
 
-    static public EpicEntity mapToEpicEntity(CreateEpicDto createEpicDto, int epicId){
+    public static EpicEntity mapToEpicEntity(CreateEpicDto createEpicDto, int epicId) {
         EpicEntity entity = new EpicEntity(
                 epicId,
                 createEpicDto.getName(),
@@ -68,13 +68,13 @@ public class MappingUtils {
         return entity;
     }
 
-    static public EpicEntity updateEpicEntity(EpicEntity epicEntity, UpdateEpicDto updateEpicDto){
+    public static EpicEntity updateEpicEntity(EpicEntity epicEntity, UpdateEpicDto updateEpicDto) {
         epicEntity.name = updateEpicDto.getName();
         epicEntity.description = updateEpicDto.getDescription();
         return epicEntity;
     }
 
-    static public SubtaskDto mapToSubtaskDto(SubtaskEntity subtaskEntity){
+    public static SubtaskDto mapToSubtaskDto(SubtaskEntity subtaskEntity) {
         SubtaskDto dto = new SubtaskDto(
                 subtaskEntity.getId(),
                 subtaskEntity.name,
@@ -84,14 +84,14 @@ public class MappingUtils {
         return dto;
     }
 
-    static public SubtaskEntity updateSubtaskEntity(SubtaskEntity subtaskEntity, UpdateSubtaskDto updateSubtaskDto){
+    public static SubtaskEntity updateSubtaskEntity(SubtaskEntity subtaskEntity, UpdateSubtaskDto updateSubtaskDto) {
         subtaskEntity.name = updateSubtaskDto.getName();
         subtaskEntity.description = updateSubtaskDto.getDescription();
         subtaskEntity.status = updateSubtaskDto.getStatus();
         return subtaskEntity;
     }
 
-    static public SubtaskEntity mapToSubtaskEntity(CreateSubtaskDto createSubtaskDto, int subtaskId){
+    public static SubtaskEntity mapToSubtaskEntity(CreateSubtaskDto createSubtaskDto, int subtaskId) {
         SubtaskEntity entity = new SubtaskEntity(
                 subtaskId,
                 createSubtaskDto.getName(),

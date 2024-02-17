@@ -2,12 +2,10 @@ package ru.praktikum.kanban.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
 import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
 import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
-import ru.praktikum.kanban.util.MappingUtils;
-import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
@@ -15,6 +13,7 @@ import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
+import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 import ru.praktikum.kanban.model.entity.EpicEntity;
 import ru.praktikum.kanban.model.entity.SubtaskEntity;
 import ru.praktikum.kanban.model.entity.TaskEntity;
@@ -24,6 +23,7 @@ import ru.praktikum.kanban.service.HistoryManager;
 import ru.praktikum.kanban.service.TaskManager;
 import ru.praktikum.kanban.util.EntityMapper;
 import ru.praktikum.kanban.util.IdentifierGenerator;
+import ru.praktikum.kanban.util.MappingUtils;
 
 public class InMemoryTaskManager implements TaskManager {
     private final IdentifierGenerator identifierGenerator;
@@ -233,13 +233,14 @@ public class InMemoryTaskManager implements TaskManager {
                     doneCount++;
                     break;
                 case IN_PROGRESS:
+                default:
                     return TaskStatus.IN_PROGRESS;
             }
         }
 
         if (newCount == size) {
             return TaskStatus.NEW;
-        } else if (doneCount == size){
+        } else if (doneCount == size) {
             return TaskStatus.DONE;
         }
         return TaskStatus.IN_PROGRESS;
