@@ -1,21 +1,17 @@
 package ru.praktikum.kanban.model.entity;
 
 import java.util.Objects;
+import lombok.Getter;
+import lombok.Setter;
 import ru.praktikum.kanban.model.TaskStatus;
 
+@Getter
+@Setter
 public abstract class BaseTaskEntity {
-    private final int id;
+    public int id;
     public String name;
     public String description;
     public TaskStatus status;
-
-    public TaskStatus getStatus() {
-        return status;
-    }
-
-    public int getId() {
-        return id;
-    }
 
     public BaseTaskEntity(int id, String name, String description, TaskStatus status) {
         this.id = id;

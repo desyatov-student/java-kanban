@@ -2,15 +2,13 @@ package ru.praktikum.kanban.model.dto.response;
 
 import java.util.List;
 import java.util.Objects;
+import lombok.Getter;
 import ru.praktikum.kanban.model.TaskStatus;
 
+@Getter
 public class EpicDto extends BaseTaskDto {
 
     private final List<SubtaskDto> subtasks;
-
-    public List<SubtaskDto> getSubtasks() {
-        return subtasks;
-    }
 
     public EpicDto(int id, String name, String description, TaskStatus status, List<SubtaskDto> subtasks) {
         super(id, name, description, status);

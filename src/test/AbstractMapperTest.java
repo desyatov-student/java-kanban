@@ -7,14 +7,16 @@ import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 import ru.praktikum.kanban.model.entity.EpicEntity;
 import ru.praktikum.kanban.model.entity.TaskEntity;
+import ru.praktikum.kanban.model.mapper.TaskMapper;
+import ru.praktikum.kanban.model.mapper.TaskMapperImpl;
 import ru.praktikum.kanban.util.AbstractMapper;
-import ru.praktikum.kanban.util.MappingUtils;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AbstractMapperTest {
 
     AbstractMapper<BaseTaskEntity, BaseTaskDto> abstractMapper;
+    TaskMapper taskMapper = new TaskMapperImpl();
 
     @BeforeEach
     void setupMapper() {
@@ -23,7 +25,7 @@ class AbstractMapperTest {
 
     @Test
     void shouldMapToTaskEntityToTaskDto() {
-        abstractMapper.put(TaskEntity.class, (value) -> MappingUtils.mapToTaskDto((TaskEntity) value));
+        abstractMapper.put(TaskEntity.class, (value) -> taskMapper.toDto((TaskEntity) value));
 
         TaskEntity taskEntity = new TaskEntity(1, "", "", TaskStatus.NEW);
         TaskDto expected = new TaskDto(taskEntity.getId(), taskEntity.name, taskEntity.description, taskEntity.status);
@@ -44,7 +46,7 @@ class AbstractMapperTest {
 
     @Test
     void shouldBeThrowAndClassIsNull() {
-        Executable executable = () -> abstractMapper.put(null, (value) -> MappingUtils.mapToTaskDto((TaskEntity) value));
+        Executable executable = () -> abstractMapper.put(null, (value) -> taskMapper.toDto((TaskEntity) value));
         assertThrows(IllegalArgumentException.class, executable);
     }
 

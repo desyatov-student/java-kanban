@@ -1,11 +1,12 @@
 package ru.praktikum.kanban.model.dto.update;
 
 import java.util.Objects;
+import lombok.Getter;
 import ru.praktikum.kanban.model.TaskStatus;
 
 public class UpdateSubtaskDto extends BaseUpdateTask {
 
-    private TaskStatus status;
+    private final TaskStatus status;
 
     public TaskStatus getStatus() {
         return status;

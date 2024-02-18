@@ -17,19 +17,27 @@ import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 import ru.praktikum.kanban.model.entity.EpicEntity;
 import ru.praktikum.kanban.model.entity.SubtaskEntity;
 import ru.praktikum.kanban.model.entity.TaskEntity;
+import ru.praktikum.kanban.model.mapper.EpicMapper;
+import ru.praktikum.kanban.model.mapper.EpicMapperImpl;
+import ru.praktikum.kanban.model.mapper.SubtaskMapper;
+import ru.praktikum.kanban.model.mapper.SubtaskMapperImpl;
+import ru.praktikum.kanban.model.mapper.TaskMapper;
+import ru.praktikum.kanban.model.mapper.TaskMapperImpl;
 import ru.praktikum.kanban.repository.Repository;
 import ru.praktikum.kanban.repository.impl.TaskRepositoryInMemory;
 import ru.praktikum.kanban.service.HistoryManager;
 import ru.praktikum.kanban.service.TaskManager;
 import ru.praktikum.kanban.util.AbstractMapper;
 import ru.praktikum.kanban.util.IdentifierGenerator;
-import ru.praktikum.kanban.util.MappingUtils;
 
 public class InMemoryTaskManager implements TaskManager {
     private final IdentifierGenerator identifierGenerator;
     private final Repository repository;
     private final HistoryManager historyManager;
     private final AbstractMapper<BaseTaskEntity, BaseTaskDto> abstractMapper;
+    private final TaskMapper taskMapper;
+    private final EpicMapper epicMapper;
+    private final SubtaskMapper subtaskMapper;
 
     public InMemoryTaskManager(
             IdentifierGenerator identifierGenerator,
@@ -40,9 +48,12 @@ public class InMemoryTaskManager implements TaskManager {
         this.repository = repository;
         this.historyManager = historyManager;
         this.abstractMapper = new AbstractMapper<>();
+        this.taskMapper = new TaskMapperImpl();
+        this.epicMapper = new EpicMapperImpl();
+        this.subtaskMapper = new SubtaskMapperImpl();
 
-        abstractMapper.put(TaskEntity.class, value -> MappingUtils.mapToTaskDto((TaskEntity) value));
-        abstractMapper.put(SubtaskEntity.class, value -> MappingUtils.mapToSubtaskDto((SubtaskEntity) value));
+        abstractMapper.put(TaskEntity.class, value -> taskMapper.toDto((TaskEntity) value));
+        abstractMapper.put(SubtaskEntity.class, value -> subtaskMapper.toDto((SubtaskEntity) value));
         abstractMapper.put(EpicEntity.class, value -> this.getEpicDtoWithEpicEntity((EpicEntity) value));
 
     }
@@ -60,29 +71,29 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<TaskDto> getAllTasks() {
         return repository.getAllTasks().stream()
-                .map(MappingUtils::mapToTaskDto)
+                .map(taskMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public TaskDto createTask(CreateTaskDto createTaskDto) {
-        TaskEntity simpleTaskEntity = MappingUtils.mapToTaskEntity(createTaskDto, getNextTaskId());
-        repository.saveTask(simpleTaskEntity);
-        return MappingUtils.mapToTaskDto(simpleTaskEntity);
+        TaskEntity entity = taskMapper.toEntity(getNextTaskId(), createTaskDto);
+        repository.saveTask(entity);
+        return taskMapper.toDto(entity);
     }
 
     @Override
     public TaskDto updateTask(UpdateTaskDto updateTaskDto) {
-        TaskEntity simpleTaskEntity = MappingUtils.mapToTaskEntity(updateTaskDto);
-        repository.saveTask(simpleTaskEntity);
-        return MappingUtils.mapToTaskDto(simpleTaskEntity);
+        TaskEntity taskEntity = repository.getTask(updateTaskDto.getId());
+        taskMapper.updateEntityFromDto(updateTaskDto, taskEntity);
+        return taskMapper.toDto(taskEntity);
     }
 
     @Override
     public TaskDto getTask(int taskId) {
-        TaskEntity simpleTaskEntity = repository.getTask(taskId);
-        TaskDto taskDto = MappingUtils.mapToTaskDto(simpleTaskEntity);
-        historyManager.add(simpleTaskEntity);
+        TaskEntity entity = repository.getTask(taskId);
+        TaskDto taskDto = taskMapper.toDto(entity);
+        historyManager.add(entity);
         return taskDto;
     }
 
@@ -116,7 +127,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public EpicDto createEpic(CreateEpicDto epicDto) {
-        EpicEntity epicEntity = MappingUtils.mapToEpicEntity(epicDto, getNextTaskId());
+        EpicEntity epicEntity = epicMapper.toEntity(getNextTaskId(), epicDto);
         repository.saveEpic(epicEntity);
         return getEpicDtoWithEpicEntity(epicEntity);
     }
@@ -124,9 +135,8 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public EpicDto updateEpic(UpdateEpicDto updateEpicDto) {
         EpicEntity epicEntity = repository.getEpic(updateEpicDto.getId());
-        EpicEntity newEpicEntity = MappingUtils.updateEpicEntity(epicEntity, updateEpicDto);
-        repository.saveEpic(newEpicEntity);
-        return getEpicDtoWithEpicEntity(newEpicEntity);
+        epicMapper.updateEntityFromDto(updateEpicDto, epicEntity);
+        return getEpicDtoWithEpicEntity(epicEntity);
     }
 
     @Override
@@ -145,16 +155,15 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<SubtaskDto> getAllSubtasks() {
         return repository.getAllSubtasks().stream()
-                .map(MappingUtils::mapToSubtaskDto)
+                .map(subtaskMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public SubtaskDto getSubtask(int subtaskId) {
         SubtaskEntity subtaskEntity = repository.getSubtask(subtaskId);
-        SubtaskDto subtaskDto = MappingUtils.mapToSubtaskDto(subtaskEntity);
         historyManager.add(subtaskEntity);
-        return subtaskDto;
+        return subtaskMapper.toDto(subtaskEntity);
     }
 
     @Override
@@ -162,14 +171,14 @@ public class InMemoryTaskManager implements TaskManager {
         EpicEntity epicEntity = repository.getEpic(epicId);
         return epicEntity.subtasks.stream()
                 .map(repository::getSubtask)
-                .map(MappingUtils::mapToSubtaskDto)
+                .map(subtaskMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public SubtaskDto createSubtask(CreateSubtaskDto subtaskDto) {
         int epicId = subtaskDto.getEpicId();
-        SubtaskEntity subtaskEntity = MappingUtils.mapToSubtaskEntity(subtaskDto, getNextTaskId());
+        SubtaskEntity subtaskEntity = subtaskMapper.toEntity(getNextTaskId(), subtaskDto);
         subtaskEntity.setEpicId(epicId);
         repository.saveSubtask(subtaskEntity);
 
@@ -177,17 +186,17 @@ public class InMemoryTaskManager implements TaskManager {
         epicEntity.subtasks.add(subtaskEntity.getId());
         updateEpicStatus(epicEntity);
 
-        return MappingUtils.mapToSubtaskDto(subtaskEntity);
+        return subtaskMapper.toDto(subtaskEntity);
     }
 
     @Override
     public SubtaskDto updateSubtask(UpdateSubtaskDto updateSubtaskDto) {
         SubtaskEntity subtaskEntity = repository.getSubtask(updateSubtaskDto.getId());
-        MappingUtils.updateSubtaskEntity(subtaskEntity, updateSubtaskDto);
+        subtaskMapper.updateEntityFromDto(updateSubtaskDto, subtaskEntity);
         EpicEntity epicEntity = repository.getEpic(subtaskEntity.getEpicId());
         subtaskEntity.setEpicId(epicEntity.getId());
         updateEpicStatus(epicEntity);
-        return MappingUtils.mapToSubtaskDto(subtaskEntity);
+        return subtaskMapper.toDto(subtaskEntity);
     }
 
     @Override
@@ -256,7 +265,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     private EpicDto getEpicDtoWithEpicEntity(EpicEntity epicEntity) {
-        List<SubtaskDto> subtask = getSubtasksWithEpicId(epicEntity.getId());
-        return MappingUtils.mapToEpicDto(epicEntity, subtask);
+        List<SubtaskDto> subtasks = getSubtasksWithEpicId(epicEntity.getId());
+        return epicMapper.toDto(epicEntity, subtasks);
     }
 }
