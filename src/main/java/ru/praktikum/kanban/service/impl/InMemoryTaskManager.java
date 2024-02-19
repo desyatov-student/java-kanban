@@ -1,5 +1,6 @@
 package ru.praktikum.kanban.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import ru.praktikum.kanban.model.TaskStatus;
@@ -84,17 +85,22 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public TaskDto updateTask(UpdateTaskDto updateTaskDto) {
-        TaskEntity taskEntity = repository.getTask(updateTaskDto.getId());
-        taskMapper.updateEntityFromDto(updateTaskDto, taskEntity);
-        return taskMapper.toDto(taskEntity);
+        TaskEntity entity = repository.getTask(updateTaskDto.getId());
+        if (entity == null) {
+            return null;
+        }
+        taskMapper.updateEntityFromDto(updateTaskDto, entity);
+        return taskMapper.toDto(entity);
     }
 
     @Override
     public TaskDto getTask(int taskId) {
         TaskEntity entity = repository.getTask(taskId);
-        TaskDto taskDto = taskMapper.toDto(entity);
+        if (entity == null) {
+            return null;
+        }
         historyManager.add(entity);
-        return taskDto;
+        return taskMapper.toDto(entity);
     }
 
     @Override
@@ -120,6 +126,9 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public EpicDto getEpic(int epicId) {
         EpicEntity epicEntity = repository.getEpic(epicId);
+        if (epicEntity == null) {
+            return null;
+        }
         EpicDto epicDto = getEpicDtoWithEpicEntity(epicEntity);
         historyManager.add(epicEntity);
         return epicDto;
@@ -135,14 +144,20 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public EpicDto updateEpic(UpdateEpicDto updateEpicDto) {
         EpicEntity epicEntity = repository.getEpic(updateEpicDto.getId());
+        if (epicEntity == null) {
+            return null;
+        }
         epicMapper.updateEntityFromDto(updateEpicDto, epicEntity);
         return getEpicDtoWithEpicEntity(epicEntity);
     }
 
     @Override
     public void removeEpic(int epicId) {
-        EpicEntity epicEntity = repository.getEpic(epicId);
-        repository.removeEpic(epicEntity);
+        EpicEntity entity = repository.getEpic(epicId);
+        if (entity == null) {
+            return;
+        }
+        repository.removeEpic(entity);
     }
 
     @Override
@@ -161,15 +176,21 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public SubtaskDto getSubtask(int subtaskId) {
-        SubtaskEntity subtaskEntity = repository.getSubtask(subtaskId);
-        historyManager.add(subtaskEntity);
-        return subtaskMapper.toDto(subtaskEntity);
+        SubtaskEntity entity = repository.getSubtask(subtaskId);
+        if (entity == null) {
+            return null;
+        }
+        historyManager.add(entity);
+        return subtaskMapper.toDto(entity);
     }
 
     @Override
     public List<SubtaskDto> getSubtasksWithEpicId(int epicId) {
-        EpicEntity epicEntity = repository.getEpic(epicId);
-        return epicEntity.subtasks.stream()
+        EpicEntity entity = repository.getEpic(epicId);
+        if (entity == null) {
+            return new ArrayList<>();
+        }
+        return entity.subtasks.stream()
                 .map(repository::getSubtask)
                 .map(subtaskMapper::toDto)
                 .collect(Collectors.toList());
@@ -178,12 +199,15 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public SubtaskDto createSubtask(CreateSubtaskDto subtaskDto) {
         int epicId = subtaskDto.getEpicId();
+        EpicEntity epicEntity = repository.getEpic(epicId);
+        if (epicEntity == null) {
+            return null;
+        }
         SubtaskEntity subtaskEntity = subtaskMapper.toEntity(getNextTaskId(), subtaskDto);
         subtaskEntity.setEpicId(epicId);
-        repository.saveSubtask(subtaskEntity);
-
-        EpicEntity epicEntity = repository.getEpic(epicId);
         epicEntity.subtasks.add(subtaskEntity.getId());
+
+        repository.saveSubtask(subtaskEntity);
         updateEpicStatus(epicEntity);
 
         return subtaskMapper.toDto(subtaskEntity);
@@ -192,8 +216,14 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public SubtaskDto updateSubtask(UpdateSubtaskDto updateSubtaskDto) {
         SubtaskEntity subtaskEntity = repository.getSubtask(updateSubtaskDto.getId());
-        subtaskMapper.updateEntityFromDto(updateSubtaskDto, subtaskEntity);
+        if (subtaskEntity == null) {
+            return null;
+        }
         EpicEntity epicEntity = repository.getEpic(subtaskEntity.getEpicId());
+        if (epicEntity == null) {
+            return null;
+        }
+        subtaskMapper.updateEntityFromDto(updateSubtaskDto, subtaskEntity);
         subtaskEntity.setEpicId(epicEntity.getId());
         updateEpicStatus(epicEntity);
         return subtaskMapper.toDto(subtaskEntity);
@@ -202,8 +232,14 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void removeSubtask(int subtaskId) {
         SubtaskEntity subtaskEntity = repository.getSubtask(subtaskId);
-        EpicEntity epicEntity = repository.getEpic(subtaskEntity.getEpicId());
+        if (subtaskEntity == null) {
+            return;
+        }
         repository.removeSubtask(subtaskId);
+        EpicEntity epicEntity = repository.getEpic(subtaskEntity.getEpicId());
+        if (epicEntity == null) {
+            return;
+        }
         epicEntity.subtasks.remove(Integer.valueOf(subtaskId));
         updateEpicStatus(epicEntity);
     }

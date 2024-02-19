@@ -59,6 +59,11 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
+    void getEpicAndResultIsEmpty() {
+        assertNull(taskManager.getEpic(10));
+    }
+
+    @Test
     void removeEpic() {
         EpicDto epic1 = taskManager.createEpic(CREATE_EPIC());
         SubtaskDto subtask1 = taskManager.createSubtask(CREATE_SUBTASK(epic1.getId()));
@@ -168,6 +173,11 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
+    void getSubtaskAndResultIsEmpty() {
+        assertNull(taskManager.getSubtask(10));
+    }
+
+    @Test
     void getSubtaskWithEpicId() {
 
         EpicDto epic = taskManager.createEpic(CREATE_EPIC());
@@ -181,6 +191,11 @@ class InMemoryTaskManagerTest {
                 ),
                 taskManager.getSubtasksWithEpicId(epic.getId())
         );
+    }
+
+    @Test
+    void getSubtaskWithEpicIdAndResultIsEmpty() {
+        assertEquals(List.of(), taskManager.getSubtasksWithEpicId(10));
     }
 
     @Test
@@ -338,6 +353,12 @@ class InMemoryTaskManagerTest {
                 taskManager.getAllTasks()
         );
     }
+
+    @Test
+    void getTaskAndResultIsEmpty() {
+        assertNull(taskManager.getTask(10));
+    }
+
     @Test
     void updateTask() {
         TaskDto task = taskManager.createTask(CREATE_TASK);
