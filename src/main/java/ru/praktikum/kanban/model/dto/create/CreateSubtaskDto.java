@@ -1,10 +1,12 @@
 package ru.praktikum.kanban.model.dto.create;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class CreateSubtaskDto extends BaseCreateTask {
 
     private final int epicId;

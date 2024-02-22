@@ -1,11 +1,12 @@
 package ru.praktikum.kanban.model.dto.update;
 
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString
+@EqualsAndHashCode
 public abstract class BaseUpdateTask {
     private final int id;
     private final String name;
@@ -16,24 +17,4 @@ public abstract class BaseUpdateTask {
         this.name = name;
         this.description = description;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        BaseUpdateTask that = (BaseUpdateTask) o;
-        return id == that.id &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(description, that.description);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description);
-    }
-
 }
