@@ -3,9 +3,11 @@ package ru.praktikum.kanban.model.dto.response;
 import java.util.List;
 import java.util.Objects;
 import lombok.Getter;
+import lombok.ToString;
 import ru.praktikum.kanban.model.TaskStatus;
 
 @Getter
+@ToString(callSuper = true)
 public class EpicDto extends BaseTaskDto {
 
     private final List<SubtaskDto> subtasks;
@@ -33,13 +35,5 @@ public class EpicDto extends BaseTaskDto {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), subtasks);
-    }
-
-    @Override
-    public String toString() {
-        String string = super.toString().replace("}", "");
-        return string +
-                ", subtasks=" + subtasks +
-                '}';
     }
 }

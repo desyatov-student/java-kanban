@@ -3,10 +3,12 @@ package ru.praktikum.kanban.model.dto.create;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 import ru.praktikum.kanban.model.TaskStatus;
 
 @Getter
 @AllArgsConstructor
+@ToString
 public abstract class BaseCreateTask {
     private final String name;
     private final String description;
@@ -31,12 +33,4 @@ public abstract class BaseCreateTask {
         return Objects.hash(name, description, status);
     }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "{" +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                '}';
-    }
 }

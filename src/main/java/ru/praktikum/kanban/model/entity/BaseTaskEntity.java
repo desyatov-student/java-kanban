@@ -4,10 +4,12 @@ import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import ru.praktikum.kanban.model.TaskStatus;
 
 @Getter
 @AllArgsConstructor
+@ToString
 public abstract class BaseTaskEntity {
     private final int id;
     @Setter
@@ -35,15 +37,5 @@ public abstract class BaseTaskEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                '}';
     }
 }

@@ -2,8 +2,10 @@ package ru.praktikum.kanban.model.dto.update;
 
 import java.util.Objects;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public abstract class BaseUpdateTask {
     private final int id;
     private final String name;
@@ -34,12 +36,4 @@ public abstract class BaseUpdateTask {
         return Objects.hash(id, name, description);
     }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
 }

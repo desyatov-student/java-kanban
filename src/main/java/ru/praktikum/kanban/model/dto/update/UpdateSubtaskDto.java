@@ -2,9 +2,11 @@ package ru.praktikum.kanban.model.dto.update;
 
 import java.util.Objects;
 import lombok.Getter;
+import lombok.ToString;
 import ru.praktikum.kanban.model.TaskStatus;
 
 @Getter
+@ToString(callSuper = true)
 public class UpdateSubtaskDto extends BaseUpdateTask {
 
     private final TaskStatus status;
@@ -34,11 +36,4 @@ public class UpdateSubtaskDto extends BaseUpdateTask {
         return Objects.hash(super.hashCode(), status);
     }
 
-    @Override
-    public String toString() {
-        String string = super.toString().replace("}", "");
-        return string +
-                ", status=" + status +
-                '}';
-    }
 }
