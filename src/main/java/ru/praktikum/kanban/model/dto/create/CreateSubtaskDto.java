@@ -1,12 +1,11 @@
 package ru.praktikum.kanban.model.dto.create;
 
+import lombok.Getter;
+
+@Getter
 public class CreateSubtaskDto extends BaseCreateTask {
 
-    int epicId;
-
-    public int getEpicId() {
-        return epicId;
-    }
+    private final int epicId;
 
     public CreateSubtaskDto(String name, String description, int epicId) {
         super(name, description);

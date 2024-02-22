@@ -1,24 +1,21 @@
 package ru.praktikum.kanban.model.entity;
 
 import java.util.Objects;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import ru.praktikum.kanban.model.TaskStatus;
 
 @Getter
-@Setter
+@AllArgsConstructor
 public abstract class BaseTaskEntity {
-    public int id;
+    private final int id;
+    @Setter
     public String name;
+    @Setter
     public String description;
+    @Setter
     public TaskStatus status;
-
-    public BaseTaskEntity(int id, String name, String description, TaskStatus status) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.status = status;
-    }
 
     @Override
     public boolean equals(Object o) {

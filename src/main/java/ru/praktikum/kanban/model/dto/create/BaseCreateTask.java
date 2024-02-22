@@ -1,30 +1,16 @@
 package ru.praktikum.kanban.model.dto.create;
 
 import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import ru.praktikum.kanban.model.TaskStatus;
 
+@Getter
+@AllArgsConstructor
 public abstract class BaseCreateTask {
-    private String name;
-    private String description;
-    private TaskStatus status;
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public TaskStatus getStatus() {
-        return status;
-    }
-
-    public BaseCreateTask(String name, String description) {
-        this.name = name;
-        this.description = description;
-        this.status = TaskStatus.NEW;
-    }
+    private final String name;
+    private final String description;
+    private final TaskStatus status = TaskStatus.NEW;
 
     @Override
     public boolean equals(Object o) {
