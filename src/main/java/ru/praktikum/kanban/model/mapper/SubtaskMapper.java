@@ -8,7 +8,7 @@ import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.entity.SubtaskEntity;
 
-@Mapper()
+@Mapper(config = ErrorUnmappedMapperConfig.class)
 public interface SubtaskMapper {
 
     SubtaskDto toDto(SubtaskEntity entity);

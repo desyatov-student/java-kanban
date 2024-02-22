@@ -10,7 +10,7 @@ import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
 import ru.praktikum.kanban.model.entity.EpicEntity;
 
-@Mapper()
+@Mapper(config = ErrorUnmappedMapperConfig.class)
 public interface EpicMapper {
 
     @Mapping(target = "subtasks", source = "subtasks")
