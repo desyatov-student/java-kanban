@@ -19,38 +19,15 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.junit</groupId>
-                <artifactId>junit-bom</artifactId>
-                <version>5.10.2</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-<!--            <dependency>-->
-<!--                <groupId>org.projectlombok</groupId>-->
-<!--                <artifactId>lombok</artifactId>-->
-<!--                <scope>provided</scope>-->
-<!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-inline</artifactId>
             <version>${mockitoversion}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${mapstruct.version}</version>
-<!--            <version>1.6.0.Beta1</version>-->
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-maven-plugin -->
         <dependency>
@@ -59,6 +36,19 @@
             <version>1.18.20.0</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+<!--            <version>1.6.0.Beta1</version>-->
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <repositories>
@@ -92,14 +82,14 @@
                     <target>${maven.compiler.target}</target>
                     <annotationProcessorPaths>
                         <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${mapstruct.version}</version>
-                        </path>
-                        <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
@@ -137,6 +127,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
+
         </plugins>
         <pluginManagement>
             <plugins>

@@ -11,7 +11,8 @@ import ru.praktikum.kanban.model.mapper.TaskMapper;
 import ru.praktikum.kanban.model.mapper.TaskMapperImpl;
 import ru.praktikum.kanban.util.AbstractMapper;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AbstractMapperTest {
 
