@@ -1,9 +1,9 @@
 package ru.praktikum.kanban.model.dto.create;
 
-import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
 import ru.praktikum.kanban.model.TaskStatus;
 
@@ -12,7 +12,7 @@ import ru.praktikum.kanban.model.TaskStatus;
 @ToString
 @EqualsAndHashCode
 public abstract class BaseCreateTask {
-    private final String name;
-    private final String description;
-    private final TaskStatus status = TaskStatus.NEW;
+    @NonNull private final String name;
+    @NonNull private final String description;
+    @NonNull private final TaskStatus status = TaskStatus.NEW;
 }

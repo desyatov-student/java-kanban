@@ -2,6 +2,7 @@ package ru.praktikum.kanban.model.dto.update;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
 
 @Getter
@@ -9,8 +10,8 @@ import lombok.ToString;
 @EqualsAndHashCode
 public abstract class BaseUpdateTask {
     private final int id;
-    private final String name;
-    private final String description;
+    @NonNull private final String name;
+    @NonNull private final String description;
 
     public BaseUpdateTask(int id, String name, String description) {
         this.id = id;
