@@ -1,4 +1,3 @@
-
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -27,31 +26,54 @@ public class EntityTest {
     private static Stream<Arguments> provideModels() {
         return Stream.of(
                 Arguments.of(
-                        new EpicEntity(1, "", "", TaskStatus.NEW),
-                        new EpicEntity(1, "1", "1", TaskStatus.DONE),
+                        EPIC(1, TaskStatus.NEW),
+                        EPIC(1, TaskStatus.DONE),
                         true
+                ),
+                Arguments.of(
+                        EPIC(1, TaskStatus.NEW),
+                        EPIC(2, TaskStatus.NEW),
+                        false
+                ),
+                Arguments.of(
+                        SUBTASK(1, TaskStatus.NEW),
+                        SUBTASK(1, TaskStatus.NEW),
+                        true
+                ),
+                Arguments.of(
+                        SUBTASK(1, TaskStatus.NEW),
+                        SUBTASK(2, TaskStatus.NEW),
+                        false
+                ),
+                Arguments.of(
+                        TASK(1, TaskStatus.NEW),
+                        TASK(1, TaskStatus.NEW),
+                        true
+                ),
+                Arguments.of(
+                        TASK(1, TaskStatus.NEW),
+                        TASK(2, TaskStatus.NEW),
+                        false
                 ),
                 Arguments.of(
                         new TaskEntity(1, "", "", TaskStatus.NEW),
-                        new EpicEntity(1, "1", "1", TaskStatus.DONE),
-                        true
+                        EPIC(1, TaskStatus.NEW),
+                        false
                 ),
                 Arguments.of(
-                        new SubtaskEntity(1, "", "", TaskStatus.NEW),
-                        new EpicEntity(1, "1", "1", TaskStatus.DONE),
-                        true
+                        SUBTASK(1, TaskStatus.NEW),
+                        EPIC(1, TaskStatus.NEW),
+                        false
                 ),
                 Arguments.of(
-                        new SubtaskEntity(1, "", "", TaskStatus.NEW),
-                        new TaskEntity(1, "1", "1", TaskStatus.DONE),
-                        true
-                )
-                ,
-                Arguments.of(
-                        new SubtaskEntity(1, "", "", TaskStatus.NEW),
-                        new SubtaskEntity(2, "", "", TaskStatus.NEW),
+                        SUBTASK(1, TaskStatus.NEW),
+                        TASK(1, TaskStatus.NEW),
                         false
                 )
         );
     }
+
+    private static SubtaskEntity SUBTASK(int id, TaskStatus status) { return new SubtaskEntity(id, "", "", status); }
+    private static EpicEntity EPIC(int id, TaskStatus status) { return new EpicEntity(id, "", "", status); }
+    private static TaskEntity TASK(int id, TaskStatus status) { return new TaskEntity(id, "", "", status); }
 }
