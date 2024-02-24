@@ -37,7 +37,7 @@ public class EntityTest {
                 ),
                 Arguments.of(
                         SUBTASK(1, TaskStatus.NEW),
-                        SUBTASK(1, TaskStatus.NEW),
+                        SUBTASK(1, TaskStatus.DONE),
                         true
                 ),
                 Arguments.of(
@@ -47,7 +47,7 @@ public class EntityTest {
                 ),
                 Arguments.of(
                         TASK(1, TaskStatus.NEW),
-                        TASK(1, TaskStatus.NEW),
+                        TASK(1, TaskStatus.DONE),
                         true
                 ),
                 Arguments.of(
