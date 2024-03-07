@@ -7,6 +7,18 @@ import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 
 public class HistoryLinkedList {
 
+    class Node<E> {
+        E data;
+        Node<E> next;
+        Node<E> prev;
+
+        Node(Node<E> prev, E data, Node<E> next) {
+            this.data = data;
+            this.next = next;
+            this.prev = prev;
+        }
+    }
+
     private Node<BaseTaskEntity> head;
 
     private Node<BaseTaskEntity> tail;
@@ -31,7 +43,7 @@ public class HistoryLinkedList {
         }
         ArrayList<BaseTaskEntity> values = new ArrayList<>();
         Node<BaseTaskEntity> next = head;
-        while(next != null) {
+        while (next != null) {
             values.add(next.data);
             next = next.next;
         }
@@ -69,17 +81,5 @@ public class HistoryLinkedList {
         }
         size++;
         hashMap.put(value.getId(), newNode);
-    }
-}
-
-class Node<E> {
-    E data;
-    Node<E> next;
-    Node<E> prev;
-
-    Node(Node<E> prev, E data, Node<E> next) {
-        this.data = data;
-        this.next = next;
-        this.prev = prev;
     }
 }
