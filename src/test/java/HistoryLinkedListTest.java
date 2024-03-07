@@ -33,6 +33,16 @@ class HistoryLinkedListTest {
         assertEquals(expected, historyLinkedList.values());
     }
 
+    @ParameterizedTest
+    @MethodSource("provideModelsForRemoveTest")
+    void testRemove(List<BaseTaskEntity> expected, List<BaseTaskEntity> given, int idToRemove) {
+        for (BaseTaskEntity entity : given) {
+            historyLinkedList.add(entity);
+        }
+        historyLinkedList.remove(idToRemove);
+        assertEquals(expected, historyLinkedList.values());
+    }
+
     private static Stream<Arguments> provideModels() {
         return Stream.of(
                 Arguments.of(
@@ -74,6 +84,51 @@ class HistoryLinkedListTest {
                         List.of(TASK(1), TASK(2), TASK(3), TASK(4)),
                         List.of(TASK(1), TASK(2), TASK(3)),
                         List.of(TASK(4))
+                )
+        );
+    }
+
+    private static Stream<Arguments> provideModelsForRemoveTest() {
+        return Stream.of(
+                Arguments.of(
+                        List.of(),
+                        List.of(),
+                        1
+                ),
+                Arguments.of(
+                        List.of(),
+                        List.of(TASK(1)),
+                        1
+                ),
+                Arguments.of(
+                        List.of(TASK(1)),
+                        List.of(TASK(1)),
+                        2
+                ),
+                Arguments.of(
+                        List.of(TASK(2)),
+                        List.of(TASK(1), TASK(2)),
+                        1
+                ),
+                Arguments.of(
+                        List.of(TASK(1)),
+                        List.of(TASK(1), TASK(2)),
+                        2
+                ),
+                Arguments.of(
+                        List.of(TASK(1), TASK(3)),
+                        List.of(TASK(1), TASK(2), TASK(3)),
+                        2
+                ),
+                Arguments.of(
+                        List.of(TASK(1), TASK(2)),
+                        List.of(TASK(1), TASK(2), TASK(3)),
+                        3
+                ),
+                Arguments.of(
+                        List.of(TASK(2), TASK(3)),
+                        List.of(TASK(1), TASK(2), TASK(3)),
+                        1
                 )
         );
     }

@@ -50,6 +50,15 @@ public class HistoryLinkedList {
         return values;
     }
 
+    public void remove(int id) {
+        Node<BaseTaskEntity> node = hashMap.get(id);
+        if (node == null) {
+            return;
+        }
+        this.removeNode(node);
+        size--;
+    }
+
     private void removeNode(Node<BaseTaskEntity> node) {
         Node<BaseTaskEntity> prev = node.prev;
         Node<BaseTaskEntity> next = node.next;
