@@ -30,4 +30,3 @@ jobs:
 
     - name: Maven Verify
       run: mvn -B clean verify
-
