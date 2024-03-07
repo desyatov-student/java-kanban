@@ -1,17 +1,15 @@
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.praktikum.kanban.model.HistoryLinkedList;
 import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
-import ru.praktikum.kanban.model.entity.TaskEntity;
-import ru.praktikum.kanban.util.AbstractMapper;
+import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
+import ru.praktikum.kanban.model.dto.response.TaskDto;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HistoryLinkedListTest {
 
@@ -23,11 +21,11 @@ class HistoryLinkedListTest {
 
     @ParameterizedTest
     @MethodSource("provideModels")
-    void testAdd(List<BaseTaskEntity> expected, List<BaseTaskEntity> given, List<BaseTaskEntity> input) {
-        for (BaseTaskEntity entity : given) {
+    void testAdd(List<BaseTaskDto> expected, List<BaseTaskDto> given, List<BaseTaskDto> input) {
+        for (BaseTaskDto entity : given) {
             historyLinkedList.add(entity);
         }
-        for (BaseTaskEntity entity : input) {
+        for (BaseTaskDto entity : input) {
             historyLinkedList.add(entity);
         }
         assertEquals(expected, historyLinkedList.values());
@@ -35,8 +33,8 @@ class HistoryLinkedListTest {
 
     @ParameterizedTest
     @MethodSource("provideModelsForRemoveTest")
-    void testRemove(List<BaseTaskEntity> expected, List<BaseTaskEntity> given, int idToRemove) {
-        for (BaseTaskEntity entity : given) {
+    void testRemove(List<BaseTaskDto> expected, List<BaseTaskDto> given, int idToRemove) {
+        for (BaseTaskDto entity : given) {
             historyLinkedList.add(entity);
         }
         historyLinkedList.remove(idToRemove);
@@ -133,5 +131,5 @@ class HistoryLinkedListTest {
         );
     }
 
-    private static TaskEntity TASK(int id) { return new TaskEntity(id, "", "", TaskStatus.NEW); }
+    private static TaskDto TASK(int id) { return new TaskDto(id, "", "", TaskStatus.NEW); }
 }

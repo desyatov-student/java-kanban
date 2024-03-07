@@ -1,10 +1,9 @@
 package ru.praktikum.kanban.service.impl;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import ru.praktikum.kanban.model.HistoryLinkedList;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
+import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
 import ru.praktikum.kanban.service.HistoryManager;
 
 public class InMemoryHistoryManager implements HistoryManager {
@@ -12,11 +11,15 @@ public class InMemoryHistoryManager implements HistoryManager {
     private final HistoryLinkedList history;
 
     public InMemoryHistoryManager() {
-        this.history = new HistoryLinkedList();
+        this(new HistoryLinkedList());
+    }
+
+    public InMemoryHistoryManager(HistoryLinkedList history) {
+        this.history = history;
     }
 
     @Override
-    public List<BaseTaskEntity> getHistory() {
+    public List<BaseTaskDto> getHistory() {
         return new ArrayList<>(history.values());
     }
 
@@ -26,7 +29,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public void add(BaseTaskEntity object) {
+    public void add(BaseTaskDto object) {
         if (object == null) {
             return;
         }
