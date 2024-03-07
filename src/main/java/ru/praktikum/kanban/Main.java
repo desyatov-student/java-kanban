@@ -15,11 +15,11 @@ public class Main {
 
         TaskManager taskManager = Managers.getDefault();
 
-        TaskDto task1 = taskManager.createTask(
+        final TaskDto task1 = taskManager.createTask(
                 new CreateTaskDto("Таск 1", "")
         );
 
-        TaskDto task2 = taskManager.createTask(
+        final TaskDto task2 = taskManager.createTask(
                 new CreateTaskDto("Таск 2", "")
         );
 
