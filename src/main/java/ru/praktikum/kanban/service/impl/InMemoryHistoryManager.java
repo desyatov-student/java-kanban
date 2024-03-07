@@ -28,6 +28,11 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
+    public void remove(int id) {
+
+    }
+
+    @Override
     public void add(BaseTaskEntity object) {
         if (object == null) {
             return;

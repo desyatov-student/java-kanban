@@ -7,6 +7,8 @@ public interface HistoryManager {
 
     List<BaseTaskEntity> getHistory();
 
+    void remove(int id);
+
     void add(BaseTaskEntity object);
 
 }
