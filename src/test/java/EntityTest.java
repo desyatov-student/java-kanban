@@ -15,7 +15,7 @@ public class EntityTest {
 
     @ParameterizedTest
     @MethodSource("provideModels")
-    void testEquals(BaseTaskEntity task1, BaseTaskEntity task2, boolean isEquals) {
+    public void testEquals(BaseTaskEntity task1, BaseTaskEntity task2, boolean isEquals) {
         if (isEquals) {
             assertEquals(task1, task2);
         } else {

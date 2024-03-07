@@ -14,18 +14,18 @@ import ru.praktikum.kanban.util.AbstractMapper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class AbstractMapperTest {
+public class AbstractMapperTest {
 
     AbstractMapper<BaseTaskEntity, BaseTaskDto> abstractMapper;
     TaskMapper taskMapper = new TaskMapperImpl();
 
     @BeforeEach
-    void setupMapper() {
+    public void setupMapper() {
         abstractMapper = new AbstractMapper<>();
     }
 
     @Test
-    void shouldMapToTaskEntityToTaskDto() {
+    public void shouldMapToTaskEntityToTaskDto() {
         abstractMapper.put(TaskEntity.class, (value) -> taskMapper.toDto((TaskEntity) value));
 
         TaskEntity taskEntity = new TaskEntity(1, "", "", TaskStatus.NEW);
@@ -35,24 +35,24 @@ class AbstractMapperTest {
     }
 
     @Test
-    void shouldBeThrowAndInputIsNull() {
+    public void shouldBeThrowAndInputIsNull() {
         assertThrows(IllegalArgumentException.class, () -> abstractMapper.tryMap(null));
     }
 
     @Test
-    void shouldBeThrowAndActionIsNull() {
+    public void shouldBeThrowAndActionIsNull() {
         Executable executable = () -> abstractMapper.put(TaskEntity.class, null);
         assertThrows(IllegalArgumentException.class, executable);
     }
 
     @Test
-    void shouldBeThrowAndClassIsNull() {
+    public void shouldBeThrowAndClassIsNull() {
         Executable executable = () -> abstractMapper.put(null, (value) -> taskMapper.toDto((TaskEntity) value));
         assertThrows(IllegalArgumentException.class, executable);
     }
 
     @Test
-    void shouldBeThrowAndAbstractMapperHasNoClassAndNoFunction() {
+    public void shouldBeThrowAndAbstractMapperHasNoClassAndNoFunction() {
         EpicEntity epicEntity = new EpicEntity(1, "", "", TaskStatus.NEW);
         assertThrows(IllegalArgumentException.class, () -> abstractMapper.tryMap(epicEntity));
     }
