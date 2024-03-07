@@ -1,6 +1,5 @@
 package ru.praktikum.kanban.model.dto.response;
 
-import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
