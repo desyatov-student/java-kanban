@@ -30,7 +30,7 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    void getAllEmpty() {
+    public void getAllEmpty() {
         assertTrue(taskManager.getAllEpics().isEmpty());
         assertTrue(taskManager.getAllSubtasks().isEmpty());
         assertTrue(taskManager.getAllTasks().isEmpty());

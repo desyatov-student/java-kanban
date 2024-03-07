@@ -23,7 +23,7 @@ public class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void getHistory() {
+    public void getHistory() {
         SubtaskEntity subtask = new SubtaskEntity(1, "", "", TaskStatus.NEW);
         EpicEntity epic = new EpicEntity(1, "", "", TaskStatus.NEW);
         TaskEntity simpleTaskDto = new TaskEntity(1, "", "", TaskStatus.NEW);
@@ -46,7 +46,7 @@ public class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void shouldHistorySizeIs10() {
+    public void shouldHistorySizeIs10() {
 
         final ArrayList<BaseTaskEntity> expected = new ArrayList<>();
         for (int i = 3; i <= 12; i++) {
