@@ -105,12 +105,14 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeTask(int taskId) {
-        repository.removeTask(taskId);
+        removeTaskFromRepository(taskId);
     }
 
     @Override
     public void removeAllTasks() {
-        repository.removeAllTasks();
+        for (TaskEntity task : repository.getAllTasks()) {
+            removeTaskFromRepository(task.getId());
+        }
     }
 
     // Epic's methods
@@ -157,12 +159,18 @@ public class InMemoryTaskManager implements TaskManager {
         if (entity == null) {
             return;
         }
-        repository.removeEpic(entity);
+        for (Integer subtaskId : entity.subtasks) {
+            removeSubtaskFromRepository(subtaskId);
+        }
+        removeEpicFromRepository(entity.getId());
     }
 
     @Override
     public void removeAllEpics() {
-        repository.removeAllEpics();
+        for (EpicEntity epic : repository.getAllEpics()) {
+            removeEpicFromRepository(epic.getId());
+        }
+        removeAllSubtaskFromRepository();
     }
 
     // Subtask's methods
@@ -235,7 +243,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (subtaskEntity == null) {
             return;
         }
-        repository.removeSubtask(subtaskId);
+        removeSubtaskFromRepository(subtaskId);
         EpicEntity epicEntity = repository.getEpic(subtaskEntity.getEpicId());
         if (epicEntity == null) {
             return;
@@ -246,7 +254,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeAllSubtasks() {
-        repository.removeAllSubtasks();
+        removeAllSubtaskFromRepository();
         for (EpicEntity epic : repository.getAllEpics()) {
             epic.subtasks.clear();
             epic.status = TaskStatus.NEW;
@@ -258,6 +266,27 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory().stream()
                 .map(abstractMapper::tryMap)
                 .collect(Collectors.toList());
+    }
+
+    private void removeTaskFromRepository(int taskId) {
+        repository.removeTask(taskId);
+        historyManager.remove(taskId);
+    }
+
+    private void removeEpicFromRepository(int epicId) {
+        repository.removeEpic(epicId);
+        historyManager.remove(epicId);
+    }
+
+    private void removeSubtaskFromRepository(int subtaskId) {
+        repository.removeSubtask(subtaskId);
+        historyManager.remove(subtaskId);
+    }
+
+    private void removeAllSubtaskFromRepository() {
+        for (SubtaskEntity subtask : repository.getAllSubtasks()) {
+            removeSubtaskFromRepository(subtask.getId());
+        }
     }
 
     // Helpers
