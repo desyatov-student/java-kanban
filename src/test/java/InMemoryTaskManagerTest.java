@@ -430,7 +430,6 @@ class InMemoryTaskManagerTest {
         final List<BaseTaskDto> history = taskManager.getHistory();
         assertEquals(
                 List.of(
-                        subtask,
                         EPIC(epic.getId(), TaskStatus.NEW, List.of(subtask)),
                         task,
                         subtask
@@ -442,21 +441,20 @@ class InMemoryTaskManagerTest {
     @Test
     void shouldHistorySizeIs10() {
 
+        int numbersOfTasks = 10;
         final ArrayList<BaseTaskDto> expected = new ArrayList<>();
 
-        for (int i = 1; i <= 12; i++) {
+        for (int i = 1; i <= numbersOfTasks; i++) {
             EpicDto epicDto = taskManager.createEpic(new CreateEpicDto("", ""));
             expected.add(epicDto);
         }
-        expected.remove(0);
-        expected.remove(0);
 
-        for (int i = 1; i <= 12; i++) {
+        for (int i = 1; i <= numbersOfTasks; i++) {
             taskManager.getEpic(i);
         }
 
         final List<BaseTaskDto> history = taskManager.getHistory();
-        assertEquals(InMemoryHistoryManager.DEFAULT_MAX_SIZE, history.size());
+        assertEquals(numbersOfTasks, history.size());
         assertEquals(expected, history);
     }
 

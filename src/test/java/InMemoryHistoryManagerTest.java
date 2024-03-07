@@ -36,31 +36,9 @@ class InMemoryHistoryManagerTest {
         final List<BaseTaskEntity> history = historyManager.getHistory();
         assertEquals(
                 List.of(
-                        subtask,
-                        epic,
-                        simpleTaskDto,
                         subtask
                 ),
                 history
         );
-    }
-
-    @Test
-    void shouldHistorySizeIs10() {
-
-        final ArrayList<BaseTaskEntity> expected = new ArrayList<>();
-        for (int i = 3; i <= 12; i++) {
-            EpicEntity epic = new EpicEntity(i, "", "", TaskStatus.NEW);
-            expected.add(epic);
-        }
-
-        for (int i = 1; i <= 12; i++) {
-            EpicEntity epic = new EpicEntity(i, "", "", TaskStatus.NEW);
-            historyManager.add(epic);
-        }
-
-        final List<BaseTaskEntity> history = historyManager.getHistory();
-        assertEquals(InMemoryHistoryManager.DEFAULT_MAX_SIZE, history.size());
-        assertEquals(expected, history);
     }
 }
