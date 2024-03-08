@@ -32,7 +32,7 @@ public class HistoryLinkedList {
 
     public int size() {
         return hashMap.size();
-    };
+    }
 
     private final HashMap<Integer, Node<BaseTaskDto>> hashMap;
 
