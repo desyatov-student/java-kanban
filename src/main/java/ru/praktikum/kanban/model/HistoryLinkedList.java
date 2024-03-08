@@ -17,13 +17,22 @@ public class HistoryLinkedList {
             this.next = next;
             this.prev = prev;
         }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "data=" + data +
+                    '}';
+        }
     }
 
     private Node<BaseTaskDto> head;
 
     private Node<BaseTaskDto> tail;
 
-    private int size = 0;
+    public int size() {
+        return hashMap.size();
+    };
 
     private final HashMap<Integer, Node<BaseTaskDto>> hashMap;
 
@@ -34,8 +43,21 @@ public class HistoryLinkedList {
     }
 
     public void add(BaseTaskDto value) {
+        Node<BaseTaskDto> node = hashMap.get(value.getId());
+        if (node != null) {
+            this.removeNode(node);
+        }
         Node<BaseTaskDto> newNode = linkLast(value);
         hashMap.put(value.getId(), newNode);
+    }
+
+    public void remove(int id) {
+        Node<BaseTaskDto> node = hashMap.get(id);
+        hashMap.remove(id);
+        if (node == null) {
+            return;
+        }
+        this.removeNode(node);
     }
 
     public List<BaseTaskDto> values() {
@@ -51,15 +73,6 @@ public class HistoryLinkedList {
         return values;
     }
 
-    public void remove(int id) {
-        Node<BaseTaskDto> node = hashMap.get(id);
-        hashMap.remove(id);
-        if (node == null) {
-            return;
-        }
-        this.removeNode(node);
-    }
-
     private void removeNode(Node<BaseTaskDto> node) {
         Node<BaseTaskDto> prev = node.prev;
         Node<BaseTaskDto> next = node.next;
@@ -73,15 +86,9 @@ public class HistoryLinkedList {
         } else {
             next.prev = prev;
         }
-        size--;
     }
 
     private Node<BaseTaskDto> linkLast(BaseTaskDto value) {
-        Node<BaseTaskDto> node = hashMap.get(value.getId());
-        if (node != null) {
-            this.removeNode(node);
-        }
-
         final Node<BaseTaskDto> oldTail = tail;
         final Node<BaseTaskDto> newNode = new Node<>(tail, value, null);
         tail = newNode;
@@ -90,7 +97,6 @@ public class HistoryLinkedList {
         } else {
             oldTail.next = newNode;
         }
-        size++;
         return newNode;
     }
 }

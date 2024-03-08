@@ -1,6 +1,7 @@
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -41,6 +42,33 @@ class HistoryLinkedListTest {
         assertEquals(expected, historyLinkedList.values());
     }
 
+    @Test
+    void testRemoveAndAddValues() {
+        historyLinkedList.add(TASK(1, "name1"));
+        historyLinkedList.add(TASK(2, "name2"));
+        historyLinkedList.add(TASK(3, "name3"));
+        historyLinkedList.add(TASK(4, "name4"));
+        historyLinkedList.add(TASK(5, "name5"));
+        historyLinkedList.remove(3);
+        historyLinkedList.remove(2);
+        historyLinkedList.remove(4);
+
+
+        historyLinkedList.add(TASK(3, "name3_new"));
+        historyLinkedList.add(TASK(2, "name2_new"));
+
+        assertEquals(4, historyLinkedList.size());
+        assertEquals(
+                List.of(
+                        TASK(1, "name1"),
+                        TASK(5, "name5"),
+                        TASK(3, "name3_new"),
+                        TASK(2, "name2_new")
+                ),
+                historyLinkedList.values()
+        );
+    }
+
     private static Stream<Arguments> provideModels() {
         return Stream.of(
                 Arguments.of(
@@ -54,34 +82,34 @@ class HistoryLinkedListTest {
                         List.of(TASK(1))
                 ),
                 Arguments.of(
+                        List.of(TASK(1, "name2")),
                         List.of(TASK(1)),
-                        List.of(TASK(1)),
-                        List.of(TASK(1))
+                        List.of(TASK(1, "name2"))
                 ),
                 Arguments.of(
-                        List.of(TASK(2), TASK(1)),
+                        List.of(TASK(2), TASK(1, "name2")),
                         List.of(TASK(1), TASK(2)),
-                        List.of(TASK(1))
+                        List.of(TASK(1, "name2"))
                 ),
                 Arguments.of(
-                        List.of(TASK(2), TASK(3), TASK(1)),
+                        List.of(TASK(2), TASK(3), TASK(1, "name2")),
                         List.of(TASK(1), TASK(2), TASK(3)),
-                        List.of(TASK(1))
+                        List.of(TASK(1, "name2"))
                 ),
                 Arguments.of(
+                        List.of(TASK(1), TASK(2), TASK(3, "name2")),
                         List.of(TASK(1), TASK(2), TASK(3)),
-                        List.of(TASK(1), TASK(2), TASK(3)),
-                        List.of(TASK(3))
+                        List.of(TASK(3, "name2"))
                 ),
                 Arguments.of(
-                        List.of(TASK(1), TASK(3), TASK(2)),
+                        List.of(TASK(1), TASK(3), TASK(2, "name2")),
                         List.of(TASK(1), TASK(2), TASK(3)),
-                        List.of(TASK(2))
+                        List.of(TASK(2, "name2"))
                 ),
                 Arguments.of(
-                        List.of(TASK(1), TASK(2), TASK(3), TASK(4)),
+                        List.of(TASK(1), TASK(2), TASK(3), TASK(4, "name2")),
                         List.of(TASK(1), TASK(2), TASK(3)),
-                        List.of(TASK(4))
+                        List.of(TASK(4, "name2"))
                 )
         );
     }
@@ -131,5 +159,6 @@ class HistoryLinkedListTest {
         );
     }
 
-    private static TaskDto TASK(int id) { return new TaskDto(id, "", "", TaskStatus.NEW); }
+    private static TaskDto TASK(int id, String name) { return new TaskDto(id, name, "", TaskStatus.NEW); }
+    private static TaskDto TASK(int id) { return TASK(id, ""); }
 }
