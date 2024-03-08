@@ -45,10 +45,10 @@ public class HistoryLinkedList {
     public void add(BaseTaskDto value) {
         Node<BaseTaskDto> node = hashMap.get(value.getId());
         if (node != null) {
-            this.removeNode(node);
+            removeNode(node);
         }
-        Node<BaseTaskDto> newNode = linkLast(value);
-        hashMap.put(value.getId(), newNode);
+        linkLast(value);
+        hashMap.put(value.getId(), tail);
     }
 
     public void remove(int id) {
@@ -57,7 +57,7 @@ public class HistoryLinkedList {
         if (node == null) {
             return;
         }
-        this.removeNode(node);
+        removeNode(node);
     }
 
     public List<BaseTaskDto> values() {
@@ -88,15 +88,13 @@ public class HistoryLinkedList {
         }
     }
 
-    private Node<BaseTaskDto> linkLast(BaseTaskDto value) {
-        final Node<BaseTaskDto> oldTail = tail;
+    private void linkLast(BaseTaskDto value) {
         final Node<BaseTaskDto> newNode = new Node<>(tail, value, null);
-        tail = newNode;
-        if (oldTail == null) {
+        if (head == null) {
             head = newNode;
         } else {
-            oldTail.next = newNode;
+            tail.next = newNode;
         }
-        return newNode;
+        tail = newNode;
     }
 }
