@@ -56,7 +56,6 @@ public class HistoryLinkedList {
             return;
         }
         this.removeNode(node);
-        size--;
     }
 
     private void removeNode(Node<BaseTaskDto> node) {
@@ -72,6 +71,7 @@ public class HistoryLinkedList {
         } else {
             next.prev = prev;
         }
+        size--;
     }
 
     private void linkLast(BaseTaskDto value) {
