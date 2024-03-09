@@ -11,7 +11,7 @@ public interface EpicRepository {
 
     void saveEpic(EpicEntity epicEntity);
 
-    void removeEpic(EpicEntity epicEntity);
+    void removeEpic(int epicId);
 
     void removeAllEpics();
 }

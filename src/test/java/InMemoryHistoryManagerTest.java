@@ -1,15 +1,16 @@
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+import ru.praktikum.kanban.model.HistoryLinkedList;
 import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.entity.EpicEntity;
-import ru.praktikum.kanban.model.entity.TaskEntity;
-import ru.praktikum.kanban.model.entity.SubtaskEntity;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
+import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
+import ru.praktikum.kanban.model.dto.response.EpicDto;
+import ru.praktikum.kanban.model.dto.response.SubtaskDto;
+import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.service.HistoryManager;
 import ru.praktikum.kanban.service.impl.InMemoryHistoryManager;
-import ru.praktikum.kanban.service.impl.Managers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,28 +18,29 @@ class InMemoryHistoryManagerTest {
 
     HistoryManager historyManager;
 
+    @Spy
+    HistoryLinkedList historyLinkedList;
+
     @BeforeEach
     void setUp() {
-        historyManager = Managers.getDefaultHistory();
+        historyLinkedList = Mockito.spy(HistoryLinkedList.class);
+        historyManager = new InMemoryHistoryManager(historyLinkedList);
     }
 
     @Test
     void getHistory() {
-        SubtaskEntity subtask = new SubtaskEntity(1, "", "", TaskStatus.NEW);
-        EpicEntity epic = new EpicEntity(1, "", "", TaskStatus.NEW);
-        TaskEntity simpleTaskDto = new TaskEntity(1, "", "", TaskStatus.NEW);
+        SubtaskDto subtask = new SubtaskDto(1, "", "", TaskStatus.NEW);
+        EpicDto epic = new EpicDto(1, "", "", TaskStatus.NEW, List.of());
+        TaskDto taskDto = new TaskDto(1, "", "", TaskStatus.NEW);
 
         historyManager.add(subtask);
         historyManager.add(epic);
-        historyManager.add(simpleTaskDto);
+        historyManager.add(taskDto);
         historyManager.add(subtask);
 
-        final List<BaseTaskEntity> history = historyManager.getHistory();
+        final List<BaseTaskDto> history = historyManager.getHistory();
         assertEquals(
                 List.of(
-                        subtask,
-                        epic,
-                        simpleTaskDto,
                         subtask
                 ),
                 history
@@ -46,21 +48,14 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void shouldHistorySizeIs10() {
+    void shouldRemoveTask() {
+        TaskDto taskDto = new TaskDto(1, "", "", TaskStatus.NEW);
+        historyManager.add(taskDto);
+        historyManager.remove(taskDto.getId());
+        historyManager.add(null);
 
-        final ArrayList<BaseTaskEntity> expected = new ArrayList<>();
-        for (int i = 3; i <= 12; i++) {
-            EpicEntity epic = new EpicEntity(i, "", "", TaskStatus.NEW);
-            expected.add(epic);
-        }
-
-        for (int i = 1; i <= 12; i++) {
-            EpicEntity epic = new EpicEntity(i, "", "", TaskStatus.NEW);
-            historyManager.add(epic);
-        }
-
-        final List<BaseTaskEntity> history = historyManager.getHistory();
-        assertEquals(InMemoryHistoryManager.DEFAULT_MAX_SIZE, history.size());
-        assertEquals(expected, history);
+        Mockito.verify(historyLinkedList).add(taskDto);
+        Mockito.verify(historyLinkedList).remove(taskDto.getId());
+        Mockito.verifyNoMoreInteractions(historyLinkedList);
     }
 }

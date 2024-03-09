@@ -69,16 +69,12 @@ public class TaskRepositoryInMemory implements Repository {
     }
 
     @Override
-    public void removeEpic(EpicEntity epicEntity) {
-        for (Integer subtaskId : epicEntity.subtasks) {
-            subtasks.remove(subtaskId);
-        }
-        epics.remove(epicEntity.getId());
+    public void removeEpic(int epicId) {
+        epics.remove(epicId);
     }
 
     @Override
     public void removeAllEpics() {
-        subtasks.clear();
         epics.clear();
     }
 

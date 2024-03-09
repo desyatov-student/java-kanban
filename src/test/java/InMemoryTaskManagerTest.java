@@ -1,6 +1,9 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
 import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
@@ -12,11 +15,15 @@ import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
+import ru.praktikum.kanban.repository.impl.TaskRepositoryInMemory;
+import ru.praktikum.kanban.service.HistoryManager;
 import ru.praktikum.kanban.service.TaskManager;
 import ru.praktikum.kanban.service.impl.InMemoryHistoryManager;
+import ru.praktikum.kanban.service.impl.InMemoryTaskManager;
 import ru.praktikum.kanban.service.impl.Managers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.praktikum.kanban.util.IdentifierGenerator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,9 +31,16 @@ class InMemoryTaskManagerTest {
 
     TaskManager taskManager;
 
+    HistoryManager historyManager;
+
     @BeforeEach
     void setUp() {
-        taskManager = Managers.getDefault();
+        historyManager = Mockito.spy(new InMemoryHistoryManager());
+        taskManager = new InMemoryTaskManager(
+                new IdentifierGenerator(),
+                new TaskRepositoryInMemory(),
+                historyManager
+        );
     }
 
     @Test
@@ -430,7 +444,6 @@ class InMemoryTaskManagerTest {
         final List<BaseTaskDto> history = taskManager.getHistory();
         assertEquals(
                 List.of(
-                        subtask,
                         EPIC(epic.getId(), TaskStatus.NEW, List.of(subtask)),
                         task,
                         subtask
@@ -440,23 +453,46 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
+    void shouldRemoveTaskFromHistory() {
+        EpicDto epic = taskManager.createEpic(CREATE_EPIC());
+        TaskDto task = taskManager.createTask(CREATE_TASK);
+        SubtaskDto subtask = taskManager.createSubtask(CREATE_SUBTASK(epic.getId()));
+
+        subtask =taskManager.getSubtask(subtask.getId());
+        epic = taskManager.getEpic(epic.getId());
+        task = taskManager.getTask(task.getId());
+
+        Mockito.verify(historyManager).add(epic);
+        Mockito.verify(historyManager).add(task);
+        Mockito.verify(historyManager).add(subtask);
+        Mockito.verifyNoMoreInteractions(historyManager);
+
+        taskManager.removeEpic(epic.getId());
+        taskManager.removeTask(task.getId());
+
+        Mockito.verify(historyManager).remove(epic.getId());
+        Mockito.verify(historyManager).remove(subtask.getId());
+        Mockito.verify(historyManager).remove(task.getId());
+        Mockito.verifyNoMoreInteractions(historyManager);
+    }
+
+    @Test
     void shouldHistorySizeIs10() {
 
+        int numbersOfTasks = 10;
         final ArrayList<BaseTaskDto> expected = new ArrayList<>();
 
-        for (int i = 1; i <= 12; i++) {
+        for (int i = 1; i <= numbersOfTasks; i++) {
             EpicDto epicDto = taskManager.createEpic(new CreateEpicDto("", ""));
             expected.add(epicDto);
         }
-        expected.remove(0);
-        expected.remove(0);
 
-        for (int i = 1; i <= 12; i++) {
+        for (int i = 1; i <= numbersOfTasks; i++) {
             taskManager.getEpic(i);
         }
 
         final List<BaseTaskDto> history = taskManager.getHistory();
-        assertEquals(InMemoryHistoryManager.DEFAULT_MAX_SIZE, history.size());
+        assertEquals(numbersOfTasks, history.size());
         assertEquals(expected, history);
     }
 
