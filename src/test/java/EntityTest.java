@@ -4,12 +4,13 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.entity.BaseTaskEntity;
-import ru.praktikum.kanban.model.entity.EpicEntity;
-import ru.praktikum.kanban.model.entity.SubtaskEntity;
 import ru.praktikum.kanban.model.entity.TaskEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static util.TaskFactory.EPIC;
+import static util.TaskFactory.SUBTASK;
+import static util.TaskFactory.TASK;
 
 public class EntityTest {
 
@@ -72,8 +73,4 @@ public class EntityTest {
                 )
         );
     }
-
-    private static SubtaskEntity SUBTASK(int id, TaskStatus status) { return new SubtaskEntity(id, "", "", status); }
-    private static EpicEntity EPIC(int id, TaskStatus status) { return new EpicEntity(id, "", "", status); }
-    private static TaskEntity TASK(int id, TaskStatus status) { return new TaskEntity(id, "", "", status); }
 }

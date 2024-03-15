@@ -1,3 +1,4 @@
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -53,7 +54,7 @@ class AbstractMapperTest {
 
     @Test
     void shouldBeThrowAndAbstractMapperHasNoClassAndNoFunction() {
-        EpicEntity epicEntity = new EpicEntity(1, "", "", TaskStatus.NEW);
+        EpicEntity epicEntity = new EpicEntity(1, "", "", TaskStatus.NEW, List.of());
         assertThrows(IllegalArgumentException.class, () -> abstractMapper.tryMap(epicEntity));
     }
 }
