@@ -3,7 +3,7 @@ package ru.praktikum.kanban.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
+import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 
 public class HistoryLinkedList {
 
@@ -26,15 +26,15 @@ public class HistoryLinkedList {
         }
     }
 
-    private Node<BaseTaskDto> head;
+    private Node<BaseTaskEntity> head;
 
-    private Node<BaseTaskDto> tail;
+    private Node<BaseTaskEntity> tail;
 
     public int size() {
         return hashMap.size();
     }
 
-    private final HashMap<Integer, Node<BaseTaskDto>> hashMap;
+    private final HashMap<Integer, Node<BaseTaskEntity>> hashMap;
 
     public HistoryLinkedList() {
         this.head = null;
@@ -42,8 +42,8 @@ public class HistoryLinkedList {
         this.hashMap = new HashMap<>();
     }
 
-    public void add(BaseTaskDto value) {
-        Node<BaseTaskDto> node = hashMap.get(value.getId());
+    public void add(BaseTaskEntity value) {
+        Node<BaseTaskEntity> node = hashMap.get(value.getId());
         if (node != null) {
             removeNode(node);
         }
@@ -52,7 +52,7 @@ public class HistoryLinkedList {
     }
 
     public void remove(int id) {
-        Node<BaseTaskDto> node = hashMap.get(id);
+        Node<BaseTaskEntity> node = hashMap.get(id);
         hashMap.remove(id);
         if (node == null) {
             return;
@@ -60,12 +60,12 @@ public class HistoryLinkedList {
         removeNode(node);
     }
 
-    public List<BaseTaskDto> values() {
+    public List<BaseTaskEntity> values() {
         if (head == null) {
             return List.of();
         }
-        ArrayList<BaseTaskDto> values = new ArrayList<>();
-        Node<BaseTaskDto> next = head;
+        ArrayList<BaseTaskEntity> values = new ArrayList<>();
+        Node<BaseTaskEntity> next = head;
         while (next != null) {
             values.add(next.data);
             next = next.next;
@@ -73,9 +73,9 @@ public class HistoryLinkedList {
         return values;
     }
 
-    private void removeNode(Node<BaseTaskDto> node) {
-        Node<BaseTaskDto> prev = node.prev;
-        Node<BaseTaskDto> next = node.next;
+    private void removeNode(Node<BaseTaskEntity> node) {
+        Node<BaseTaskEntity> prev = node.prev;
+        Node<BaseTaskEntity> next = node.next;
         if (prev == null) {
             head = next;
         } else {
@@ -88,8 +88,8 @@ public class HistoryLinkedList {
         }
     }
 
-    private void linkLast(BaseTaskDto value) {
-        final Node<BaseTaskDto> newNode = new Node<>(tail, value, null);
+    private void linkLast(BaseTaskEntity value) {
+        final Node<BaseTaskEntity> newNode = new Node<>(tail, value, null);
         if (head == null) {
             head = newNode;
         } else {

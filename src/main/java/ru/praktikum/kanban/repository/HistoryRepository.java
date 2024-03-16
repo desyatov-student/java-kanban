@@ -1,14 +1,12 @@
-package ru.praktikum.kanban.service;
+package ru.praktikum.kanban.repository;
 
 import java.util.List;
 import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 
-public interface HistoryManager {
-
+public interface HistoryRepository {
     List<BaseTaskEntity> getHistory();
 
     void remove(int id);
 
-    void add(BaseTaskEntity object);
-
+    void add(BaseTaskEntity task);
 }

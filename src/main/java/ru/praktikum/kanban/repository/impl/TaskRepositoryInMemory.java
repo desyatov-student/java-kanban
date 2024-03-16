@@ -3,20 +3,25 @@ package ru.praktikum.kanban.repository.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import ru.praktikum.kanban.model.HistoryLinkedList;
+import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 import ru.praktikum.kanban.model.entity.EpicEntity;
 import ru.praktikum.kanban.model.entity.SubtaskEntity;
 import ru.praktikum.kanban.model.entity.TaskEntity;
-import ru.praktikum.kanban.repository.Repository;
+import ru.praktikum.kanban.repository.HistoryRepository;
+import ru.praktikum.kanban.repository.TaskManagerRepository;
 
-public class TaskRepositoryInMemory implements Repository {
+public class TaskRepositoryInMemory implements TaskManagerRepository, HistoryRepository {
     private final HashMap<Integer, TaskEntity> tasks;
     private final HashMap<Integer, EpicEntity> epics;
     private final HashMap<Integer, SubtaskEntity> subtasks;
+    private final HistoryLinkedList history;
 
     public TaskRepositoryInMemory() {
         this.tasks = new HashMap<>();
         this.epics = new HashMap<>();
         this.subtasks = new HashMap<>();
+        this.history = new HistoryLinkedList();
     }
 
     // Task's methods
@@ -98,5 +103,25 @@ public class TaskRepositoryInMemory implements Repository {
     @Override
     public void removeAllSubtasks() {
         subtasks.clear();
+    }
+
+    // History
+
+    @Override
+    public List<BaseTaskEntity> getHistory() {
+        return new ArrayList<>(history.values());
+    }
+
+    @Override
+    public void remove(int id) {
+        history.remove(id);
+    }
+
+    @Override
+    public void add(BaseTaskEntity task) {
+        if (task == null) {
+            return;
+        }
+        history.add(task);
     }
 }

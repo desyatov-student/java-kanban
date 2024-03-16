@@ -1,44 +1,53 @@
-
 import java.util.ArrayList;
 import java.util.List;
-import org.mockito.Mock;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
 import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
 import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
+import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.dto.response.TaskDto;
-import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
+import ru.praktikum.kanban.model.mapper.EpicMapper;
+import ru.praktikum.kanban.model.mapper.EpicMapperImpl;
+import ru.praktikum.kanban.model.mapper.SubtaskMapper;
+import ru.praktikum.kanban.model.mapper.SubtaskMapperImpl;
+import ru.praktikum.kanban.model.mapper.TaskMapper;
+import ru.praktikum.kanban.model.mapper.TaskMapperImpl;
 import ru.praktikum.kanban.repository.impl.TaskRepositoryInMemory;
 import ru.praktikum.kanban.service.HistoryManager;
 import ru.praktikum.kanban.service.TaskManager;
-import ru.praktikum.kanban.service.impl.InMemoryHistoryManager;
-import ru.praktikum.kanban.service.impl.InMemoryTaskManager;
-import ru.praktikum.kanban.service.impl.Managers;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import ru.praktikum.kanban.service.impl.HistoryManagerImpl;
+import ru.praktikum.kanban.service.impl.TaskManagerImpl;
 import ru.praktikum.kanban.util.IdentifierGenerator;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class InMemoryTaskManagerTest {
+class TaskManagerImplTest {
 
     TaskManager taskManager;
 
     HistoryManager historyManager;
 
+    private final TaskMapper taskMapper = new TaskMapperImpl();
+    private final EpicMapper epicMapper = new EpicMapperImpl();
+    private final SubtaskMapper subtaskMapper = new SubtaskMapperImpl();
+
     @BeforeEach
     void setUp() {
-        historyManager = Mockito.spy(new InMemoryHistoryManager());
-        taskManager = new InMemoryTaskManager(
+        TaskRepositoryInMemory repository = new TaskRepositoryInMemory();
+        historyManager = Mockito.spy(new HistoryManagerImpl(repository));
+        taskManager = new TaskManagerImpl(
                 new IdentifierGenerator(),
-                new TaskRepositoryInMemory(),
+                repository,
                 historyManager
         );
     }
@@ -462,9 +471,9 @@ class InMemoryTaskManagerTest {
         epic = taskManager.getEpic(epic.getId());
         task = taskManager.getTask(task.getId());
 
-        Mockito.verify(historyManager).add(epic);
-        Mockito.verify(historyManager).add(task);
-        Mockito.verify(historyManager).add(subtask);
+        Mockito.verify(historyManager).add(epicMapper.toEntity(epic.getId(), CREATE_EPIC()));
+        Mockito.verify(historyManager).add(taskMapper.toEntity(task.getId(), CREATE_TASK));
+        Mockito.verify(historyManager).add(subtaskMapper.toEntity(subtask.getId(), CREATE_SUBTASK(epic.getId())));
         Mockito.verifyNoMoreInteractions(historyManager);
 
         taskManager.removeEpic(epic.getId());

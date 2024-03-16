@@ -14,6 +14,7 @@ import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
+import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 import ru.praktikum.kanban.model.entity.EpicEntity;
 import ru.praktikum.kanban.model.entity.SubtaskEntity;
 import ru.praktikum.kanban.model.entity.TaskEntity;
@@ -23,23 +24,24 @@ import ru.praktikum.kanban.model.mapper.SubtaskMapper;
 import ru.praktikum.kanban.model.mapper.SubtaskMapperImpl;
 import ru.praktikum.kanban.model.mapper.TaskMapper;
 import ru.praktikum.kanban.model.mapper.TaskMapperImpl;
-import ru.praktikum.kanban.repository.Repository;
-import ru.praktikum.kanban.repository.impl.TaskRepositoryInMemory;
+import ru.praktikum.kanban.repository.TaskManagerRepository;
 import ru.praktikum.kanban.service.HistoryManager;
 import ru.praktikum.kanban.service.TaskManager;
+import ru.praktikum.kanban.util.AbstractMapper;
 import ru.praktikum.kanban.util.IdentifierGenerator;
 
-public class InMemoryTaskManager implements TaskManager {
+public class TaskManagerImpl implements TaskManager {
     private final IdentifierGenerator identifierGenerator;
-    private final Repository repository;
+    private final TaskManagerRepository repository;
     private final HistoryManager historyManager;
     private final TaskMapper taskMapper;
     private final EpicMapper epicMapper;
     private final SubtaskMapper subtaskMapper;
+    private final AbstractMapper<BaseTaskEntity, BaseTaskDto> abstractMapper;
 
-    public InMemoryTaskManager(
+    public TaskManagerImpl(
             IdentifierGenerator identifierGenerator,
-            Repository repository,
+            TaskManagerRepository repository,
             HistoryManager historyManager
     ) {
         this.identifierGenerator = identifierGenerator;
@@ -48,10 +50,15 @@ public class InMemoryTaskManager implements TaskManager {
         this.taskMapper = new TaskMapperImpl();
         this.epicMapper = new EpicMapperImpl();
         this.subtaskMapper = new SubtaskMapperImpl();
+        this.abstractMapper = new AbstractMapper<>();
+
+        abstractMapper.put(TaskEntity.class, value -> taskMapper.toDto((TaskEntity) value));
+        abstractMapper.put(SubtaskEntity.class, value -> subtaskMapper.toDto((SubtaskEntity) value));
+        abstractMapper.put(EpicEntity.class, value -> this.getEpicDtoWithEpicEntity((EpicEntity) value));
     }
 
-    public InMemoryTaskManager() {
-        this(new IdentifierGenerator(), new TaskRepositoryInMemory(), new InMemoryHistoryManager());
+    public TaskManagerImpl(TaskManagerRepository repository, HistoryManager historyManager) {
+        this(new IdentifierGenerator(), repository, historyManager);
     }
 
     private int getNextTaskId() {
@@ -90,9 +97,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (entity == null) {
             return null;
         }
-        TaskDto taskDto = taskMapper.toDto(entity);
-        historyManager.add(taskDto);
-        return taskDto;
+        historyManager.add(entity);
+        return taskMapper.toDto(entity);
     }
 
     @Override
@@ -123,9 +129,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (epicEntity == null) {
             return null;
         }
-        EpicDto epicDto = getEpicDtoWithEpicEntity(epicEntity);
-        historyManager.add(epicDto);
-        return epicDto;
+        historyManager.add(epicEntity);
+        return getEpicDtoWithEpicEntity(epicEntity);
     }
 
     @Override
@@ -180,9 +185,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (entity == null) {
             return null;
         }
-        SubtaskDto subtaskDto = subtaskMapper.toDto(entity);
-        historyManager.add(subtaskDto);
-        return subtaskDto;
+        historyManager.add(entity);
+        return subtaskMapper.toDto(entity);
     }
 
     @Override
@@ -256,7 +260,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<BaseTaskDto> getHistory() {
-        return historyManager.getHistory();
+        return historyManager.getHistory().stream()
+                .map(abstractMapper::tryMap)
+                .collect(Collectors.toList());
     }
 
     private void removeTaskFromRepository(int taskId) {
