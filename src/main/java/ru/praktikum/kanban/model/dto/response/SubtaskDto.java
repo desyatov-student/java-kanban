@@ -6,7 +6,7 @@ import ru.praktikum.kanban.model.TaskStatus;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class SubtaskDto extends BaseTaskDto {
+public class SubtaskDto extends TaskDto {
 
     public SubtaskDto(int id, String name, String description, TaskStatus status) {
         super(id, name, description, status);

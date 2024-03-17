@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
 import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.entity.Epic;
 import ru.praktikum.kanban.model.entity.Task;
@@ -18,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AbstractMapperTest {
 
-    AbstractMapper<Task, BaseTaskDto> abstractMapper;
+    AbstractMapper<Task, TaskDto> abstractMapper;
     TaskMapper taskMapper = new TaskMapperImpl();
 
     @BeforeEach
@@ -32,7 +31,7 @@ class AbstractMapperTest {
 
         Task task = new Task(1, "", "", TaskStatus.NEW);
         TaskDto expected = new TaskDto(task.getId(), task.name, task.description, task.status);
-        BaseTaskDto actual = abstractMapper.tryMap(task);
+        TaskDto actual = abstractMapper.tryMap(task);
         assertEquals(expected, actual);
     }
 

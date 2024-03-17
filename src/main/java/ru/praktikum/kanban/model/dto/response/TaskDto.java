@@ -1,14 +1,19 @@
 package ru.praktikum.kanban.model.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
 import ru.praktikum.kanban.model.TaskStatus;
 
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
-public class TaskDto extends BaseTaskDto {
-
-    public TaskDto(int id, String name, String description, TaskStatus status) {
-        super(id, name, description, status);
-    }
+@Getter
+@AllArgsConstructor
+@ToString
+@EqualsAndHashCode
+public class TaskDto {
+    private final int id;
+    @NonNull private final String name;
+    @NonNull private final String description;
+    @NonNull private final TaskStatus status;
 }

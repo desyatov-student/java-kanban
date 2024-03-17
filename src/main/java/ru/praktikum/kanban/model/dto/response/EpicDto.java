@@ -10,7 +10,7 @@ import ru.praktikum.kanban.model.TaskStatus;
 @Getter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class EpicDto extends BaseTaskDto {
+public class EpicDto extends TaskDto {
 
     @NonNull private final List<SubtaskDto> subtasks;
 

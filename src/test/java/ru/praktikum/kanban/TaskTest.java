@@ -2,23 +2,23 @@ package ru.praktikum.kanban;
 
 import java.util.ArrayList;
 import java.util.List;
-import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
+import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class TaskTest {
 
-    private class TestExample {
-        BaseTaskDto task1;
-        BaseTaskDto task2;
+    private static class TestExample {
+        TaskDto task1;
+        TaskDto task2;
         boolean isEquals;
 
-        public TestExample(BaseTaskDto task1, BaseTaskDto task2, boolean isEquals) {
+        public TestExample(TaskDto task1, TaskDto task2, boolean isEquals) {
             this.task1 = task1;
             this.task2 = task2;
             this.isEquals = isEquals;

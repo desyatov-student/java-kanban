@@ -7,7 +7,6 @@ import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
 import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
 import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
-import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.dto.response.TaskDto;
@@ -36,7 +35,7 @@ public class TaskManagerImpl implements TaskManager {
     private final TaskMapper taskMapper;
     private final EpicMapper epicMapper;
     private final SubtaskMapper subtaskMapper;
-    private final AbstractMapper<Task, BaseTaskDto> abstractMapper;
+    private final AbstractMapper<Task, TaskDto> abstractMapper;
 
     public TaskManagerImpl(
             IdentifierGenerator identifierGenerator,
@@ -258,7 +257,7 @@ public class TaskManagerImpl implements TaskManager {
     }
 
     @Override
-    public List<BaseTaskDto> getHistory() {
+    public List<TaskDto> getHistory() {
         return historyManager.getHistory().stream()
                 .map(abstractMapper::tryMap)
                 .collect(Collectors.toList());

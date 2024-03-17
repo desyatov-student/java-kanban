@@ -9,10 +9,9 @@ import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
 import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
 import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
-import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
+import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
@@ -452,7 +451,7 @@ class TaskManagerImplTest {
         taskManager.getTask(task.getId());
         taskManager.getSubtask(subtask.getId());
 
-        final List<BaseTaskDto> history = taskManager.getHistory();
+        final List<TaskDto> history = taskManager.getHistory();
         assertEquals(
                 List.of(
                         EPIC(epic.getId(), TaskStatus.NEW, List.of(subtask)),
@@ -491,7 +490,7 @@ class TaskManagerImplTest {
     void shouldHistorySizeIs10() {
 
         int numbersOfTasks = 10;
-        final ArrayList<BaseTaskDto> expected = new ArrayList<>();
+        final ArrayList<TaskDto> expected = new ArrayList<>();
 
         for (int i = 1; i <= numbersOfTasks; i++) {
             EpicDto epicDto = taskManager.createEpic(new CreateEpicDto("", ""));
@@ -502,7 +501,7 @@ class TaskManagerImplTest {
             taskManager.getEpic(i);
         }
 
-        final List<BaseTaskDto> history = taskManager.getHistory();
+        final List<TaskDto> history = taskManager.getHistory();
         assertEquals(numbersOfTasks, history.size());
         assertEquals(expected, history);
     }

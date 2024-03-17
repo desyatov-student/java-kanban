@@ -4,7 +4,7 @@ import java.util.List;
 import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
 import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
 import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
-import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
+import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.dto.response.TaskDto;
@@ -59,5 +59,5 @@ public interface TaskManager {
 
     // History's methods
 
-    List<BaseTaskDto> getHistory();
+    List<TaskDto> getHistory();
 }
