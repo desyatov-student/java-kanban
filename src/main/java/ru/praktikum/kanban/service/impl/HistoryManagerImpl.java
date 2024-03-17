@@ -20,7 +20,7 @@ public class HistoryManagerImpl implements HistoryManager {
 
     @Override
     public void remove(int id) {
-        repository.remove(id);
+        repository.removeFromHistory(id);
     }
 
     @Override
@@ -28,6 +28,6 @@ public class HistoryManagerImpl implements HistoryManager {
         if (object == null) {
             return;
         }
-        repository.add(object);
+        repository.addToHistory(object);
     }
 }

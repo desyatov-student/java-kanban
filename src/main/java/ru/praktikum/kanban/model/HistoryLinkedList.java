@@ -7,7 +7,7 @@ import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 
 public class HistoryLinkedList {
 
-    class Node<E> {
+    static class Node<E> {
         E data;
         Node<E> next;
         Node<E> prev;
@@ -71,6 +71,18 @@ public class HistoryLinkedList {
             next = next.next;
         }
         return values;
+    }
+
+    public void clear() {
+        hashMap.clear();
+        tail = null;
+        head = null;
+    }
+
+    public void putAll(List<BaseTaskEntity> values) {
+        for (BaseTaskEntity value : values) {
+            add(value);
+        }
     }
 
     private void removeNode(Node<BaseTaskEntity> node) {

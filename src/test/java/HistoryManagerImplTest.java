@@ -1,20 +1,15 @@
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-import ru.praktikum.kanban.model.HistoryLinkedList;
-import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
-import ru.praktikum.kanban.model.dto.response.EpicDto;
-import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
+import org.mockito.junit.jupiter.MockitoExtension;
 import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 import ru.praktikum.kanban.model.entity.EpicEntity;
 import ru.praktikum.kanban.model.entity.SubtaskEntity;
 import ru.praktikum.kanban.model.entity.TaskEntity;
 import ru.praktikum.kanban.repository.HistoryRepository;
-import ru.praktikum.kanban.repository.TaskManagerRepository;
 import ru.praktikum.kanban.repository.impl.TaskRepositoryInMemory;
 import ru.praktikum.kanban.service.HistoryManager;
 import ru.praktikum.kanban.service.impl.HistoryManagerImpl;
@@ -63,8 +58,8 @@ class HistoryManagerImplTest {
         historyManager.remove(task.getId());
         historyManager.add(null);
 
-        Mockito.verify(repository).add(task);
-        Mockito.verify(repository).remove(task.getId());
+        Mockito.verify(repository).addToHistory(task);
+        Mockito.verify(repository).removeFromHistory(task.getId());
         Mockito.verifyNoMoreInteractions(repository);
     }
 }

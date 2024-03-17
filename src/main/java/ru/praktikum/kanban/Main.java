@@ -16,15 +16,15 @@ public class Main {
         TaskManager taskManager = Managers.getDefault();
 
         final TaskDto task1 = taskManager.createTask(
-                new CreateTaskDto("Таск 1", "")
+                new CreateTaskDto("Таск 1", "Description")
         );
 
         final TaskDto task2 = taskManager.createTask(
-                new CreateTaskDto("Таск 2", "")
+                new CreateTaskDto("Таск 2", "Description")
         );
 
         EpicDto epic = taskManager.createEpic(
-                new CreateEpicDto("Эпик с подзадачами", "")
+                new CreateEpicDto("Эпик с подзадачами", "Description")
         );
 
         EpicDto emptyEpic = taskManager.createEpic(

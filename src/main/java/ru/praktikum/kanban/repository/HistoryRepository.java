@@ -6,7 +6,7 @@ import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 public interface HistoryRepository {
     List<BaseTaskEntity> getHistory();
 
-    void remove(int id);
+    void removeFromHistory(int id);
 
-    void add(BaseTaskEntity task);
+    void addToHistory(BaseTaskEntity task);
 }

@@ -8,10 +8,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import ru.praktikum.kanban.model.TaskType;
+import ru.praktikum.kanban.model.TasksContainer;
 import ru.praktikum.kanban.model.backed.file.TasksBackup;
 import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 import ru.praktikum.kanban.model.mapper.BaseTaskEntityMapper;
-import ru.praktikum.kanban.model.mapper.BaseTaskMapper;
 
 import static ru.praktikum.kanban.constant.DelimiterConstants.DELIMITER_COMMA;
 
@@ -24,7 +24,7 @@ public class TasksCsvReader {
 
     public TasksBackup read(BufferedReader bufferedReader) throws IOException {
 
-        HashMap<TaskType, HashMap<Integer, BaseTaskEntity>> tasks = new HashMap<>();
+        TasksContainer tasksContainer = new TasksContainer();
         HashMap<Integer, BaseTaskEntity> allTasks = new HashMap<>();
         Stream<Integer> historyStream = Stream.empty();
 
@@ -41,13 +41,10 @@ public class TasksCsvReader {
             }
 
             if (taskType != null) {
-                BaseTaskEntity task = taskMapper.toModel(new BaseTaskMapper.Input<>(values, taskType, allTasks));
+                BaseTaskEntity task = taskMapper.toModel(
+                        new BaseTaskEntityMapper.Input(values, taskType, tasksContainer)
+                );
                 allTasks.put(task.getId(), task);
-                tasks.putIfAbsent(taskType, new HashMap<>());
-                tasks.computeIfPresent(taskType, (k, v) -> {
-                    v.put(task.getId(), task);
-                    return v;
-                });
             } else {
                 historyStream = Stream.of(values).map(Integer::valueOf);
             }
@@ -55,7 +52,7 @@ public class TasksCsvReader {
         List<BaseTaskEntity> history = historyStream.map(allTasks::get)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-        return new TasksBackup(tasks, history);
+        return new TasksBackup(tasksContainer, history);
     }
 
 }

@@ -12,10 +12,10 @@ import ru.praktikum.kanban.repository.HistoryRepository;
 import ru.praktikum.kanban.repository.TaskManagerRepository;
 
 public class TaskRepositoryInMemory implements TaskManagerRepository, HistoryRepository {
-    private final HashMap<Integer, TaskEntity> tasks;
-    private final HashMap<Integer, EpicEntity> epics;
-    private final HashMap<Integer, SubtaskEntity> subtasks;
-    private final HistoryLinkedList history;
+    protected final HashMap<Integer, TaskEntity> tasks;
+    protected final HashMap<Integer, EpicEntity> epics;
+    protected final HashMap<Integer, SubtaskEntity> subtasks;
+    protected final HistoryLinkedList history;
 
     public TaskRepositoryInMemory() {
         this.tasks = new HashMap<>();
@@ -113,12 +113,12 @@ public class TaskRepositoryInMemory implements TaskManagerRepository, HistoryRep
     }
 
     @Override
-    public void remove(int id) {
+    public void removeFromHistory(int id) {
         history.remove(id);
     }
 
     @Override
-    public void add(BaseTaskEntity task) {
+    public void addToHistory(BaseTaskEntity task) {
         if (task == null) {
             return;
         }

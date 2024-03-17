@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.praktikum.kanban.exception.TaskFileStorageException;
 import ru.praktikum.kanban.model.TaskType;
+import ru.praktikum.kanban.model.TasksContainer;
 import ru.praktikum.kanban.model.backed.file.TasksBackup;
 import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 import ru.praktikum.kanban.model.mapper.BaseTaskEntityMapper;
@@ -29,17 +30,17 @@ public class TaskFileStorageTest {
         BaseTaskEntityMapper mapper = new BaseTaskEntityMapper();
         TasksCsvWriter writer = new TasksCsvWriter(mapper);
         TasksCsvReader reader = new TasksCsvReader(mapper);
-        fileStorage = new TaskFileStorage(writer, reader);
+        fileStorage = new TaskFileStorage(writer, reader, true);
     }
 
     @ParameterizedTest
     @MethodSource("provideModels")
     void shouldWriteAndReadTasksOnDisk(
-            HashMap<TaskType, HashMap<Integer, BaseTaskEntity>> tasksHashMap,
+            TasksContainer tasksContainer,
             List<BaseTaskEntity> history,
             List<BaseTaskEntity> expectedHistory
     ) throws TaskFileStorageException {
-        TasksBackup expectedBackup = new TasksBackup(tasksHashMap, history);
+        TasksBackup expectedBackup = new TasksBackup(tasksContainer, history);
 
         fileStorage.save(expectedBackup);
         TasksBackup actualBackup = fileStorage.getBackup();
@@ -51,7 +52,7 @@ public class TaskFileStorageTest {
     private static Stream<Arguments> provideModels() {
         return Stream.of(
                 Arguments.of(
-                        CollectionsHelper.listsToMap(
+                        CollectionsHelper.tasksListsToContainer(
                                 List.of(EPIC(5, List.of(6))),
                                 List.of(SUBTASK(6, 5), SUBTASK(7, 5)),
                                 List.of(TASK(1), TASK(2), TASK(3))
@@ -60,7 +61,7 @@ public class TaskFileStorageTest {
                         List.of(TASK(1))
                 ),
                 Arguments.of(
-                        CollectionsHelper.listsToMap(
+                        CollectionsHelper.tasksListsToContainer(
                                 List.of(),
                                 List.of(),
                                 List.of()
@@ -69,7 +70,7 @@ public class TaskFileStorageTest {
                         List.of()
                 ),
                 Arguments.of(
-                        CollectionsHelper.listsToMap(
+                        CollectionsHelper.tasksListsToContainer(
                                 List.of(),
                                 List.of(),
                                 List.of(TASK(1), TASK(2), TASK(3))

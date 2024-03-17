@@ -1,29 +1,39 @@
 package ru.praktikum.kanban.model.backed.file;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import ru.praktikum.kanban.model.TaskType;
+import lombok.ToString;
+import ru.praktikum.kanban.model.TasksContainer;
 import ru.praktikum.kanban.model.entity.BaseTaskEntity;
-import ru.praktikum.kanban.model.mapper.CollectionsHelper;
 
 @Getter
+@EqualsAndHashCode
+@ToString
 public class TasksBackup {
-    HashMap<TaskType, HashMap<Integer, BaseTaskEntity>> tasks;
+    TasksContainer tasksContainer;
     List<BaseTaskEntity> history;
 
     public TasksBackup() {
-        this.tasks = new HashMap<>();
-        this.history = new ArrayList<>();
+        this(new TasksContainer(), new ArrayList<>());
     }
 
-    public TasksBackup(HashMap<TaskType, HashMap<Integer, BaseTaskEntity>> tasks, List<BaseTaskEntity> history) {
-        this.tasks = tasks;
+    public TasksBackup(TasksContainer tasksContainer, List<BaseTaskEntity> history) {
+        this.tasksContainer = tasksContainer;
         this.history = history;
     }
 
     public List<BaseTaskEntity> getTasksList() {
-        return CollectionsHelper.mapToList(getTasks());
+        return Stream.of(
+                        tasksContainer.epics.values(),
+                        tasksContainer.subtasks.values(),
+                        tasksContainer.tasks.values()
+                )
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 }
