@@ -1,4 +1,4 @@
-package util;
+package ru.praktikum.kanban.util;
 
 import java.util.List;
 import ru.praktikum.kanban.model.TaskStatus;

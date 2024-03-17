@@ -1,3 +1,5 @@
+package ru.praktikum.kanban;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +22,7 @@ import ru.praktikum.kanban.model.mapper.SubtaskMapper;
 import ru.praktikum.kanban.model.mapper.SubtaskMapperImpl;
 import ru.praktikum.kanban.model.mapper.TaskMapper;
 import ru.praktikum.kanban.model.mapper.TaskMapperImpl;
-import ru.praktikum.kanban.repository.impl.TaskRepositoryInMemory;
+import ru.praktikum.kanban.repository.impl.InMemoryTaskRepository;
 import ru.praktikum.kanban.service.HistoryManager;
 import ru.praktikum.kanban.service.TaskManager;
 import ru.praktikum.kanban.service.impl.HistoryManagerImpl;
@@ -43,7 +45,7 @@ class TaskManagerImplTest {
 
     @BeforeEach
     void setUp() {
-        TaskRepositoryInMemory repository = new TaskRepositoryInMemory();
+        InMemoryTaskRepository repository = new InMemoryTaskRepository();
         historyManager = Mockito.spy(new HistoryManagerImpl(repository));
         taskManager = new TaskManagerImpl(
                 new IdentifierGenerator(),

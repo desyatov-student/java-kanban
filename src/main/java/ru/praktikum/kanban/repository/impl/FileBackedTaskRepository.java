@@ -9,13 +9,13 @@ import ru.praktikum.kanban.model.entity.SubtaskEntity;
 import ru.praktikum.kanban.model.entity.TaskEntity;
 import ru.praktikum.kanban.util.Logger;
 
-public class TaskRepositoryBackedFile extends TaskRepositoryInMemory {
+public class FileBackedTaskRepository extends InMemoryTaskRepository {
 
     private final TaskFileStorage fileStorage;
     boolean isLoaded = false;
-    private final Logger logger = Logger.getLogger(TaskRepositoryBackedFile.class);
+    private final Logger logger = Logger.getLogger(FileBackedTaskRepository.class);
 
-    public TaskRepositoryBackedFile(TaskFileStorage fileStorage) {
+    public FileBackedTaskRepository(TaskFileStorage fileStorage) {
         this.fileStorage = fileStorage;
     }
 
@@ -50,10 +50,10 @@ public class TaskRepositoryBackedFile extends TaskRepositoryInMemory {
             history.putAll(backup.getHistory());
 
             logger.info("Success loaded tasks from file: " + backup);
+            isLoaded = true;
         } catch (TaskFileStorageException e) {
             logger.error("Enable to save tasks changes", e);
         }
-        isLoaded = true;
     }
 
     @Override

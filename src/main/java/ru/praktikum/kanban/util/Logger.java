@@ -1,6 +1,10 @@
 package ru.praktikum.kanban.util;
 
+import ru.praktikum.kanban.config.ApplicationConfig;
+
 public class Logger {
+
+    ApplicationConfig config = new ApplicationConfig();
 
     enum Level {
         ERROR,
@@ -19,7 +23,7 @@ public class Logger {
     }
 
     public void info(String message) {
-        System.out.println(format(Level.INFO, message, null));
+        print(Level.INFO, message, null);
     }
 
     public void error(String message) {
@@ -27,10 +31,13 @@ public class Logger {
     }
 
     public void error(String message, Throwable exception) {
-        System.out.println(format(Level.ERROR, message, exception));
+        print(Level.ERROR, message, exception);
     }
 
-    private String format(Level level, String message, Throwable exception) {
+    private void print(Level level, String message, Throwable exception) {
+        if (!config.isLogEnabled()) {
+            return;
+        }
         String coloredLevel;
         String coloredMessage;
         switch (level) {
@@ -45,9 +52,9 @@ public class Logger {
         }
         String format = String.format("%s %s %s", coloredLevel, className, coloredMessage);
         if (exception != null) {
-            return  format + " cause: " + exception;
+            format = format + " cause: " + exception;
         }
-        return format;
+        System.out.println(format);
     }
 
     private String green(String value) {

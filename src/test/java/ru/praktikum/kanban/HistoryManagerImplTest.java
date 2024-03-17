@@ -1,23 +1,22 @@
+package ru.praktikum.kanban;
+
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
 import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 import ru.praktikum.kanban.model.entity.EpicEntity;
 import ru.praktikum.kanban.model.entity.SubtaskEntity;
 import ru.praktikum.kanban.model.entity.TaskEntity;
 import ru.praktikum.kanban.repository.HistoryRepository;
-import ru.praktikum.kanban.repository.impl.TaskRepositoryInMemory;
+import ru.praktikum.kanban.repository.impl.InMemoryTaskRepository;
 import ru.praktikum.kanban.service.HistoryManager;
 import ru.praktikum.kanban.service.impl.HistoryManagerImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static util.TaskFactory.EPIC;
-import static util.TaskFactory.SUBTASK;
-import static util.TaskFactory.TASK;
+import static ru.praktikum.kanban.util.TaskFactory.EPIC;
+import static ru.praktikum.kanban.util.TaskFactory.SUBTASK;
+import static ru.praktikum.kanban.util.TaskFactory.TASK;
 
 class HistoryManagerImplTest {
 
@@ -27,7 +26,7 @@ class HistoryManagerImplTest {
 
     @BeforeEach
     void setUp() {
-        repository = Mockito.spy(TaskRepositoryInMemory.class);
+        repository = Mockito.spy(InMemoryTaskRepository.class);
         historyManager = new HistoryManagerImpl(repository);
     }
 

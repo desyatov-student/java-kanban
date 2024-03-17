@@ -1,8 +1,10 @@
 package ru.praktikum.kanban.repository.impl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 import ru.praktikum.kanban.model.HistoryLinkedList;
 import ru.praktikum.kanban.model.entity.BaseTaskEntity;
 import ru.praktikum.kanban.model.entity.EpicEntity;
@@ -11,13 +13,13 @@ import ru.praktikum.kanban.model.entity.TaskEntity;
 import ru.praktikum.kanban.repository.HistoryRepository;
 import ru.praktikum.kanban.repository.TaskManagerRepository;
 
-public class TaskRepositoryInMemory implements TaskManagerRepository, HistoryRepository {
+public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRepository {
     protected final HashMap<Integer, TaskEntity> tasks;
     protected final HashMap<Integer, EpicEntity> epics;
     protected final HashMap<Integer, SubtaskEntity> subtasks;
     protected final HistoryLinkedList history;
 
-    public TaskRepositoryInMemory() {
+    public InMemoryTaskRepository() {
         this.tasks = new HashMap<>();
         this.epics = new HashMap<>();
         this.subtasks = new HashMap<>();
@@ -28,7 +30,10 @@ public class TaskRepositoryInMemory implements TaskManagerRepository, HistoryRep
 
     @Override
     public List<TaskEntity> getAllTasks() {
-        return new ArrayList<>(tasks.values());
+        return new ArrayList<>(tasks.values())
+                .stream()
+                .sorted(Comparator.comparing(TaskEntity::getId))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -55,7 +60,10 @@ public class TaskRepositoryInMemory implements TaskManagerRepository, HistoryRep
 
     @Override
     public List<EpicEntity> getAllEpics() {
-        return new ArrayList<>(epics.values());
+        return new ArrayList<>(epics.values())
+                .stream()
+                .sorted(Comparator.comparing(EpicEntity::getId))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -87,7 +95,10 @@ public class TaskRepositoryInMemory implements TaskManagerRepository, HistoryRep
 
     @Override
     public List<SubtaskEntity> getAllSubtasks() {
-        return new ArrayList<>(subtasks.values());
+        return new ArrayList<>(subtasks.values())
+                .stream()
+                .sorted(Comparator.comparing(SubtaskEntity::getId))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -1,3 +1,5 @@
+package ru.praktikum.kanban;
+
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -8,9 +10,9 @@ import ru.praktikum.kanban.model.entity.TaskEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static util.TaskFactory.EPIC;
-import static util.TaskFactory.SUBTASK;
-import static util.TaskFactory.TASK;
+import static ru.praktikum.kanban.util.TaskFactory.EPIC;
+import static ru.praktikum.kanban.util.TaskFactory.SUBTASK;
+import static ru.praktikum.kanban.util.TaskFactory.TASK;
 
 public class EntityTest {
 
