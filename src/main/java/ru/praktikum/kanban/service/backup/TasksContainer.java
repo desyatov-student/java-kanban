@@ -1,4 +1,4 @@
-package ru.praktikum.kanban.model;
+package ru.praktikum.kanban.service.backup;
 
 import java.util.HashMap;
 import lombok.EqualsAndHashCode;

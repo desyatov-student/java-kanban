@@ -10,12 +10,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.praktikum.kanban.exception.TaskFileStorageException;
-import ru.praktikum.kanban.model.TasksContainer;
-import ru.praktikum.kanban.model.backed.file.TasksBackup;
+import ru.praktikum.kanban.service.backup.TasksContainer;
+import ru.praktikum.kanban.service.backup.TasksBackup;
 import ru.praktikum.kanban.model.entity.Subtask;
 import ru.praktikum.kanban.model.entity.Task;
 import ru.praktikum.kanban.model.entity.Epic;
-import ru.praktikum.kanban.repository.impl.TaskFileStorage;
+import ru.praktikum.kanban.service.backup.TaskFileStorage;
 import ru.praktikum.kanban.repository.impl.FileBackedTaskRepository;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

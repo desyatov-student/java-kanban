@@ -1,93 +1,77 @@
 package ru.praktikum.kanban;
 
-import java.util.ArrayList;
-import java.util.List;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
-import ru.praktikum.kanban.model.dto.response.EpicDto;
-import ru.praktikum.kanban.model.dto.response.SubtaskDto;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import ru.praktikum.kanban.model.TaskStatus;
-import org.junit.jupiter.api.Test;
+import ru.praktikum.kanban.model.entity.Task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static ru.praktikum.kanban.util.TaskFactory.EPIC;
+import static ru.praktikum.kanban.util.TaskFactory.SUBTASK;
+import static ru.praktikum.kanban.util.TaskFactory.TASK;
 
-class TaskTest {
+public class TaskTest {
 
-    private static class TestExample {
-        TaskDto task1;
-        TaskDto task2;
-        boolean isEquals;
-
-        public TestExample(TaskDto task1, TaskDto task2, boolean isEquals) {
-            this.task1 = task1;
-            this.task2 = task2;
-            this.isEquals = isEquals;
+    @ParameterizedTest
+    @MethodSource("provideModels")
+    void testEquals(Task task1, Task task2, boolean isEquals) {
+        if (isEquals) {
+            assertEquals(task1, task2);
+        } else {
+            assertNotEquals(task1, task2);
         }
     }
 
-    @Test
-    void testEquals() {
-
-        TestExample[] examples = {
-                new TestExample(
-                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
-                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
+    private static Stream<Arguments> provideModels() {
+        return Stream.of(
+                Arguments.of(
+                        EPIC(1, TaskStatus.NEW),
+                        EPIC(1, TaskStatus.DONE),
                         true
                 ),
-                new TestExample(
-                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
-                        new EpicDto(1, "2", "", TaskStatus.NEW, new ArrayList<>()),
+                Arguments.of(
+                        EPIC(1, TaskStatus.NEW),
+                        EPIC(2, TaskStatus.NEW),
                         false
                 ),
-                new TestExample(
-                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
-                        new EpicDto(1, "", "2", TaskStatus.NEW, new ArrayList<>()),
-                        false
-                ),
-                new TestExample(
-                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
-                        new EpicDto(1, "", "", TaskStatus.DONE, new ArrayList<>()),
-                        false
-                ),
-                new TestExample(
-                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
-                        new EpicDto(1, "", "", TaskStatus.NEW, List.of(
-                                new SubtaskDto(2, "", "", TaskStatus.NEW)
-                        )),
-                        false
-                ),
-                new TestExample(
-                        new EpicDto(1, "", "", TaskStatus.NEW, List.of(
-                                new SubtaskDto(2, "", "", TaskStatus.NEW)
-                        )),
-                        new EpicDto(1, "", "", TaskStatus.NEW, List.of(
-                                new SubtaskDto(2, "", "", TaskStatus.NEW)
-                        )),
+                Arguments.of(
+                        SUBTASK(1, TaskStatus.NEW),
+                        SUBTASK(1, TaskStatus.DONE),
                         true
                 ),
-                new TestExample(
-                        new TaskDto(1, "", "", TaskStatus.NEW),
-                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
+                Arguments.of(
+                        SUBTASK(1, TaskStatus.NEW),
+                        SUBTASK(2, TaskStatus.NEW),
                         false
                 ),
-                new TestExample(
-                        new SubtaskDto(1, "", "", TaskStatus.NEW),
-                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
+                Arguments.of(
+                        TASK(1, TaskStatus.NEW),
+                        TASK(1, TaskStatus.DONE),
+                        true
+                ),
+                Arguments.of(
+                        TASK(1, TaskStatus.NEW),
+                        TASK(2, TaskStatus.NEW),
                         false
                 ),
-                new TestExample(
-                        new SubtaskDto(1, "", "", TaskStatus.NEW),
-                        new TaskDto(1, "", "", TaskStatus.NEW),
+                Arguments.of(
+                        new Task(1, "", "", TaskStatus.NEW),
+                        EPIC(1, TaskStatus.NEW),
+                        false
+                ),
+                Arguments.of(
+                        SUBTASK(1, TaskStatus.NEW),
+                        EPIC(1, TaskStatus.NEW),
+                        false
+                ),
+                Arguments.of(
+                        SUBTASK(1, TaskStatus.NEW),
+                        TASK(1, TaskStatus.NEW),
                         false
                 )
-        };
-
-        for (TestExample example : examples) {
-            if (example.isEquals) {
-                assertEquals(example.task1, example.task2);
-            } else {
-                assertNotEquals(example.task1, example.task2);
-            }
-        }
+        );
     }
 }

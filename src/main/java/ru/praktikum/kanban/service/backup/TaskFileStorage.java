@@ -1,4 +1,4 @@
-package ru.praktikum.kanban.repository.impl;
+package ru.praktikum.kanban.service.backup;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -10,8 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import ru.praktikum.kanban.exception.TaskFileStorageException;
-import ru.praktikum.kanban.model.backed.file.TasksBackup;
-import ru.praktikum.kanban.model.mapper.BaseTaskEntityMapper;
+import ru.praktikum.kanban.service.mapper.BaseTaskEntityMapper;
 import ru.praktikum.kanban.util.Logger;
 
 public class TaskFileStorage {

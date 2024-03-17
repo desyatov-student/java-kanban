@@ -1,8 +1,9 @@
 package ru.praktikum.kanban.repository.impl;
 
 import ru.praktikum.kanban.exception.TaskFileStorageException;
-import ru.praktikum.kanban.model.TasksContainer;
-import ru.praktikum.kanban.model.backed.file.TasksBackup;
+import ru.praktikum.kanban.service.backup.TaskFileStorage;
+import ru.praktikum.kanban.service.backup.TasksContainer;
+import ru.praktikum.kanban.service.backup.TasksBackup;
 import ru.praktikum.kanban.model.entity.Task;
 import ru.praktikum.kanban.model.entity.Epic;
 import ru.praktikum.kanban.model.entity.Subtask;

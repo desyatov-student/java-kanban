@@ -1,4 +1,4 @@
-package ru.praktikum.kanban.model.backed.file;
+package ru.praktikum.kanban.service.backup;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,7 +8,6 @@ import java.util.stream.Stream;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-import ru.praktikum.kanban.model.TasksContainer;
 import ru.praktikum.kanban.model.entity.Task;
 
 @Getter

@@ -1,12 +1,11 @@
-package ru.praktikum.kanban.repository.impl;
+package ru.praktikum.kanban.service.backup;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-import ru.praktikum.kanban.model.backed.file.TasksBackup;
 import ru.praktikum.kanban.model.entity.Task;
-import ru.praktikum.kanban.model.mapper.BaseTaskEntityMapper;
+import ru.praktikum.kanban.service.mapper.BaseTaskEntityMapper;
 
 import static ru.praktikum.kanban.constant.DelimiterConstants.DELIMITER_COMMA;
 

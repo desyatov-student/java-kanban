@@ -8,7 +8,7 @@ import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.entity.Epic;
 import ru.praktikum.kanban.model.entity.Task;
-import ru.praktikum.kanban.model.mapper.TaskMapper;
+import ru.praktikum.kanban.service.mapper.TaskMapper;
 import ru.praktikum.kanban.model.mapper.TaskMapperImpl;
 import ru.praktikum.kanban.util.AbstractMapper;
 

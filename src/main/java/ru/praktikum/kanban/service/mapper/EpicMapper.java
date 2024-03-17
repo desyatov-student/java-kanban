@@ -1,4 +1,4 @@
-package ru.praktikum.kanban.model.mapper;
+package ru.praktikum.kanban.service.mapper;
 
 import java.util.List;
 import org.mapstruct.Mapper;

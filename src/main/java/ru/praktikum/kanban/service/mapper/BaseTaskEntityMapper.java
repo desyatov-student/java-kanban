@@ -1,4 +1,4 @@
-package ru.praktikum.kanban.model.mapper;
+package ru.praktikum.kanban.service.mapper;
 
 import java.util.HashMap;
 import java.util.function.Function;
@@ -6,7 +6,10 @@ import ru.praktikum.kanban.model.TaskType;
 import ru.praktikum.kanban.model.entity.Epic;
 import ru.praktikum.kanban.model.entity.Task;
 import ru.praktikum.kanban.model.entity.Subtask;
-import ru.praktikum.kanban.model.TasksContainer;
+import ru.praktikum.kanban.service.backup.TasksContainer;
+import ru.praktikum.kanban.model.mapper.EpicMapperImpl;
+import ru.praktikum.kanban.model.mapper.SubtaskMapperImpl;
+import ru.praktikum.kanban.model.mapper.TaskMapperImpl;
 import ru.praktikum.kanban.util.AbstractMapper;
 
 public class BaseTaskEntityMapper {
