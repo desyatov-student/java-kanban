@@ -67,6 +67,21 @@ public class Main {
         System.out.println("Удаляем эпик с подзадачами...");
         taskManager.removeEpic(epic.getId());
 
+        System.out.println();
+        System.out.println("****** Данные в первом менеджере: ******");
+        System.out.println(taskManager.getAllEpics());
+        System.out.println(taskManager.getAllSubtasks());
+        System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getHistory());
+
+        System.out.println();
+        TaskManager taskManager2 = Managers.getDefault();
+        System.out.println();
+        System.out.println("****** Данные во втором менеджере: ******");
+        System.out.println(taskManager2.getAllEpics());
+        System.out.println(taskManager2.getAllSubtasks());
+        System.out.println(taskManager2.getAllTasks());
+        System.out.println(taskManager2.getHistory());
+
     }
 }
