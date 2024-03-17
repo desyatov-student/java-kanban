@@ -9,25 +9,25 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import ru.praktikum.kanban.model.TasksContainer;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
+import ru.praktikum.kanban.model.entity.Task;
 
 @Getter
 @EqualsAndHashCode
 @ToString
 public class TasksBackup {
     TasksContainer tasksContainer;
-    List<BaseTaskEntity> history;
+    List<Task> history;
 
     public TasksBackup() {
         this(new TasksContainer(), new ArrayList<>());
     }
 
-    public TasksBackup(TasksContainer tasksContainer, List<BaseTaskEntity> history) {
+    public TasksBackup(TasksContainer tasksContainer, List<Task> history) {
         this.tasksContainer = tasksContainer;
         this.history = history;
     }
 
-    public List<BaseTaskEntity> getTasksList() {
+    public List<Task> getTasksList() {
         return Stream.of(
                         tasksContainer.epics.values(),
                         tasksContainer.subtasks.values(),

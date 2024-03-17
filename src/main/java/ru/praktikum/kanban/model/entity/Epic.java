@@ -1,28 +1,26 @@
 package ru.praktikum.kanban.model.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 import lombok.ToString;
 import ru.praktikum.kanban.model.TaskStatus;
 
-@Setter
-@Getter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class SubtaskEntity extends BaseTaskEntity {
+public class Epic extends Task {
 
     @EqualsAndHashCode.Exclude
-    private int epicId;
+    public final List<Integer> subtasks;
 
-    public SubtaskEntity(
+    public Epic(
             int id,
             @NonNull String name,
             @NonNull String description,
             @NonNull TaskStatus status,
-            int epicId) {
+            @NonNull List<Integer> subtasks) {
         super(id, name, description, status);
-        this.epicId = epicId;
+        this.subtasks = new ArrayList<>(subtasks);
     }
 }

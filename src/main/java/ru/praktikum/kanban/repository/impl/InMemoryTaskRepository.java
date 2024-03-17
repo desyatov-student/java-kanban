@@ -6,17 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import ru.praktikum.kanban.model.HistoryLinkedList;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
-import ru.praktikum.kanban.model.entity.EpicEntity;
-import ru.praktikum.kanban.model.entity.SubtaskEntity;
-import ru.praktikum.kanban.model.entity.TaskEntity;
+import ru.praktikum.kanban.model.entity.Epic;
+import ru.praktikum.kanban.model.entity.Subtask;
+import ru.praktikum.kanban.model.entity.Task;
 import ru.praktikum.kanban.repository.HistoryRepository;
 import ru.praktikum.kanban.repository.TaskManagerRepository;
 
 public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRepository {
-    protected final HashMap<Integer, TaskEntity> tasks;
-    protected final HashMap<Integer, EpicEntity> epics;
-    protected final HashMap<Integer, SubtaskEntity> subtasks;
+    protected final HashMap<Integer, Task> tasks;
+    protected final HashMap<Integer, Epic> epics;
+    protected final HashMap<Integer, Subtask> subtasks;
     protected final HistoryLinkedList history;
 
     public InMemoryTaskRepository() {
@@ -29,20 +28,20 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     // Task's methods
 
     @Override
-    public List<TaskEntity> getAllTasks() {
+    public List<Task> getAllTasks() {
         return new ArrayList<>(tasks.values())
                 .stream()
-                .sorted(Comparator.comparing(TaskEntity::getId))
+                .sorted(Comparator.comparing(Task::getId))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void saveTask(TaskEntity simpleTaskEntity) {
-        tasks.put(simpleTaskEntity.getId(), simpleTaskEntity);
+    public void saveTask(Task task) {
+        tasks.put(task.getId(), task);
     }
 
     @Override
-    public TaskEntity getTask(int taskId) {
+    public Task getTask(int taskId) {
         return tasks.get(taskId);
     }
 
@@ -59,26 +58,26 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     // Epic's methods
 
     @Override
-    public List<EpicEntity> getAllEpics() {
+    public List<Epic> getAllEpics() {
         return new ArrayList<>(epics.values())
                 .stream()
-                .sorted(Comparator.comparing(EpicEntity::getId))
+                .sorted(Comparator.comparing(Epic::getId))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public EpicEntity getEpic(int epicId) {
+    public Epic getEpic(int epicId) {
         return epics.get(epicId);
     }
 
     @Override
-    public void saveEpic(EpicEntity epicEntity) {
-        epics.put(epicEntity.getId(), epicEntity);
+    public void saveEpic(Epic epic) {
+        epics.put(epic.getId(), epic);
     }
 
     @Override
-    public void saveSubtask(SubtaskEntity subtaskEntity) {
-        subtasks.put(subtaskEntity.getId(), subtaskEntity);
+    public void saveSubtask(Subtask subtask) {
+        subtasks.put(subtask.getId(), subtask);
     }
 
     @Override
@@ -94,15 +93,15 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     // Subtask's methods
 
     @Override
-    public List<SubtaskEntity> getAllSubtasks() {
+    public List<Subtask> getAllSubtasks() {
         return new ArrayList<>(subtasks.values())
                 .stream()
-                .sorted(Comparator.comparing(SubtaskEntity::getId))
+                .sorted(Comparator.comparing(Subtask::getId))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public SubtaskEntity getSubtask(int subtaskId) {
+    public Subtask getSubtask(int subtaskId) {
         return subtasks.get(subtaskId);
     }
 
@@ -119,7 +118,7 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     // History
 
     @Override
-    public List<BaseTaskEntity> getHistory() {
+    public List<Task> getHistory() {
         return new ArrayList<>(history.values());
     }
 
@@ -129,7 +128,7 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     }
 
     @Override
-    public void addToHistory(BaseTaskEntity task) {
+    public void addToHistory(Task task) {
         if (task == null) {
             return;
         }

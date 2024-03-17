@@ -12,10 +12,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.praktikum.kanban.exception.TaskFileStorageException;
 import ru.praktikum.kanban.model.TasksContainer;
 import ru.praktikum.kanban.model.backed.file.TasksBackup;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
-import ru.praktikum.kanban.model.entity.EpicEntity;
-import ru.praktikum.kanban.model.entity.SubtaskEntity;
-import ru.praktikum.kanban.model.entity.TaskEntity;
+import ru.praktikum.kanban.model.entity.Subtask;
+import ru.praktikum.kanban.model.entity.Task;
+import ru.praktikum.kanban.model.entity.Epic;
 import ru.praktikum.kanban.repository.impl.TaskFileStorage;
 import ru.praktikum.kanban.repository.impl.FileBackedTaskRepository;
 
@@ -42,18 +41,18 @@ class FileBackedTaskRepositoryTest {
     @Test
     void shouldSaveTaskForEachUpdate() throws TaskFileStorageException {
         TasksContainer tasksContainer = new TasksContainer();
-        List<BaseTaskEntity> history = new ArrayList<>();
+        List<Task> history = new ArrayList<>();
 
         InOrder orderVerifier = Mockito.inOrder(fileStorage);
 
-        EpicEntity epic1 = EPIC(1);
-        EpicEntity epic2 = EPIC(2);
+        Epic epic1 = EPIC(1);
+        Epic epic2 = EPIC(2);
 
-        SubtaskEntity subtask1 = SUBTASK(3, epic1.getId());
-        SubtaskEntity subtask2 = SUBTASK(4, epic1.getId());
+        Subtask subtask1 = SUBTASK(3, epic1.getId());
+        Subtask subtask2 = SUBTASK(4, epic1.getId());
 
-        TaskEntity task1 = TASK(5);
-        TaskEntity task2 = TASK(6);
+        Task task1 = TASK(5);
+        Task task2 = TASK(6);
 
         repository.saveEpic(epic1);
         repository.saveEpic(epic2);
@@ -117,14 +116,14 @@ class FileBackedTaskRepositoryTest {
     @Test
     void shouldReturnBackup() throws TaskFileStorageException {
 
-        EpicEntity epic1 = EPIC(1);
-        EpicEntity epic2 = EPIC(2);
+        Epic epic1 = EPIC(1);
+        Epic epic2 = EPIC(2);
 
-        SubtaskEntity subtask1 = SUBTASK(3, epic1.getId());
-        SubtaskEntity subtask2 = SUBTASK(4, epic1.getId());
+        Subtask subtask1 = SUBTASK(3, epic1.getId());
+        Subtask subtask2 = SUBTASK(4, epic1.getId());
 
-        TaskEntity task1 = TASK(5);
-        TaskEntity task2 = TASK(6);
+        Task task1 = TASK(5);
+        Task task2 = TASK(6);
 
         TasksContainer tasksContainer = new TasksContainer();
         tasksContainer.addEpic(epic1);
@@ -134,7 +133,7 @@ class FileBackedTaskRepositoryTest {
         tasksContainer.addTask(task1);
         tasksContainer.addTask(task2);
 
-        List<BaseTaskEntity> history = List.of(epic1, subtask1, task1);
+        List<Task> history = List.of(epic1, subtask1, task1);
 
         TasksBackup backup = new TasksBackup(tasksContainer, history);
         Mockito.when(fileStorage.getBackup()).thenReturn(backup);

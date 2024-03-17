@@ -3,40 +3,40 @@ package ru.praktikum.kanban.model;
 import java.util.HashMap;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.praktikum.kanban.model.entity.EpicEntity;
-import ru.praktikum.kanban.model.entity.SubtaskEntity;
-import ru.praktikum.kanban.model.entity.TaskEntity;
+import ru.praktikum.kanban.model.entity.Epic;
+import ru.praktikum.kanban.model.entity.Subtask;
+import ru.praktikum.kanban.model.entity.Task;
 
 @EqualsAndHashCode
 @ToString
 public class TasksContainer {
-    public final HashMap<Integer, EpicEntity> epics;
-    public final HashMap<Integer, SubtaskEntity> subtasks;
-    public final HashMap<Integer, TaskEntity> tasks;
+    public final HashMap<Integer, Epic> epics;
+    public final HashMap<Integer, Subtask> subtasks;
+    public final HashMap<Integer, Task> tasks;
 
     public TasksContainer() {
         this(new HashMap<>(), new HashMap<>(), new HashMap<>());
     }
 
     public TasksContainer(
-            HashMap<Integer, EpicEntity> epics,
-            HashMap<Integer, SubtaskEntity> subtasks,
-            HashMap<Integer, TaskEntity> tasks
+            HashMap<Integer, Epic> epics,
+            HashMap<Integer, Subtask> subtasks,
+            HashMap<Integer, Task> tasks
     ) {
         this.epics = new HashMap<>(epics);
         this.subtasks = new HashMap<>(subtasks);
         this.tasks = new HashMap<>(tasks);
     }
 
-    public void addEpic(EpicEntity epic) {
+    public void addEpic(Epic epic) {
         epics.put(epic.getId(), epic);
     }
 
-    public void addSubtask(SubtaskEntity subtask) {
+    public void addSubtask(Subtask subtask) {
         subtasks.put(subtask.getId(), subtask);
     }
 
-    public void addTask(TaskEntity task) {
+    public void addTask(Task task) {
         tasks.put(task.getId(), task);
     }
 }

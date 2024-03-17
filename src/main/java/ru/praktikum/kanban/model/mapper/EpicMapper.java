@@ -10,7 +10,7 @@ import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
-import ru.praktikum.kanban.model.entity.EpicEntity;
+import ru.praktikum.kanban.model.entity.Epic;
 import ru.praktikum.kanban.util.StringUtils;
 
 import static ru.praktikum.kanban.constant.DelimiterConstants.DELIMITER_COMMA;
@@ -19,28 +19,28 @@ import static ru.praktikum.kanban.constant.DelimiterConstants.DELIMITER_COMMA;
 public interface EpicMapper {
 
     @Mapping(target = "subtasks", source = "subtasks")
-    EpicDto toDto(EpicEntity entity, List<SubtaskDto> subtasks);
+    EpicDto toDto(Epic epic, List<SubtaskDto> subtasks);
 
     @Mapping(target = "subtasks", ignore = true)
     @Mapping(target = "status", ignore = true)
-    void updateEntityFromDto(UpdateEpicDto dto, @MappingTarget EpicEntity entity);
+    void updateEntityFromDto(UpdateEpicDto dto, @MappingTarget Epic epic);
 
-    default String toString(EpicEntity task) {
+    default String toString(Epic epic) {
         return StringUtils.joining(DELIMITER_COMMA,
-                task.getId(),
+                epic.getId(),
                 TaskType.EPIC,
-                task.name,
-                task.description,
-                task.status,
+                epic.name,
+                epic.description,
+                epic.status,
                 ""
         );
     }
 
     @Mapping(target = "subtasks", expression = "java(new ArrayList<Integer>())")
-    EpicEntity toEntity(int id, CreateEpicDto dto);
+    Epic toEntity(int id, CreateEpicDto dto);
 
-    default EpicEntity toEntity(String[] values) {
-        return new EpicEntity(
+    default Epic toEntity(String[] values) {
+        return new Epic(
                 Integer.parseInt(values[0]),
                 values[2],
                 values[3],

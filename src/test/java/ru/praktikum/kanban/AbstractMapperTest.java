@@ -7,9 +7,8 @@ import org.junit.jupiter.api.function.Executable;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
 import ru.praktikum.kanban.model.dto.response.TaskDto;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
-import ru.praktikum.kanban.model.entity.EpicEntity;
-import ru.praktikum.kanban.model.entity.TaskEntity;
+import ru.praktikum.kanban.model.entity.Epic;
+import ru.praktikum.kanban.model.entity.Task;
 import ru.praktikum.kanban.model.mapper.TaskMapper;
 import ru.praktikum.kanban.model.mapper.TaskMapperImpl;
 import ru.praktikum.kanban.util.AbstractMapper;
@@ -19,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AbstractMapperTest {
 
-    AbstractMapper<BaseTaskEntity, BaseTaskDto> abstractMapper;
+    AbstractMapper<Task, BaseTaskDto> abstractMapper;
     TaskMapper taskMapper = new TaskMapperImpl();
 
     @BeforeEach
@@ -29,11 +28,11 @@ class AbstractMapperTest {
 
     @Test
     void shouldMapToTaskEntityToTaskDto() {
-        abstractMapper.put(TaskEntity.class, (value) -> taskMapper.toDto((TaskEntity) value));
+        abstractMapper.put(Task.class, (value) -> taskMapper.toDto((Task) value));
 
-        TaskEntity taskEntity = new TaskEntity(1, "", "", TaskStatus.NEW);
-        TaskDto expected = new TaskDto(taskEntity.getId(), taskEntity.name, taskEntity.description, taskEntity.status);
-        BaseTaskDto actual = abstractMapper.tryMap(taskEntity);
+        Task task = new Task(1, "", "", TaskStatus.NEW);
+        TaskDto expected = new TaskDto(task.getId(), task.name, task.description, task.status);
+        BaseTaskDto actual = abstractMapper.tryMap(task);
         assertEquals(expected, actual);
     }
 
@@ -44,19 +43,19 @@ class AbstractMapperTest {
 
     @Test
     void shouldBeThrowAndActionIsNull() {
-        Executable executable = () -> abstractMapper.put(TaskEntity.class, null);
+        Executable executable = () -> abstractMapper.put(Task.class, null);
         assertThrows(IllegalArgumentException.class, executable);
     }
 
     @Test
     void shouldBeThrowAndClassIsNull() {
-        Executable executable = () -> abstractMapper.put(null, (value) -> taskMapper.toDto((TaskEntity) value));
+        Executable executable = () -> abstractMapper.put(null, (value) -> taskMapper.toDto((Task) value));
         assertThrows(IllegalArgumentException.class, executable);
     }
 
     @Test
     void shouldBeThrowAndAbstractMapperHasNoClassAndNoFunction() {
-        EpicEntity epicEntity = new EpicEntity(1, "", "", TaskStatus.NEW, List.of());
-        assertThrows(IllegalArgumentException.class, () -> abstractMapper.tryMap(epicEntity));
+        Epic epic = new Epic(1, "", "", TaskStatus.NEW, List.of());
+        assertThrows(IllegalArgumentException.class, () -> abstractMapper.tryMap(epic));
     }
 }

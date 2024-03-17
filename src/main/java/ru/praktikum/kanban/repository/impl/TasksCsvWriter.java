@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import ru.praktikum.kanban.model.backed.file.TasksBackup;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
+import ru.praktikum.kanban.model.entity.Task;
 import ru.praktikum.kanban.model.mapper.BaseTaskEntityMapper;
 
 import static ru.praktikum.kanban.constant.DelimiterConstants.DELIMITER_COMMA;
@@ -18,10 +18,10 @@ public class TasksCsvWriter {
     }
 
     public void write(TasksBackup backup, BufferedWriter bufferedWriter) throws IOException {
-        List<BaseTaskEntity> tasks = backup.getTasksList();
-        List<BaseTaskEntity> history = backup.getHistory();
+        List<Task> tasks = backup.getTasksList();
+        List<Task> history = backup.getHistory();
 
-        for (BaseTaskEntity task : tasks) {
+        for (Task task : tasks) {
             bufferedWriter.newLine();
             String line = taskMapper.toString(task);
             bufferedWriter.write(line);
@@ -29,7 +29,7 @@ public class TasksCsvWriter {
         if (!history.isEmpty()) {
             bufferedWriter.newLine();
             String joined = history.stream()
-                    .map(BaseTaskEntity::getId)
+                    .map(Task::getId)
                     .map(String::valueOf)
                     .collect(Collectors.joining(DELIMITER_COMMA));
             bufferedWriter.write(joined);

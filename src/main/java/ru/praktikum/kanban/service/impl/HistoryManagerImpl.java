@@ -1,7 +1,7 @@
 package ru.praktikum.kanban.service.impl;
 
 import java.util.List;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
+import ru.praktikum.kanban.model.entity.Task;
 import ru.praktikum.kanban.repository.HistoryRepository;
 import ru.praktikum.kanban.service.HistoryManager;
 
@@ -14,7 +14,7 @@ public class HistoryManagerImpl implements HistoryManager {
     }
 
     @Override
-    public List<BaseTaskEntity> getHistory() {
+    public List<Task> getHistory() {
         return repository.getHistory();
     }
 
@@ -24,7 +24,7 @@ public class HistoryManagerImpl implements HistoryManager {
     }
 
     @Override
-    public void add(BaseTaskEntity object) {
+    public void add(Task object) {
         if (object == null) {
             return;
         }

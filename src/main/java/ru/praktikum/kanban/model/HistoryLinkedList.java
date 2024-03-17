@@ -3,7 +3,7 @@ package ru.praktikum.kanban.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
+import ru.praktikum.kanban.model.entity.Task;
 
 public class HistoryLinkedList {
 
@@ -26,15 +26,15 @@ public class HistoryLinkedList {
         }
     }
 
-    private Node<BaseTaskEntity> head;
+    private Node<Task> head;
 
-    private Node<BaseTaskEntity> tail;
+    private Node<Task> tail;
 
     public int size() {
         return hashMap.size();
     }
 
-    private final HashMap<Integer, Node<BaseTaskEntity>> hashMap;
+    private final HashMap<Integer, Node<Task>> hashMap;
 
     public HistoryLinkedList() {
         this.head = null;
@@ -42,8 +42,8 @@ public class HistoryLinkedList {
         this.hashMap = new HashMap<>();
     }
 
-    public void add(BaseTaskEntity value) {
-        Node<BaseTaskEntity> node = hashMap.get(value.getId());
+    public void add(Task value) {
+        Node<Task> node = hashMap.get(value.getId());
         if (node != null) {
             removeNode(node);
         }
@@ -52,7 +52,7 @@ public class HistoryLinkedList {
     }
 
     public void remove(int id) {
-        Node<BaseTaskEntity> node = hashMap.get(id);
+        Node<Task> node = hashMap.get(id);
         hashMap.remove(id);
         if (node == null) {
             return;
@@ -60,12 +60,12 @@ public class HistoryLinkedList {
         removeNode(node);
     }
 
-    public List<BaseTaskEntity> values() {
+    public List<Task> values() {
         if (head == null) {
             return List.of();
         }
-        ArrayList<BaseTaskEntity> values = new ArrayList<>();
-        Node<BaseTaskEntity> next = head;
+        ArrayList<Task> values = new ArrayList<>();
+        Node<Task> next = head;
         while (next != null) {
             values.add(next.data);
             next = next.next;
@@ -79,15 +79,15 @@ public class HistoryLinkedList {
         head = null;
     }
 
-    public void putAll(List<BaseTaskEntity> values) {
-        for (BaseTaskEntity value : values) {
+    public void putAll(List<Task> values) {
+        for (Task value : values) {
             add(value);
         }
     }
 
-    private void removeNode(Node<BaseTaskEntity> node) {
-        Node<BaseTaskEntity> prev = node.prev;
-        Node<BaseTaskEntity> next = node.next;
+    private void removeNode(Node<Task> node) {
+        Node<Task> prev = node.prev;
+        Node<Task> next = node.next;
         if (prev == null) {
             head = next;
         } else {
@@ -100,8 +100,8 @@ public class HistoryLinkedList {
         }
     }
 
-    private void linkLast(BaseTaskEntity value) {
-        final Node<BaseTaskEntity> newNode = new Node<>(tail, value, null);
+    private void linkLast(Task value) {
+        final Node<Task> newNode = new Node<>(tail, value, null);
         if (head == null) {
             head = newNode;
         } else {

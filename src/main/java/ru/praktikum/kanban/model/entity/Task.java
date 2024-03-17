@@ -14,7 +14,7 @@ import ru.praktikum.kanban.model.TaskStatus;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode(of = {"id"})
-public abstract class BaseTaskEntity {
+public class Task {
     @Setter(AccessLevel.NONE)
     private final int id;
     @NonNull public String name;

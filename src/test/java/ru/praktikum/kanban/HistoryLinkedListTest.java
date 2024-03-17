@@ -9,10 +9,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.praktikum.kanban.model.HistoryLinkedList;
 import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
-import ru.praktikum.kanban.model.entity.TaskEntity;
+import ru.praktikum.kanban.model.entity.Task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,11 +23,11 @@ class HistoryLinkedListTest {
 
     @ParameterizedTest
     @MethodSource("provideModels")
-    void testAdd(List<BaseTaskEntity> expected, List<BaseTaskEntity> given, List<BaseTaskEntity> input) {
-        for (BaseTaskEntity entity : given) {
+    void testAdd(List<Task> expected, List<Task> given, List<Task> input) {
+        for (Task entity : given) {
             historyLinkedList.add(entity);
         }
-        for (BaseTaskEntity entity : input) {
+        for (Task entity : input) {
             historyLinkedList.add(entity);
         }
         assertEquals(expected, historyLinkedList.values());
@@ -38,8 +35,8 @@ class HistoryLinkedListTest {
 
     @ParameterizedTest
     @MethodSource("provideModelsForRemoveTest")
-    void testRemove(List<BaseTaskEntity> expected, List<BaseTaskEntity> given, int idToRemove) {
-        for (BaseTaskEntity entity : given) {
+    void testRemove(List<Task> expected, List<Task> given, int idToRemove) {
+        for (Task entity : given) {
             historyLinkedList.add(entity);
         }
         historyLinkedList.remove(idToRemove);
@@ -163,6 +160,6 @@ class HistoryLinkedListTest {
         );
     }
 
-    private static TaskEntity TASK(int id, String name) { return new TaskEntity(id, name, "", TaskStatus.NEW); }
-    private static TaskEntity TASK(int id) { return TASK(id, ""); }
+    private static Task TASK(int id, String name) { return new Task(id, name, "", TaskStatus.NEW); }
+    private static Task TASK(int id) { return TASK(id, ""); }
 }

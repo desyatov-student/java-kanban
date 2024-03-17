@@ -5,8 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
-import ru.praktikum.kanban.model.entity.TaskEntity;
+import ru.praktikum.kanban.model.entity.Task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -18,7 +17,7 @@ public class EntityTest {
 
     @ParameterizedTest
     @MethodSource("provideModels")
-    void testEquals(BaseTaskEntity task1, BaseTaskEntity task2, boolean isEquals) {
+    void testEquals(Task task1, Task task2, boolean isEquals) {
         if (isEquals) {
             assertEquals(task1, task2);
         } else {
@@ -59,7 +58,7 @@ public class EntityTest {
                         false
                 ),
                 Arguments.of(
-                        new TaskEntity(1, "", "", TaskStatus.NEW),
+                        new Task(1, "", "", TaskStatus.NEW),
                         EPIC(1, TaskStatus.NEW),
                         false
                 ),

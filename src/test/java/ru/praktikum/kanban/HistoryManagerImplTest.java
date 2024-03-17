@@ -4,10 +4,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
-import ru.praktikum.kanban.model.entity.EpicEntity;
-import ru.praktikum.kanban.model.entity.SubtaskEntity;
-import ru.praktikum.kanban.model.entity.TaskEntity;
+import ru.praktikum.kanban.model.entity.Task;
+import ru.praktikum.kanban.model.entity.Epic;
+import ru.praktikum.kanban.model.entity.Subtask;
 import ru.praktikum.kanban.repository.HistoryRepository;
 import ru.praktikum.kanban.repository.impl.InMemoryTaskRepository;
 import ru.praktikum.kanban.service.HistoryManager;
@@ -32,16 +31,16 @@ class HistoryManagerImplTest {
 
     @Test
     void getHistory() {
-        SubtaskEntity subtask = SUBTASK(1);
-        EpicEntity epic = EPIC(1);
-        TaskEntity task = TASK(1);
+        Subtask subtask = SUBTASK(1);
+        Epic epic = EPIC(1);
+        Task task = TASK(1);
 
         historyManager.add(subtask);
         historyManager.add(epic);
         historyManager.add(task);
         historyManager.add(subtask);
 
-        final List<BaseTaskEntity> history = historyManager.getHistory();
+        final List<Task> history = historyManager.getHistory();
         assertEquals(
                 List.of(
                         subtask
@@ -52,7 +51,7 @@ class HistoryManagerImplTest {
 
     @Test
     void shouldRemoveTask() {
-        TaskEntity task = TASK(1);
+        Task task = TASK(1);
         historyManager.add(task);
         historyManager.remove(task.getId());
         historyManager.add(null);

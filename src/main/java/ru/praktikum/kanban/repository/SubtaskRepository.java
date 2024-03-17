@@ -1,15 +1,15 @@
 package ru.praktikum.kanban.repository;
 
 import java.util.List;
-import ru.praktikum.kanban.model.entity.SubtaskEntity;
+import ru.praktikum.kanban.model.entity.Subtask;
 
 public interface SubtaskRepository {
 
-    List<SubtaskEntity> getAllSubtasks();
+    List<Subtask> getAllSubtasks();
 
-    SubtaskEntity getSubtask(int subtaskId);
+    Subtask getSubtask(int subtaskId);
 
-    void saveSubtask(SubtaskEntity subtaskEntity);
+    void saveSubtask(Subtask subtask);
 
     void removeSubtask(int subtaskId);
 

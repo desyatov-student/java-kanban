@@ -8,7 +8,7 @@ import ru.praktikum.kanban.model.TaskType;
 import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
-import ru.praktikum.kanban.model.entity.SubtaskEntity;
+import ru.praktikum.kanban.model.entity.Subtask;
 import ru.praktikum.kanban.util.StringUtils;
 
 import static ru.praktikum.kanban.constant.DelimiterConstants.DELIMITER_COMMA;
@@ -16,26 +16,26 @@ import static ru.praktikum.kanban.constant.DelimiterConstants.DELIMITER_COMMA;
 @Mapper(config = ErrorUnmappedMapperConfig.class)
 public interface SubtaskMapper {
 
-    SubtaskDto toDto(SubtaskEntity entity);
+    SubtaskDto toDto(Subtask subtask);
 
     @Mapping(target = "epicId", ignore = true)
-    void updateEntityFromDto(UpdateSubtaskDto dto, @MappingTarget SubtaskEntity entity);
+    void updateEntityFromDto(UpdateSubtaskDto dto, @MappingTarget Subtask subtask);
 
-    default String toString(SubtaskEntity task) {
+    default String toString(Subtask subtask) {
         return StringUtils.joining(DELIMITER_COMMA,
-                task.getId(),
+                subtask.getId(),
                 TaskType.SUBTASK,
-                task.name,
-                task.description,
-                task.status,
-                task.getEpicId()
+                subtask.name,
+                subtask.description,
+                subtask.status,
+                subtask.getEpicId()
         );
     }
 
-    SubtaskEntity toEntity(int id, CreateSubtaskDto dto);
+    Subtask toEntity(int id, CreateSubtaskDto dto);
 
-    default SubtaskEntity toEntity(String[] values) {
-        return new SubtaskEntity(
+    default Subtask toEntity(String[] values) {
+        return new Subtask(
                 Integer.parseInt(values[0]),
                 values[2],
                 values[3],

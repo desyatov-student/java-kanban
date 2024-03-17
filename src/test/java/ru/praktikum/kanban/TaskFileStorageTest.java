@@ -9,9 +9,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import ru.praktikum.kanban.exception.TaskFileStorageException;
 import ru.praktikum.kanban.model.TasksContainer;
 import ru.praktikum.kanban.model.backed.file.TasksBackup;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
+import ru.praktikum.kanban.model.entity.Task;
 import ru.praktikum.kanban.model.mapper.BaseTaskEntityMapper;
-import ru.praktikum.kanban.model.mapper.CollectionsHelper;
+import ru.praktikum.kanban.util.CollectionsHelper;
 import ru.praktikum.kanban.repository.impl.TaskFileStorage;
 import ru.praktikum.kanban.repository.impl.TasksCsvReader;
 import ru.praktikum.kanban.repository.impl.TasksCsvWriter;
@@ -37,8 +37,8 @@ public class TaskFileStorageTest {
     @MethodSource("provideModels")
     void shouldWriteAndReadTasksOnDisk(
             TasksContainer tasksContainer,
-            List<BaseTaskEntity> history,
-            List<BaseTaskEntity> expectedHistory
+            List<Task> history,
+            List<Task> expectedHistory
     ) throws TaskFileStorageException {
         TasksBackup expectedBackup = new TasksBackup(tasksContainer, history);
 

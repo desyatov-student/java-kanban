@@ -3,10 +3,9 @@ package ru.praktikum.kanban.repository.impl;
 import ru.praktikum.kanban.exception.TaskFileStorageException;
 import ru.praktikum.kanban.model.TasksContainer;
 import ru.praktikum.kanban.model.backed.file.TasksBackup;
-import ru.praktikum.kanban.model.entity.BaseTaskEntity;
-import ru.praktikum.kanban.model.entity.EpicEntity;
-import ru.praktikum.kanban.model.entity.SubtaskEntity;
-import ru.praktikum.kanban.model.entity.TaskEntity;
+import ru.praktikum.kanban.model.entity.Task;
+import ru.praktikum.kanban.model.entity.Epic;
+import ru.praktikum.kanban.model.entity.Subtask;
 import ru.praktikum.kanban.util.Logger;
 
 public class FileBackedTaskRepository extends InMemoryTaskRepository {
@@ -57,7 +56,7 @@ public class FileBackedTaskRepository extends InMemoryTaskRepository {
     }
 
     @Override
-    public void saveTask(TaskEntity simpleTaskEntity) {
+    public void saveTask(Task simpleTaskEntity) {
         super.saveTask(simpleTaskEntity);
         save();
     }
@@ -75,14 +74,14 @@ public class FileBackedTaskRepository extends InMemoryTaskRepository {
     }
 
     @Override
-    public void saveEpic(EpicEntity epicEntity) {
-        super.saveEpic(epicEntity);
+    public void saveEpic(Epic epic) {
+        super.saveEpic(epic);
         save();
     }
 
     @Override
-    public void saveSubtask(SubtaskEntity subtaskEntity) {
-        super.saveSubtask(subtaskEntity);
+    public void saveSubtask(Subtask subtask) {
+        super.saveSubtask(subtask);
         save();
     }
 
@@ -117,7 +116,7 @@ public class FileBackedTaskRepository extends InMemoryTaskRepository {
     }
 
     @Override
-    public void addToHistory(BaseTaskEntity task) {
+    public void addToHistory(Task task) {
         super.addToHistory(task);
         save();
     }
