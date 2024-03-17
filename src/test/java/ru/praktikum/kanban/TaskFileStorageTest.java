@@ -10,7 +10,7 @@ import ru.praktikum.kanban.exception.TaskFileStorageException;
 import ru.praktikum.kanban.service.backup.TasksContainer;
 import ru.praktikum.kanban.service.backup.TasksBackup;
 import ru.praktikum.kanban.model.entity.Task;
-import ru.praktikum.kanban.service.mapper.BaseTaskEntityMapper;
+import ru.praktikum.kanban.service.mapper.AdvancedTaskMapper;
 import ru.praktikum.kanban.util.CollectionsHelper;
 import ru.praktikum.kanban.service.backup.TaskFileStorage;
 import ru.praktikum.kanban.service.backup.TasksCsvReader;
@@ -27,7 +27,7 @@ public class TaskFileStorageTest {
 
     @BeforeEach
     void setup() {
-        BaseTaskEntityMapper mapper = new BaseTaskEntityMapper();
+        AdvancedTaskMapper mapper = new AdvancedTaskMapper();
         TasksCsvWriter writer = new TasksCsvWriter(mapper);
         TasksCsvReader reader = new TasksCsvReader(mapper);
         fileStorage = new TaskFileStorage(writer, reader, true);

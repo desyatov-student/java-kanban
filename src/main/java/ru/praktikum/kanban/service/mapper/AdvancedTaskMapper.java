@@ -4,15 +4,12 @@ import java.util.HashMap;
 import java.util.function.Function;
 import ru.praktikum.kanban.model.TaskType;
 import ru.praktikum.kanban.model.entity.Epic;
-import ru.praktikum.kanban.model.entity.Task;
 import ru.praktikum.kanban.model.entity.Subtask;
+import ru.praktikum.kanban.model.entity.Task;
 import ru.praktikum.kanban.service.backup.TasksContainer;
-import ru.praktikum.kanban.model.mapper.EpicMapperImpl;
-import ru.praktikum.kanban.model.mapper.SubtaskMapperImpl;
-import ru.praktikum.kanban.model.mapper.TaskMapperImpl;
 import ru.praktikum.kanban.util.AbstractMapper;
 
-public class BaseTaskEntityMapper {
+public class AdvancedTaskMapper {
 
     public static class Input {
         String[] propertiesValues;
@@ -26,36 +23,36 @@ public class BaseTaskEntityMapper {
         }
     }
 
-    AbstractMapper<Task, String> entityToStringMapper;
-    HashMap<TaskType, Function<Input, Task>> inputToEntityMapper;
+    AbstractMapper<Task, String> taskToStringMapper;
+    HashMap<TaskType, Function<Input, Task>> valuesToTaskMapper;
     TaskMapper taskMapper;
     SubtaskMapper subtaskMapper;
     EpicMapper epicMapper;
 
-    public BaseTaskEntityMapper() {
-        this.entityToStringMapper = new AbstractMapper<>();
-        this.inputToEntityMapper = new HashMap<>();
+    public AdvancedTaskMapper() {
+        this.taskToStringMapper = new AbstractMapper<>();
+        this.valuesToTaskMapper = new HashMap<>();
         this.taskMapper = new TaskMapperImpl();
         this.subtaskMapper = new SubtaskMapperImpl();
         this.epicMapper = new EpicMapperImpl();
 
-        entityToStringMapper.put(Task.class, task -> taskMapper.toString((Task) task));
-        entityToStringMapper.put(Subtask.class, task -> subtaskMapper.toString((Subtask) task));
-        entityToStringMapper.put(Epic.class, task -> epicMapper.toString((Epic) task));
+        taskToStringMapper.put(Task.class, task -> taskMapper.toString(task));
+        taskToStringMapper.put(Subtask.class, task -> subtaskMapper.toString((Subtask) task));
+        taskToStringMapper.put(Epic.class, task -> epicMapper.toString((Epic) task));
 
-        inputToEntityMapper.put(TaskType.TASK, input -> {
+        valuesToTaskMapper.put(TaskType.TASK, input -> {
             Task task = taskMapper.toEntity(input.propertiesValues);
             input.tasksContainer.tasks.put(task.getId(), task);
             return task;
         });
-        inputToEntityMapper.put(TaskType.SUBTASK, input -> {
+        valuesToTaskMapper.put(TaskType.SUBTASK, input -> {
             Subtask subtask = subtaskMapper.toEntity(input.propertiesValues);
             Epic epic = input.tasksContainer.epics.get(subtask.getEpicId());
             epic.subtasks.add(subtask.getEpicId());
             input.tasksContainer.subtasks.put(subtask.getId(), subtask);
             return subtask;
         });
-        inputToEntityMapper.put(TaskType.EPIC, input -> {
+        valuesToTaskMapper.put(TaskType.EPIC, input -> {
             Epic epic = epicMapper.toEntity(input.propertiesValues);
             input.tasksContainer.epics.put(epic.getId(), epic);
             return epic;
@@ -63,11 +60,11 @@ public class BaseTaskEntityMapper {
     }
 
     public String toString(Task task) {
-        return entityToStringMapper.tryMap(task);
+        return taskToStringMapper.tryMap(task);
     }
 
     public Task toModel(Input input) {
-        return inputToEntityMapper.get(input.taskType).apply(input);
+        return valuesToTaskMapper.get(input.taskType).apply(input);
     }
 }
 

@@ -9,14 +9,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import ru.praktikum.kanban.model.TaskType;
 import ru.praktikum.kanban.model.entity.Task;
-import ru.praktikum.kanban.service.mapper.BaseTaskEntityMapper;
+import ru.praktikum.kanban.service.mapper.AdvancedTaskMapper;
 
 import static ru.praktikum.kanban.constant.DelimiterConstants.DELIMITER_COMMA;
 
 public class TasksCsvReader {
-    BaseTaskEntityMapper taskMapper;
+    AdvancedTaskMapper taskMapper;
 
-    public TasksCsvReader(BaseTaskEntityMapper taskMapper) {
+    public TasksCsvReader(AdvancedTaskMapper taskMapper) {
         this.taskMapper = taskMapper;
     }
 
@@ -40,7 +40,7 @@ public class TasksCsvReader {
 
             if (taskType != null) {
                 Task task = taskMapper.toModel(
-                        new BaseTaskEntityMapper.Input(values, taskType, tasksContainer)
+                        new AdvancedTaskMapper.Input(values, taskType, tasksContainer)
                 );
                 allTasks.put(task.getId(), task);
             } else {

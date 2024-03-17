@@ -7,7 +7,6 @@ import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
 import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;

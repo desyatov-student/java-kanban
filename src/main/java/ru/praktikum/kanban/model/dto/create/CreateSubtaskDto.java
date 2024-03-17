@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class CreateSubtaskDto extends BaseCreateTask {
+public class CreateSubtaskDto extends CreateTaskDto {
 
     private final int epicId;
 

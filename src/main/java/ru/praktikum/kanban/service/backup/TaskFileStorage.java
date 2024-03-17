@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import ru.praktikum.kanban.exception.TaskFileStorageException;
-import ru.praktikum.kanban.service.mapper.BaseTaskEntityMapper;
+import ru.praktikum.kanban.service.mapper.AdvancedTaskMapper;
 import ru.praktikum.kanban.util.Logger;
 
 public class TaskFileStorage {
@@ -26,7 +26,7 @@ public class TaskFileStorage {
     TasksCsvReader reader;
 
     public static TaskFileStorage defaultStorage() {
-        BaseTaskEntityMapper mapper = new BaseTaskEntityMapper();
+        AdvancedTaskMapper mapper = new AdvancedTaskMapper();
         TasksCsvWriter writer = new TasksCsvWriter(mapper);
         TasksCsvReader reader = new TasksCsvReader(mapper);
         return new TaskFileStorage(writer, reader);
