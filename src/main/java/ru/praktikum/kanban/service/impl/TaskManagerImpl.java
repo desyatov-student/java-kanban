@@ -10,9 +10,9 @@ import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.dto.response.TaskDto;
-import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
-import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
-import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
+import ru.praktikum.kanban.model.dto.update.UpdateEpic;
+import ru.praktikum.kanban.model.dto.update.UpdateSubtask;
+import ru.praktikum.kanban.model.dto.update.UpdateTask;
 import ru.praktikum.kanban.model.entity.Epic;
 import ru.praktikum.kanban.model.entity.Subtask;
 import ru.praktikum.kanban.model.entity.Task;
@@ -80,12 +80,12 @@ public class TaskManagerImpl implements TaskManager {
     }
 
     @Override
-    public TaskDto updateTask(UpdateTaskDto updateTaskDto) {
-        Task entity = repository.getTask(updateTaskDto.getId());
+    public TaskDto updateTask(UpdateTask updateTask) {
+        Task entity = repository.getTask(updateTask.getId());
         if (entity == null) {
             return null;
         }
-        taskMapper.updateEntityFromDto(updateTaskDto, entity);
+        taskMapper.updateEntityFromDto(updateTask, entity);
         return taskMapper.toDto(entity);
     }
 
@@ -139,12 +139,12 @@ public class TaskManagerImpl implements TaskManager {
     }
 
     @Override
-    public EpicDto updateEpic(UpdateEpicDto updateEpicDto) {
-        Epic epic = repository.getEpic(updateEpicDto.getId());
+    public EpicDto updateEpic(UpdateEpic updateEpic) {
+        Epic epic = repository.getEpic(updateEpic.getId());
         if (epic == null) {
             return null;
         }
-        epicMapper.updateEntityFromDto(updateEpicDto, epic);
+        epicMapper.updateEntityFromDto(updateEpic, epic);
         return getEpicDtoWithEpicEntity(epic);
     }
 
@@ -217,8 +217,8 @@ public class TaskManagerImpl implements TaskManager {
     }
 
     @Override
-    public SubtaskDto updateSubtask(UpdateSubtaskDto updateSubtaskDto) {
-        Subtask subtask = repository.getSubtask(updateSubtaskDto.getId());
+    public SubtaskDto updateSubtask(UpdateSubtask updateSubtask) {
+        Subtask subtask = repository.getSubtask(updateSubtask.getId());
         if (subtask == null) {
             return null;
         }
@@ -226,7 +226,7 @@ public class TaskManagerImpl implements TaskManager {
         if (epic == null) {
             return null;
         }
-        subtaskMapper.updateEntityFromDto(updateSubtaskDto, subtask);
+        subtaskMapper.updateEntityFromDto(updateSubtask, subtask);
         subtask.setEpicId(epic.getId());
         updateEpicStatus(epic);
         return subtaskMapper.toDto(subtask);

@@ -1,21 +1,19 @@
 package ru.praktikum.kanban.model.dto.update;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+import ru.praktikum.kanban.model.TaskStatus;
 
 @Getter
 @ToString
 @EqualsAndHashCode
-public abstract class BaseUpdateTask {
+@AllArgsConstructor
+public class UpdateTask {
     private final int id;
     @NonNull private final String name;
     @NonNull private final String description;
-
-    public BaseUpdateTask(int id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-    }
+    @NonNull private final TaskStatus status;
 }

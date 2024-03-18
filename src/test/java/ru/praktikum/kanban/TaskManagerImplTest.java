@@ -12,9 +12,9 @@ import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.dto.response.TaskDto;
-import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
-import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
-import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
+import ru.praktikum.kanban.model.dto.update.UpdateEpic;
+import ru.praktikum.kanban.model.dto.update.UpdateSubtask;
+import ru.praktikum.kanban.model.dto.update.UpdateTask;
 import ru.praktikum.kanban.repository.impl.InMemoryTaskRepository;
 import ru.praktikum.kanban.service.HistoryManager;
 import ru.praktikum.kanban.service.TaskManager;
@@ -507,14 +507,14 @@ class TaskManagerImplTest {
     }
 
     private CreateEpicDto CREATE_EPIC() { return new CreateEpicDto("name", "desc"); }
-    private UpdateEpicDto UPDATE_EPIC(int id, String name) { return new UpdateEpicDto(id, name, "desc"); }
+    private UpdateEpic UPDATE_EPIC(int id, String name) { return new UpdateEpic(id, name, "desc"); }
     private CreateSubtaskDto CREATE_SUBTASK(int epicId) { return new CreateSubtaskDto("name", "desc", epicId); }
-    private UpdateSubtaskDto UPDATE_SUBTASK(int id, TaskStatus status) { return new UpdateSubtaskDto(id, "name", "desc", status); }
+    private UpdateSubtask UPDATE_SUBTASK(int id, TaskStatus status) { return new UpdateSubtask(id, "name", "desc", status); }
     private SubtaskDto SUBTASK(int id, TaskStatus status) { return new SubtaskDto(id, "name", "desc", status); }
     private EpicDto EPIC(int id, TaskStatus status, List<SubtaskDto> subtasks) { return EPIC(id, "name", status, subtasks); }
     private EpicDto EPIC(int id, String name, TaskStatus status, List<SubtaskDto> subtasks) { return new EpicDto(id, name, "desc", status, subtasks); }
 
     private final CreateTaskDto CREATE_TASK = new CreateTaskDto("name", "desc");
-    private UpdateTaskDto UPDATE_TASK(int id, TaskStatus status) { return new UpdateTaskDto(id, "name", "desc", status); }
+    private UpdateTask UPDATE_TASK(int id, TaskStatus status) { return new UpdateTask(id, "name", "desc", status); }
     private TaskDto TASK(int id, TaskStatus status) { return new TaskDto(id, "name", "desc", status); }
 }

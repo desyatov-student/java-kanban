@@ -14,8 +14,8 @@ import ru.praktikum.kanban.model.entity.Task;
 @EqualsAndHashCode
 @ToString
 public class TasksBackup {
-    TasksContainer tasksContainer;
-    List<Task> history;
+    public final TasksContainer tasksContainer;
+    public final List<Task> history;
 
     public TasksBackup() {
         this(new TasksContainer(), new ArrayList<>());

@@ -9,7 +9,7 @@ import ru.praktikum.kanban.model.TaskType;
 import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
+import ru.praktikum.kanban.model.dto.update.UpdateEpic;
 import ru.praktikum.kanban.model.entity.Epic;
 import ru.praktikum.kanban.util.StringUtils;
 
@@ -23,7 +23,7 @@ public interface EpicMapper {
 
     @Mapping(target = "subtasks", ignore = true)
     @Mapping(target = "status", ignore = true)
-    void updateEntityFromDto(UpdateEpicDto dto, @MappingTarget Epic epic);
+    void updateEntityFromDto(UpdateEpic dto, @MappingTarget Epic epic);
 
     default String toString(Epic epic) {
         return StringUtils.joining(DELIMITER_COMMA,

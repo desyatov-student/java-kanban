@@ -7,9 +7,9 @@ import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
 import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.dto.update.UpdateEpicDto;
-import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
-import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
+import ru.praktikum.kanban.model.dto.update.UpdateEpic;
+import ru.praktikum.kanban.model.dto.update.UpdateSubtask;
+import ru.praktikum.kanban.model.dto.update.UpdateTask;
 
 public interface TaskManager {
 
@@ -18,7 +18,7 @@ public interface TaskManager {
 
     TaskDto createTask(CreateTaskDto createTaskDto);
 
-    TaskDto updateTask(UpdateTaskDto updateTaskDto);
+    TaskDto updateTask(UpdateTask updateTask);
 
     TaskDto getTask(int taskId);
 
@@ -34,7 +34,7 @@ public interface TaskManager {
 
     EpicDto createEpic(CreateEpicDto epicDto);
 
-    EpicDto updateEpic(UpdateEpicDto updateEpicDto);
+    EpicDto updateEpic(UpdateEpic updateEpic);
 
     void removeEpic(int epicId);
 
@@ -50,7 +50,7 @@ public interface TaskManager {
 
     SubtaskDto createSubtask(CreateSubtaskDto subtaskDto);
 
-    SubtaskDto updateSubtask(UpdateSubtaskDto updateSubtaskDto);
+    SubtaskDto updateSubtask(UpdateSubtask updateSubtask);
 
     void removeSubtask(int subtaskId);
 

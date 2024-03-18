@@ -6,7 +6,7 @@ import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.TaskType;
 import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
 import ru.praktikum.kanban.model.dto.response.TaskDto;
-import ru.praktikum.kanban.model.dto.update.UpdateTaskDto;
+import ru.praktikum.kanban.model.dto.update.UpdateTask;
 import ru.praktikum.kanban.model.entity.Task;
 import ru.praktikum.kanban.util.StringUtils;
 
@@ -18,7 +18,7 @@ public interface TaskMapper {
 
     TaskDto toDto(Task task);
 
-    void updateEntityFromDto(UpdateTaskDto dto, @MappingTarget Task task);
+    void updateEntityFromDto(UpdateTask dto, @MappingTarget Task task);
 
     default String toString(Task task) {
         return StringUtils.joining(DELIMITER_COMMA,

@@ -42,19 +42,19 @@ public class AdvancedTaskMapper {
 
         valuesToTaskMapper.put(TaskType.TASK, input -> {
             Task task = taskMapper.toEntity(input.propertiesValues);
-            input.tasksContainer.tasks.put(task.getId(), task);
+            input.tasksContainer.addTask(task);
             return task;
         });
         valuesToTaskMapper.put(TaskType.SUBTASK, input -> {
             Subtask subtask = subtaskMapper.toEntity(input.propertiesValues);
             Epic epic = input.tasksContainer.epics.get(subtask.getEpicId());
             epic.subtasks.add(subtask.getEpicId());
-            input.tasksContainer.subtasks.put(subtask.getId(), subtask);
+            input.tasksContainer.addSubtask(subtask);
             return subtask;
         });
         valuesToTaskMapper.put(TaskType.EPIC, input -> {
             Epic epic = epicMapper.toEntity(input.propertiesValues);
-            input.tasksContainer.epics.put(epic.getId(), epic);
+            input.tasksContainer.addEpic(epic);
             return epic;
         });
     }

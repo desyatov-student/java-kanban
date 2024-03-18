@@ -7,7 +7,7 @@ import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.TaskType;
 import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.dto.update.UpdateSubtaskDto;
+import ru.praktikum.kanban.model.dto.update.UpdateSubtask;
 import ru.praktikum.kanban.model.entity.Subtask;
 import ru.praktikum.kanban.util.StringUtils;
 
@@ -19,7 +19,7 @@ public interface SubtaskMapper {
     SubtaskDto toDto(Subtask subtask);
 
     @Mapping(target = "epicId", ignore = true)
-    void updateEntityFromDto(UpdateSubtaskDto dto, @MappingTarget Subtask subtask);
+    void updateEntityFromDto(UpdateSubtask dto, @MappingTarget Subtask subtask);
 
     default String toString(Subtask subtask) {
         return StringUtils.joining(DELIMITER_COMMA,
