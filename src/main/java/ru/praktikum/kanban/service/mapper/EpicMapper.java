@@ -29,9 +29,9 @@ public interface EpicMapper {
         return StringUtils.joining(DELIMITER_COMMA,
                 epic.getId(),
                 TaskType.EPIC,
-                epic.name,
-                epic.description,
-                epic.status,
+                epic.getName(),
+                epic.getDescription(),
+                epic.getStatus(),
                 ""
         );
     }

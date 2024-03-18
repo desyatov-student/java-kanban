@@ -30,7 +30,7 @@ class AbstractMapperTest {
         abstractMapper.put(Task.class, (value) -> taskMapper.toDto((Task) value));
 
         Task task = new Task(1, "", "", TaskStatus.NEW);
-        TaskDto expected = new TaskDto(task.getId(), task.name, task.description, task.status);
+        TaskDto expected = new TaskDto(task.getId(), task.getName(), task.getDescription(), task.getStatus());
         TaskDto actual = abstractMapper.tryMap(task);
         assertEquals(expected, actual);
     }

@@ -25,9 +25,9 @@ public interface SubtaskMapper {
         return StringUtils.joining(DELIMITER_COMMA,
                 subtask.getId(),
                 TaskType.SUBTASK,
-                subtask.name,
-                subtask.description,
-                subtask.status,
+                subtask.getName(),
+                subtask.getDescription(),
+                subtask.getStatus(),
                 subtask.getEpicId()
         );
     }

@@ -24,9 +24,9 @@ public interface TaskMapper {
         return StringUtils.joining(DELIMITER_COMMA,
                 task.getId(),
                 TaskType.TASK,
-                task.name,
-                task.description,
-                task.status,
+                task.getName(),
+                task.getDescription(),
+                task.getStatus(),
                 ""
         );
     }

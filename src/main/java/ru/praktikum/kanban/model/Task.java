@@ -17,7 +17,7 @@ import ru.praktikum.kanban.model.TaskStatus;
 public class Task {
     @Setter(AccessLevel.NONE)
     private final int id;
-    @NonNull public String name;
-    @NonNull public String description;
-    @NonNull public TaskStatus status;
+    @NonNull private String name;
+    @NonNull private String description;
+    @NonNull private TaskStatus status;
 }

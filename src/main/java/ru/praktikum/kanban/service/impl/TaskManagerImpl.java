@@ -252,7 +252,7 @@ public class TaskManagerImpl implements TaskManager {
         removeAllSubtaskFromRepository();
         for (Epic epic : repository.getAllEpics()) {
             epic.subtasks.clear();
-            epic.status = TaskStatus.NEW;
+            epic.setStatus(TaskStatus.NEW);
         }
     }
 
@@ -294,7 +294,7 @@ public class TaskManagerImpl implements TaskManager {
         int newCount = 0;
         int doneCount = 0;
         for (Subtask subtask : subtaskEntities) {
-            switch (subtask.status) {
+            switch (subtask.getStatus()) {
                 case NEW:
                     newCount++;
                     break;
@@ -320,7 +320,7 @@ public class TaskManagerImpl implements TaskManager {
                 .map(repository::getSubtask)
                 .collect(Collectors.toList());
 
-        epic.status = calculateEpicStatusWithSubtasks(subtasksEntities);
+        epic.setStatus(calculateEpicStatusWithSubtasks(subtasksEntities));
 
     }
 
