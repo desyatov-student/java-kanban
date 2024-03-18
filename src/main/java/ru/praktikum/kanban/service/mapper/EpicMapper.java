@@ -6,11 +6,11 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.TaskType;
-import ru.praktikum.kanban.model.dto.create.CreateEpic;
-import ru.praktikum.kanban.model.dto.response.EpicDto;
-import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.dto.update.UpdateEpic;
-import ru.praktikum.kanban.model.entity.Epic;
+import ru.praktikum.kanban.model.CreateEpic;
+import ru.praktikum.kanban.model.EpicDto;
+import ru.praktikum.kanban.model.SubtaskDto;
+import ru.praktikum.kanban.model.UpdateEpic;
+import ru.praktikum.kanban.model.Epic;
 import ru.praktikum.kanban.util.StringUtils;
 
 import static ru.praktikum.kanban.constant.DelimiterConstants.DELIMITER_COMMA;

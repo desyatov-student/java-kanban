@@ -1,4 +1,4 @@
-package ru.praktikum.kanban;
+package ru.praktikum.kanban.repository.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,19 +12,18 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.praktikum.kanban.exception.TaskFileStorageException;
 import ru.praktikum.kanban.service.backup.TasksContainer;
 import ru.praktikum.kanban.service.backup.TasksBackup;
-import ru.praktikum.kanban.model.entity.Subtask;
-import ru.praktikum.kanban.model.entity.Task;
-import ru.praktikum.kanban.model.entity.Epic;
+import ru.praktikum.kanban.model.Subtask;
+import ru.praktikum.kanban.model.Task;
+import ru.praktikum.kanban.model.Epic;
 import ru.praktikum.kanban.service.backup.TaskFileStorage;
-import ru.praktikum.kanban.repository.impl.FileBackedTaskRepository;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static ru.praktikum.kanban.util.TaskFactory.EPIC;
-import static ru.praktikum.kanban.util.TaskFactory.SUBTASK;
-import static ru.praktikum.kanban.util.TaskFactory.TASK;
+import static ru.praktikum.kanban.helper.TaskFactory.EPIC;
+import static ru.praktikum.kanban.helper.TaskFactory.SUBTASK;
+import static ru.praktikum.kanban.helper.TaskFactory.TASK;
 
 @ExtendWith(MockitoExtension.class)
 class FileBackedTaskRepositoryTest {

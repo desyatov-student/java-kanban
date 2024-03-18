@@ -1,4 +1,4 @@
-package ru.praktikum.kanban;
+package ru.praktikum.kanban.service.impl;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import ru.praktikum.kanban.model.HistoryLinkedList;
+import ru.praktikum.kanban.service.impl.HistoryLinkedList;
 import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.entity.Task;
+import ru.praktikum.kanban.model.Task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

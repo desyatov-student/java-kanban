@@ -3,9 +3,9 @@ package ru.praktikum.kanban.service.backup;
 import java.util.HashMap;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.praktikum.kanban.model.entity.Epic;
-import ru.praktikum.kanban.model.entity.Subtask;
-import ru.praktikum.kanban.model.entity.Task;
+import ru.praktikum.kanban.model.Epic;
+import ru.praktikum.kanban.model.Subtask;
+import ru.praktikum.kanban.model.Task;
 
 @EqualsAndHashCode
 @ToString

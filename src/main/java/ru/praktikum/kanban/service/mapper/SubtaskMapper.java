@@ -5,10 +5,10 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.TaskType;
-import ru.praktikum.kanban.model.dto.create.CreateSubtask;
-import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.dto.update.UpdateSubtask;
-import ru.praktikum.kanban.model.entity.Subtask;
+import ru.praktikum.kanban.model.CreateSubtask;
+import ru.praktikum.kanban.model.SubtaskDto;
+import ru.praktikum.kanban.model.UpdateSubtask;
+import ru.praktikum.kanban.model.Subtask;
 import ru.praktikum.kanban.util.StringUtils;
 
 import static ru.praktikum.kanban.constant.DelimiterConstants.DELIMITER_COMMA;

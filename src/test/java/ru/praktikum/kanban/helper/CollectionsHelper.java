@@ -1,4 +1,4 @@
-package ru.praktikum.kanban.util;
+package ru.praktikum.kanban.helper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import ru.praktikum.kanban.service.backup.TasksContainer;
-import ru.praktikum.kanban.model.entity.Epic;
-import ru.praktikum.kanban.model.entity.Subtask;
-import ru.praktikum.kanban.model.entity.Task;
+import ru.praktikum.kanban.model.Epic;
+import ru.praktikum.kanban.model.Subtask;
+import ru.praktikum.kanban.model.Task;
 
 public final class CollectionsHelper {
     private CollectionsHelper() {

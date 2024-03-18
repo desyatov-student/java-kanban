@@ -1,13 +1,13 @@
-package ru.praktikum.kanban;
+package ru.praktikum.kanban.service.mapper;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
-import ru.praktikum.kanban.model.entity.Epic;
-import ru.praktikum.kanban.model.entity.Task;
+import ru.praktikum.kanban.model.TaskDto;
+import ru.praktikum.kanban.model.Epic;
+import ru.praktikum.kanban.model.Task;
 import ru.praktikum.kanban.service.mapper.TaskMapper;
 import ru.praktikum.kanban.service.mapper.TaskMapperImpl;
 import ru.praktikum.kanban.util.AbstractMapper;

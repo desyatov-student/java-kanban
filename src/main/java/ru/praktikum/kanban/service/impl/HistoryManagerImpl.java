@@ -1,7 +1,7 @@
 package ru.praktikum.kanban.service.impl;
 
 import java.util.List;
-import ru.praktikum.kanban.model.entity.Task;
+import ru.praktikum.kanban.model.Task;
 import ru.praktikum.kanban.repository.HistoryRepository;
 import ru.praktikum.kanban.service.HistoryManager;
 

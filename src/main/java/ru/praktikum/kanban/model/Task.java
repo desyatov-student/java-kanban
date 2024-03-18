@@ -1,4 +1,4 @@
-package ru.praktikum.kanban.model.entity;
+package ru.praktikum.kanban.model;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

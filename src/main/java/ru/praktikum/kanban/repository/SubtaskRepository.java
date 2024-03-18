@@ -1,7 +1,7 @@
 package ru.praktikum.kanban.repository;
 
 import java.util.List;
-import ru.praktikum.kanban.model.entity.Subtask;
+import ru.praktikum.kanban.model.Subtask;
 
 public interface SubtaskRepository {
 

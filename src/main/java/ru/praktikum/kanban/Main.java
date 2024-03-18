@@ -1,11 +1,11 @@
 package ru.praktikum.kanban;
 
-import ru.praktikum.kanban.model.dto.create.CreateEpic;
-import ru.praktikum.kanban.model.dto.create.CreateSubtask;
-import ru.praktikum.kanban.model.dto.create.CreateTask;
-import ru.praktikum.kanban.model.dto.response.EpicDto;
-import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
+import ru.praktikum.kanban.model.CreateEpic;
+import ru.praktikum.kanban.model.CreateSubtask;
+import ru.praktikum.kanban.model.CreateTask;
+import ru.praktikum.kanban.model.EpicDto;
+import ru.praktikum.kanban.model.SubtaskDto;
+import ru.praktikum.kanban.model.TaskDto;
 import ru.praktikum.kanban.service.TaskManager;
 import ru.praktikum.kanban.service.impl.Managers;
 

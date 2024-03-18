@@ -1,4 +1,4 @@
-package ru.praktikum.kanban;
+package ru.praktikum.kanban.util;
 
 import ru.praktikum.kanban.util.IdentifierGenerator;
 import org.junit.jupiter.api.Test;

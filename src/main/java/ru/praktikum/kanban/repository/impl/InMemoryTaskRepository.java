@@ -5,10 +5,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
-import ru.praktikum.kanban.model.HistoryLinkedList;
-import ru.praktikum.kanban.model.entity.Epic;
-import ru.praktikum.kanban.model.entity.Subtask;
-import ru.praktikum.kanban.model.entity.Task;
+import ru.praktikum.kanban.service.impl.HistoryLinkedList;
+import ru.praktikum.kanban.model.Epic;
+import ru.praktikum.kanban.model.Subtask;
+import ru.praktikum.kanban.model.Task;
 import ru.praktikum.kanban.repository.HistoryRepository;
 import ru.praktikum.kanban.repository.TaskManagerRepository;
 

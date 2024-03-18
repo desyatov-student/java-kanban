@@ -1,4 +1,4 @@
-package ru.praktikum.kanban;
+package ru.praktikum.kanban.service.backup;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -7,19 +7,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.praktikum.kanban.exception.TaskFileStorageException;
-import ru.praktikum.kanban.service.backup.TasksContainer;
-import ru.praktikum.kanban.service.backup.TasksBackup;
-import ru.praktikum.kanban.model.entity.Task;
+import ru.praktikum.kanban.model.Task;
 import ru.praktikum.kanban.service.mapper.AdvancedTaskMapper;
-import ru.praktikum.kanban.util.CollectionsHelper;
-import ru.praktikum.kanban.service.backup.TaskFileStorage;
-import ru.praktikum.kanban.service.backup.TasksCsvReader;
-import ru.praktikum.kanban.service.backup.TasksCsvWriter;
+import ru.praktikum.kanban.helper.CollectionsHelper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.praktikum.kanban.util.TaskFactory.EPIC;
-import static ru.praktikum.kanban.util.TaskFactory.SUBTASK;
-import static ru.praktikum.kanban.util.TaskFactory.TASK;
+import static ru.praktikum.kanban.helper.TaskFactory.EPIC;
+import static ru.praktikum.kanban.helper.TaskFactory.SUBTASK;
+import static ru.praktikum.kanban.helper.TaskFactory.TASK;
 
 public class TaskFileStorageTest {
 

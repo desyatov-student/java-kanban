@@ -4,9 +4,9 @@ import ru.praktikum.kanban.exception.TaskFileStorageException;
 import ru.praktikum.kanban.service.backup.TaskFileStorage;
 import ru.praktikum.kanban.service.backup.TasksContainer;
 import ru.praktikum.kanban.service.backup.TasksBackup;
-import ru.praktikum.kanban.model.entity.Task;
-import ru.praktikum.kanban.model.entity.Epic;
-import ru.praktikum.kanban.model.entity.Subtask;
+import ru.praktikum.kanban.model.Task;
+import ru.praktikum.kanban.model.Epic;
+import ru.praktikum.kanban.model.Subtask;
 import ru.praktikum.kanban.util.Logger;
 
 public class FileBackedTaskRepository extends InMemoryTaskRepository {

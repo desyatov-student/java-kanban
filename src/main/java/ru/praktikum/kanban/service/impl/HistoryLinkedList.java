@@ -1,9 +1,9 @@
-package ru.praktikum.kanban.model;
+package ru.praktikum.kanban.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import ru.praktikum.kanban.model.entity.Task;
+import ru.praktikum.kanban.model.Task;
 
 public class HistoryLinkedList {
 

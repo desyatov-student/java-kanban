@@ -4,10 +4,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.TaskType;
-import ru.praktikum.kanban.model.dto.create.CreateTask;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
-import ru.praktikum.kanban.model.dto.update.UpdateTask;
-import ru.praktikum.kanban.model.entity.Task;
+import ru.praktikum.kanban.model.CreateTask;
+import ru.praktikum.kanban.model.TaskDto;
+import ru.praktikum.kanban.model.UpdateTask;
+import ru.praktikum.kanban.model.Task;
 import ru.praktikum.kanban.util.StringUtils;
 
 import static ru.praktikum.kanban.constant.DelimiterConstants.DELIMITER_COMMA;

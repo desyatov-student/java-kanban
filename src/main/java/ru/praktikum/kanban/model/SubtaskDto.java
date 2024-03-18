@@ -1,8 +1,7 @@
-package ru.praktikum.kanban.model.dto.response;
+package ru.praktikum.kanban.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.praktikum.kanban.model.TaskStatus;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)

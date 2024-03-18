@@ -1,4 +1,4 @@
-package ru.praktikum.kanban.model.dto.create;
+package ru.praktikum.kanban.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

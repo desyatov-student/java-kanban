@@ -1,21 +1,20 @@
-package ru.praktikum.kanban;
+package ru.praktikum.kanban.service.impl;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import ru.praktikum.kanban.model.entity.Task;
-import ru.praktikum.kanban.model.entity.Epic;
-import ru.praktikum.kanban.model.entity.Subtask;
+import ru.praktikum.kanban.model.Task;
+import ru.praktikum.kanban.model.Epic;
+import ru.praktikum.kanban.model.Subtask;
 import ru.praktikum.kanban.repository.HistoryRepository;
 import ru.praktikum.kanban.repository.impl.InMemoryTaskRepository;
 import ru.praktikum.kanban.service.HistoryManager;
-import ru.praktikum.kanban.service.impl.HistoryManagerImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.praktikum.kanban.util.TaskFactory.EPIC;
-import static ru.praktikum.kanban.util.TaskFactory.SUBTASK;
-import static ru.praktikum.kanban.util.TaskFactory.TASK;
+import static ru.praktikum.kanban.helper.TaskFactory.EPIC;
+import static ru.praktikum.kanban.helper.TaskFactory.SUBTASK;
+import static ru.praktikum.kanban.helper.TaskFactory.TASK;
 
 class HistoryManagerImplTest {
 
