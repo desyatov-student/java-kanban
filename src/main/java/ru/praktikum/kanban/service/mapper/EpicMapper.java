@@ -6,7 +6,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.TaskType;
-import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
+import ru.praktikum.kanban.model.dto.create.CreateEpic;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateEpic;
@@ -37,7 +37,7 @@ public interface EpicMapper {
     }
 
     @Mapping(target = "subtasks", expression = "java(new ArrayList<Integer>())")
-    Epic toEntity(int id, CreateEpicDto dto);
+    Epic toEntity(int id, CreateEpic dto);
 
     default Epic toEntity(String[] values) {
         return new Epic(

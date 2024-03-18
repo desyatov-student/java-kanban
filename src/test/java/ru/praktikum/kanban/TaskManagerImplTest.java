@@ -6,9 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
-import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
-import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
+import ru.praktikum.kanban.model.dto.create.CreateEpic;
+import ru.praktikum.kanban.model.dto.create.CreateSubtask;
+import ru.praktikum.kanban.model.dto.create.CreateTask;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.dto.response.TaskDto;
@@ -493,7 +493,7 @@ class TaskManagerImplTest {
         final ArrayList<TaskDto> expected = new ArrayList<>();
 
         for (int i = 1; i <= numbersOfTasks; i++) {
-            EpicDto epicDto = taskManager.createEpic(new CreateEpicDto("", ""));
+            EpicDto epicDto = taskManager.createEpic(new CreateEpic("", ""));
             expected.add(epicDto);
         }
 
@@ -506,15 +506,15 @@ class TaskManagerImplTest {
         assertEquals(expected, history);
     }
 
-    private CreateEpicDto CREATE_EPIC() { return new CreateEpicDto("name", "desc"); }
+    private CreateEpic CREATE_EPIC() { return new CreateEpic("name", "desc"); }
     private UpdateEpic UPDATE_EPIC(int id, String name) { return new UpdateEpic(id, name, "desc"); }
-    private CreateSubtaskDto CREATE_SUBTASK(int epicId) { return new CreateSubtaskDto("name", "desc", epicId); }
+    private CreateSubtask CREATE_SUBTASK(int epicId) { return new CreateSubtask("name", "desc", epicId); }
     private UpdateSubtask UPDATE_SUBTASK(int id, TaskStatus status) { return new UpdateSubtask(id, "name", "desc", status); }
     private SubtaskDto SUBTASK(int id, TaskStatus status) { return new SubtaskDto(id, "name", "desc", status); }
     private EpicDto EPIC(int id, TaskStatus status, List<SubtaskDto> subtasks) { return EPIC(id, "name", status, subtasks); }
     private EpicDto EPIC(int id, String name, TaskStatus status, List<SubtaskDto> subtasks) { return new EpicDto(id, name, "desc", status, subtasks); }
 
-    private final CreateTaskDto CREATE_TASK = new CreateTaskDto("name", "desc");
+    private final CreateTask CREATE_TASK = new CreateTask("name", "desc");
     private UpdateTask UPDATE_TASK(int id, TaskStatus status) { return new UpdateTask(id, "name", "desc", status); }
     private TaskDto TASK(int id, TaskStatus status) { return new TaskDto(id, "name", "desc", status); }
 }

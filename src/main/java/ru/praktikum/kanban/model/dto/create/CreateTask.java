@@ -11,7 +11,7 @@ import ru.praktikum.kanban.model.TaskStatus;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class CreateTaskDto {
+public class CreateTask {
     @NonNull private final String name;
     @NonNull private final String description;
     @NonNull private final TaskStatus status = TaskStatus.NEW;

@@ -5,9 +5,9 @@ import lombok.ToString;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class CreateEpicDto extends CreateTaskDto {
+public class CreateEpic extends CreateTask {
 
-    public CreateEpicDto(String name, String description) {
+    public CreateEpic(String name, String description) {
         super(name, description);
     }
 }

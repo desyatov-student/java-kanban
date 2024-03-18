@@ -5,7 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.TaskType;
-import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
+import ru.praktikum.kanban.model.dto.create.CreateSubtask;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateSubtask;
 import ru.praktikum.kanban.model.entity.Subtask;
@@ -32,7 +32,7 @@ public interface SubtaskMapper {
         );
     }
 
-    Subtask toEntity(int id, CreateSubtaskDto dto);
+    Subtask toEntity(int id, CreateSubtask dto);
 
     default Subtask toEntity(String[] values) {
         return new Subtask(

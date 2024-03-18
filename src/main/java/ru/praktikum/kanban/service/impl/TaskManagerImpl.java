@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
-import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
-import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
+import ru.praktikum.kanban.model.dto.create.CreateEpic;
+import ru.praktikum.kanban.model.dto.create.CreateSubtask;
+import ru.praktikum.kanban.model.dto.create.CreateTask;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
 import ru.praktikum.kanban.model.dto.response.TaskDto;
@@ -73,8 +73,8 @@ public class TaskManagerImpl implements TaskManager {
     }
 
     @Override
-    public TaskDto createTask(CreateTaskDto createTaskDto) {
-        Task entity = taskMapper.toEntity(getNextTaskId(), createTaskDto);
+    public TaskDto createTask(CreateTask createTask) {
+        Task entity = taskMapper.toEntity(getNextTaskId(), createTask);
         repository.saveTask(entity);
         return taskMapper.toDto(entity);
     }
@@ -132,7 +132,7 @@ public class TaskManagerImpl implements TaskManager {
     }
 
     @Override
-    public EpicDto createEpic(CreateEpicDto epicDto) {
+    public EpicDto createEpic(CreateEpic epicDto) {
         Epic epic = epicMapper.toEntity(getNextTaskId(), epicDto);
         repository.saveEpic(epic);
         return getEpicDtoWithEpicEntity(epic);
@@ -200,7 +200,7 @@ public class TaskManagerImpl implements TaskManager {
     }
 
     @Override
-    public SubtaskDto createSubtask(CreateSubtaskDto subtaskDto) {
+    public SubtaskDto createSubtask(CreateSubtask subtaskDto) {
         int epicId = subtaskDto.getEpicId();
         Epic epic = repository.getEpic(epicId);
         if (epic == null) {

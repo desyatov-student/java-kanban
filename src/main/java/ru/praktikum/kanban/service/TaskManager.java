@@ -1,9 +1,9 @@
 package ru.praktikum.kanban.service;
 
 import java.util.List;
-import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
-import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
-import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
+import ru.praktikum.kanban.model.dto.create.CreateEpic;
+import ru.praktikum.kanban.model.dto.create.CreateSubtask;
+import ru.praktikum.kanban.model.dto.create.CreateTask;
 import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.dto.response.EpicDto;
 import ru.praktikum.kanban.model.dto.response.SubtaskDto;
@@ -16,7 +16,7 @@ public interface TaskManager {
     // Task's methods
     List<TaskDto> getAllTasks();
 
-    TaskDto createTask(CreateTaskDto createTaskDto);
+    TaskDto createTask(CreateTask createTask);
 
     TaskDto updateTask(UpdateTask updateTask);
 
@@ -32,7 +32,7 @@ public interface TaskManager {
 
     EpicDto getEpic(int epicId);
 
-    EpicDto createEpic(CreateEpicDto epicDto);
+    EpicDto createEpic(CreateEpic epicDto);
 
     EpicDto updateEpic(UpdateEpic updateEpic);
 
@@ -48,7 +48,7 @@ public interface TaskManager {
 
     List<SubtaskDto> getSubtasksWithEpicId(int epicId);
 
-    SubtaskDto createSubtask(CreateSubtaskDto subtaskDto);
+    SubtaskDto createSubtask(CreateSubtask subtaskDto);
 
     SubtaskDto updateSubtask(UpdateSubtask updateSubtask);
 

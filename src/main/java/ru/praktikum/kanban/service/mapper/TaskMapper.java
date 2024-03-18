@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.TaskType;
-import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
+import ru.praktikum.kanban.model.dto.create.CreateTask;
 import ru.praktikum.kanban.model.dto.response.TaskDto;
 import ru.praktikum.kanban.model.dto.update.UpdateTask;
 import ru.praktikum.kanban.model.entity.Task;
@@ -31,7 +31,7 @@ public interface TaskMapper {
         );
     }
 
-    Task toEntity(int id, CreateTaskDto dto);
+    Task toEntity(int id, CreateTask dto);
 
     default Task toEntity(String[] values) {
         return new Task(
