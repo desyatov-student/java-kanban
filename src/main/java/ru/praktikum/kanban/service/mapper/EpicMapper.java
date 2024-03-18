@@ -5,7 +5,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.TaskType;
 import ru.praktikum.kanban.model.CreateEpic;
 import ru.praktikum.kanban.model.EpicDto;
 import ru.praktikum.kanban.model.SubtaskDto;

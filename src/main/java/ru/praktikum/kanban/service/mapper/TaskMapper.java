@@ -3,7 +3,6 @@ package ru.praktikum.kanban.service.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.TaskType;
 import ru.praktikum.kanban.model.CreateTask;
 import ru.praktikum.kanban.model.TaskDto;
 import ru.praktikum.kanban.model.UpdateTask;

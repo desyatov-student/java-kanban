@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import ru.praktikum.kanban.model.TaskType;
+import ru.praktikum.kanban.service.mapper.TaskType;
 import ru.praktikum.kanban.model.Task;
 import ru.praktikum.kanban.service.mapper.AdvancedTaskMapper;
 
