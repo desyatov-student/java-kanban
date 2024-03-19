@@ -9,9 +9,9 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 public class CreateSubtaskDto extends CreateTaskDto {
 
-    private final int epicId;
+    private final Integer epicId;
 
-    public CreateSubtaskDto(String name, String description, int epicId) {
+    public CreateSubtaskDto(String name, String description, Integer epicId) {
         super(name, description);
         this.epicId = epicId;
     }

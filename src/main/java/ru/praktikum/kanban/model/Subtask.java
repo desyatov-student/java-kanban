@@ -13,14 +13,14 @@ import lombok.ToString;
 public class Subtask extends Task {
 
     @EqualsAndHashCode.Exclude
-    private int epicId;
+    private Integer epicId;
 
     public Subtask(
-            int id,
+            @NonNull Integer id,
             @NonNull String name,
             @NonNull String description,
             @NonNull TaskStatus status,
-            int epicId) {
+            @NonNull Integer epicId) {
         super(id, name, description, status);
         this.epicId = epicId;
     }

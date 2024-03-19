@@ -12,7 +12,7 @@ import ru.praktikum.kanban.model.TaskStatus;
 @ToString
 @EqualsAndHashCode
 public class TaskDto {
-    private final int id;
+    @NonNull private final Integer id;
     @NonNull private final String name;
     @NonNull private final String description;
     @NonNull private final TaskStatus status;

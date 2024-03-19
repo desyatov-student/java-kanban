@@ -8,7 +8,7 @@ import ru.praktikum.kanban.model.TaskStatus;
 @EqualsAndHashCode(callSuper = true)
 public class SubtaskDto extends TaskDto {
 
-    public SubtaskDto(int id, String name, String description, TaskStatus status) {
+    public SubtaskDto(Integer id, String name, String description, TaskStatus status) {
         super(id, name, description, status);
     }
 

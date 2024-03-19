@@ -14,7 +14,7 @@ public class Epic extends Task {
     public final List<Integer> subtasks;
 
     public Epic(
-            int id,
+            @NonNull Integer id,
             @NonNull String name,
             @NonNull String description,
             @NonNull TaskStatus status,

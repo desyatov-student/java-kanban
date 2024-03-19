@@ -505,14 +505,14 @@ class InMemoryTaskManagerTest {
     }
 
     private CreateEpicDto CREATE_EPIC() { return new CreateEpicDto("name", "desc"); }
-    private UpdateEpicDto UPDATE_EPIC(int id, String name) { return new UpdateEpicDto(id, name, "desc"); }
-    private CreateSubtaskDto CREATE_SUBTASK(int epicId) { return new CreateSubtaskDto("name", "desc", epicId); }
-    private UpdateSubtaskDto UPDATE_SUBTASK(int id, TaskStatus status) { return new UpdateSubtaskDto(id, "name", "desc", status); }
-    private SubtaskDto SUBTASK(int id, TaskStatus status) { return new SubtaskDto(id, "name", "desc", status); }
-    private EpicDto EPIC(int id, TaskStatus status, List<SubtaskDto> subtasks) { return EPIC(id, "name", status, subtasks); }
-    private EpicDto EPIC(int id, String name, TaskStatus status, List<SubtaskDto> subtasks) { return new EpicDto(id, name, "desc", status, subtasks); }
+    private UpdateEpicDto UPDATE_EPIC(Integer id, String name) { return new UpdateEpicDto(id, name, "desc"); }
+    private CreateSubtaskDto CREATE_SUBTASK(Integer epicId) { return new CreateSubtaskDto("name", "desc", epicId); }
+    private UpdateSubtaskDto UPDATE_SUBTASK(Integer id, TaskStatus status) { return new UpdateSubtaskDto(id, "name", "desc", status); }
+    private SubtaskDto SUBTASK(Integer id, TaskStatus status) { return new SubtaskDto(id, "name", "desc", status); }
+    private EpicDto EPIC(Integer id, TaskStatus status, List<SubtaskDto> subtasks) { return EPIC(id, "name", status, subtasks); }
+    private EpicDto EPIC(Integer id, String name, TaskStatus status, List<SubtaskDto> subtasks) { return new EpicDto(id, name, "desc", status, subtasks); }
 
     private final CreateTaskDto CREATE_TASK = new CreateTaskDto("name", "desc");
-    private UpdateTaskDto UPDATE_TASK(int id, TaskStatus status) { return new UpdateTaskDto(id, "name", "desc", status); }
-    private TaskDto TASK(int id, TaskStatus status) { return new TaskDto(id, "name", "desc", status); }
+    private UpdateTaskDto UPDATE_TASK(Integer id, TaskStatus status) { return new UpdateTaskDto(id, "name", "desc", status); }
+    private TaskDto TASK(Integer id, TaskStatus status) { return new TaskDto(id, "name", "desc", status); }
 }

@@ -11,7 +11,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @AllArgsConstructor
 public class UpdateEpicDto {
-    private final int id;
+    @NonNull private final Integer id;
     @NonNull private final String name;
     @NonNull private final String description;
 }

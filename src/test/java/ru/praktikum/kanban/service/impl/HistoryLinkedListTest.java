@@ -35,7 +35,7 @@ class HistoryLinkedListTest {
 
     @ParameterizedTest
     @MethodSource("provideModelsForRemoveTest")
-    void testRemove(List<Task> expected, List<Task> given, int idToRemove) {
+    void testRemove(List<Task> expected, List<Task> given, Integer idToRemove) {
         for (Task entity : given) {
             historyLinkedList.add(entity);
         }
@@ -160,6 +160,6 @@ class HistoryLinkedListTest {
         );
     }
 
-    private static Task TASK(int id, String name) { return new Task(id, name, "", TaskStatus.NEW); }
-    private static Task TASK(int id) { return TASK(id, ""); }
+    private static Task TASK(Integer id, String name) { return new Task(id, name, "", TaskStatus.NEW); }
+    private static Task TASK(Integer id) { return TASK(id, ""); }
 }
