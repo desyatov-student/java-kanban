@@ -24,11 +24,11 @@ class HistoryLinkedListTest {
     @ParameterizedTest
     @MethodSource("provideModels")
     void testAdd(List<Task> expected, List<Task> given, List<Task> input) {
-        for (Task entity : given) {
-            historyLinkedList.add(entity);
+        for (Task task : given) {
+            historyLinkedList.add(task);
         }
-        for (Task entity : input) {
-            historyLinkedList.add(entity);
+        for (Task task : input) {
+            historyLinkedList.add(task);
         }
         assertEquals(expected, historyLinkedList.values());
     }
@@ -36,8 +36,8 @@ class HistoryLinkedListTest {
     @ParameterizedTest
     @MethodSource("provideModelsForRemoveTest")
     void testRemove(List<Task> expected, List<Task> given, Integer idToRemove) {
-        for (Task entity : given) {
-            historyLinkedList.add(entity);
+        for (Task task : given) {
+            historyLinkedList.add(task);
         }
         historyLinkedList.remove(idToRemove);
         assertEquals(expected, historyLinkedList.values());
