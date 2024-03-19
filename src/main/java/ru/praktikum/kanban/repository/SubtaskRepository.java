@@ -7,11 +7,11 @@ public interface SubtaskRepository {
 
     List<Subtask> getAllSubtasks();
 
-    Subtask getSubtask(int subtaskId);
+    Subtask getSubtask(Integer subtaskId);
 
     void saveSubtask(Subtask subtask);
 
-    void removeSubtask(int subtaskId);
+    void removeSubtask(Integer subtaskId);
 
     void removeAllSubtasks();
 }

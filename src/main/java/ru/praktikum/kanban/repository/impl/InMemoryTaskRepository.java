@@ -41,12 +41,12 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     }
 
     @Override
-    public Task getTask(int taskId) {
+    public Task getTask(Integer taskId) {
         return tasks.get(taskId);
     }
 
     @Override
-    public void removeTask(int taskId) {
+    public void removeTask(Integer taskId) {
         tasks.remove(taskId);
     }
 
@@ -66,7 +66,7 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     }
 
     @Override
-    public Epic getEpic(int epicId) {
+    public Epic getEpic(Integer epicId) {
         return epics.get(epicId);
     }
 
@@ -81,7 +81,7 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     }
 
     @Override
-    public void removeEpic(int epicId) {
+    public void removeEpic(Integer epicId) {
         epics.remove(epicId);
     }
 
@@ -101,12 +101,12 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     }
 
     @Override
-    public Subtask getSubtask(int subtaskId) {
+    public Subtask getSubtask(Integer subtaskId) {
         return subtasks.get(subtaskId);
     }
 
     @Override
-    public void removeSubtask(int subtaskId) {
+    public void removeSubtask(Integer subtaskId) {
         subtasks.remove(subtaskId);
     }
 
@@ -123,7 +123,7 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     }
 
     @Override
-    public void removeFromHistory(int id) {
+    public void removeFromHistory(Integer id) {
         history.remove(id);
     }
 

@@ -19,7 +19,7 @@ public class HistoryManagerImpl implements HistoryManager {
     }
 
     @Override
-    public void remove(int id) {
+    public void remove(Integer id) {
         repository.removeFromHistory(id);
     }
 

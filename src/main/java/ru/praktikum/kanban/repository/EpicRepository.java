@@ -7,11 +7,11 @@ public interface EpicRepository {
 
     List<Epic> getAllEpics();
 
-    Epic getEpic(int epicId);
+    Epic getEpic(Integer epicId);
 
     void saveEpic(Epic epic);
 
-    void removeEpic(int epicId);
+    void removeEpic(Integer epicId);
 
     void removeAllEpics();
 }

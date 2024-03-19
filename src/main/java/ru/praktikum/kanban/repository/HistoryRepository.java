@@ -6,7 +6,7 @@ import ru.praktikum.kanban.model.Task;
 public interface HistoryRepository {
     List<Task> getHistory();
 
-    void removeFromHistory(int id);
+    void removeFromHistory(Integer id);
 
     void addToHistory(Task task);
 }

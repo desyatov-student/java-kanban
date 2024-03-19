@@ -31,7 +31,7 @@ public interface SubtaskMapper {
         );
     }
 
-    Subtask toEntity(int id, CreateSubtaskDto dto);
+    Subtask toEntity(Integer id, CreateSubtaskDto dto);
 
     default Subtask toEntity(String[] values) {
         return new Subtask(

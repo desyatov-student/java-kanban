@@ -64,7 +64,7 @@ public class FileBackedTaskRepository extends InMemoryTaskRepository {
     }
 
     @Override
-    public void removeTask(int taskId) {
+    public void removeTask(Integer taskId) {
         super.removeTask(taskId);
         save();
     }
@@ -88,7 +88,7 @@ public class FileBackedTaskRepository extends InMemoryTaskRepository {
     }
 
     @Override
-    public void removeEpic(int epicId) {
+    public void removeEpic(Integer epicId) {
         super.removeEpic(epicId);
         save();
     }
@@ -100,7 +100,7 @@ public class FileBackedTaskRepository extends InMemoryTaskRepository {
     }
 
     @Override
-    public void removeSubtask(int subtaskId) {
+    public void removeSubtask(Integer subtaskId) {
         super.removeSubtask(subtaskId);
         save();
     }
@@ -112,7 +112,7 @@ public class FileBackedTaskRepository extends InMemoryTaskRepository {
     }
 
     @Override
-    public void removeFromHistory(int id) {
+    public void removeFromHistory(Integer id) {
         super.removeFromHistory(id);
         save();
     }

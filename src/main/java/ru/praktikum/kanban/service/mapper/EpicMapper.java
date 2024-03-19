@@ -36,7 +36,7 @@ public interface EpicMapper {
     }
 
     @Mapping(target = "subtasks", expression = "java(new ArrayList<Integer>())")
-    Epic toEntity(int id, CreateEpicDto dto);
+    Epic toEntity(Integer id, CreateEpicDto dto);
 
     default Epic toEntity(String[] values) {
         return new Epic(

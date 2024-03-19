@@ -20,9 +20,9 @@ public interface TaskManager {
 
     TaskDto updateTask(UpdateTaskDto updateTaskDto);
 
-    TaskDto getTask(int taskId);
+    TaskDto getTask(Integer taskId);
 
-    void removeTask(int taskId);
+    void removeTask(Integer taskId);
 
     void removeAllTasks();
 
@@ -30,13 +30,13 @@ public interface TaskManager {
 
     List<EpicDto> getAllEpics();
 
-    EpicDto getEpic(int epicId);
+    EpicDto getEpic(Integer epicId);
 
     EpicDto createEpic(CreateEpicDto epicDto);
 
     EpicDto updateEpic(UpdateEpicDto updateEpicDto);
 
-    void removeEpic(int epicId);
+    void removeEpic(Integer epicId);
 
     void removeAllEpics();
 
@@ -44,15 +44,15 @@ public interface TaskManager {
 
     List<SubtaskDto> getAllSubtasks();
 
-    SubtaskDto getSubtask(int subtaskId);
+    SubtaskDto getSubtask(Integer subtaskId);
 
-    List<SubtaskDto> getSubtasksWithEpicId(int epicId);
+    List<SubtaskDto> getSubtasksWithEpicId(Integer epicId);
 
     SubtaskDto createSubtask(CreateSubtaskDto subtaskDto);
 
     SubtaskDto updateSubtask(UpdateSubtaskDto updateSubtaskDto);
 
-    void removeSubtask(int subtaskId);
+    void removeSubtask(Integer subtaskId);
 
     void removeAllSubtasks();
 

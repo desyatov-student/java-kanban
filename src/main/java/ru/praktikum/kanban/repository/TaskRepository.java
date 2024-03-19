@@ -9,9 +9,9 @@ public interface TaskRepository {
 
     void saveTask(Task simpleTaskEntity);
 
-    Task getTask(int taskId);
+    Task getTask(Integer taskId);
 
-    void removeTask(int taskId);
+    void removeTask(Integer taskId);
 
     void removeAllTasks();
 }

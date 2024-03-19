@@ -30,7 +30,7 @@ public interface TaskMapper {
         );
     }
 
-    Task toEntity(int id, CreateTaskDto dto);
+    Task toEntity(Integer id, CreateTaskDto dto);
 
     default Task toEntity(String[] values) {
         return new Task(

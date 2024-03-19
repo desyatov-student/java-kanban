@@ -51,7 +51,7 @@ public class HistoryLinkedList {
         hashMap.put(value.getId(), tail);
     }
 
-    public void remove(int id) {
+    public void remove(Integer id) {
         Node<Task> node = hashMap.get(id);
         hashMap.remove(id);
         if (node == null) {
