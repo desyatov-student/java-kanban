@@ -17,6 +17,7 @@ public class FileBackedTaskRepository extends InMemoryTaskRepository {
 
     public FileBackedTaskRepository(TaskFileStorage fileStorage) {
         this.fileStorage = fileStorage;
+        loadFromFileStorage();
     }
 
     private void save() {
@@ -30,7 +31,7 @@ public class FileBackedTaskRepository extends InMemoryTaskRepository {
         }
     }
 
-    public void loadFromFileStorage() {
+    private void loadFromFileStorage() {
         if (isLoaded) {
             return;
         }

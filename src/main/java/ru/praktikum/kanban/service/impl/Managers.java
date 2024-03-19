@@ -9,7 +9,6 @@ public class Managers {
 
     public static TaskManager getDefault() {
         FileBackedTaskRepository repository = new FileBackedTaskRepository(TaskFileStorage.defaultStorage());
-        repository.loadFromFileStorage();
         HistoryManager historyManager = new HistoryManagerImpl(repository);
         return new FileBackedTaskManager(repository, historyManager);
     }

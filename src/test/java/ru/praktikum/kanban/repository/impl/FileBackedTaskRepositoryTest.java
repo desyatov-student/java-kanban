@@ -2,7 +2,6 @@ package ru.praktikum.kanban.repository.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InOrder;
@@ -10,12 +9,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.praktikum.kanban.exception.TaskFileStorageException;
-import ru.praktikum.kanban.service.backup.TasksContainer;
-import ru.praktikum.kanban.service.backup.TasksBackup;
+import ru.praktikum.kanban.model.Epic;
 import ru.praktikum.kanban.model.Subtask;
 import ru.praktikum.kanban.model.Task;
-import ru.praktikum.kanban.model.Epic;
 import ru.praktikum.kanban.service.backup.TaskFileStorage;
+import ru.praktikum.kanban.service.backup.TasksBackup;
+import ru.praktikum.kanban.service.backup.TasksContainer;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,15 +29,10 @@ class FileBackedTaskRepositoryTest {
 
     @Mock
     TaskFileStorage fileStorage;
-    FileBackedTaskRepository repository;
-
-    @BeforeEach
-    void setup() {
-        repository = new FileBackedTaskRepository(fileStorage);
-    }
 
     @Test
     void shouldSaveTaskForEachUpdate() throws TaskFileStorageException {
+        //given
         TasksContainer tasksContainer = new TasksContainer();
         List<Task> history = new ArrayList<>();
 
@@ -52,6 +46,29 @@ class FileBackedTaskRepositoryTest {
 
         Task task1 = TASK(5);
         Task task2 = TASK(6);
+
+        List<Runnable> actionsBeforeVerify = List.of(
+                () -> tasksContainer.addEpic(epic1),
+                () -> tasksContainer.addEpic(epic2),
+                () -> { tasksContainer.epics.clear(); tasksContainer.addEpic(epic2); },
+                tasksContainer.epics::clear,
+                () -> tasksContainer.addSubtask(subtask1),
+                () -> tasksContainer.addSubtask(subtask2),
+                () -> { tasksContainer.subtasks.clear(); tasksContainer.addSubtask(subtask2); },
+                tasksContainer.subtasks::clear,
+                () -> tasksContainer.addTask(task1),
+                () -> tasksContainer.addTask(task2),
+                () -> { tasksContainer.tasks.clear(); tasksContainer.addTask(task2); },
+                tasksContainer.tasks::clear,
+                () -> history.add(epic1),
+                () -> history.add(subtask1),
+                () -> history.add(task1),
+                () -> history.remove(subtask1)
+        );
+        Mockito.when(fileStorage.getBackup()).thenReturn(new TasksBackup());
+        FileBackedTaskRepository repository = new FileBackedTaskRepository(fileStorage);
+
+        //when
 
         repository.saveEpic(epic1);
         repository.saveEpic(epic2);
@@ -73,25 +90,7 @@ class FileBackedTaskRepositoryTest {
         repository.addToHistory(task1);
         repository.removeFromHistory(subtask1.getId());
 
-        List<Runnable> actionsBeforeVerify = List.of(
-                () -> tasksContainer.addEpic(epic1),
-                () -> tasksContainer.addEpic(epic2),
-                () -> { tasksContainer.epics.clear(); tasksContainer.addEpic(epic2); },
-                tasksContainer.epics::clear,
-                () -> tasksContainer.addSubtask(subtask1),
-                () -> tasksContainer.addSubtask(subtask2),
-                () -> { tasksContainer.subtasks.clear(); tasksContainer.addSubtask(subtask2); },
-                tasksContainer.subtasks::clear,
-                () -> tasksContainer.addTask(task1),
-                () -> tasksContainer.addTask(task2),
-                () -> { tasksContainer.tasks.clear(); tasksContainer.addTask(task2); },
-                tasksContainer.tasks::clear,
-                () -> history.add(epic1),
-                () -> history.add(subtask1),
-                () -> history.add(task1),
-                () -> history.remove(subtask1)
-        );
-
+        //then
         for (Runnable action : actionsBeforeVerify) {
             action.run();
             orderVerifier.verify(fileStorage).save(new TasksBackup(tasksContainer, history));
@@ -102,19 +101,27 @@ class FileBackedTaskRepositoryTest {
 
     @Test
     void shouldHandleThrowsForSave() throws TaskFileStorageException {
+        //given
+        Mockito.when(fileStorage.getBackup()).thenReturn(new TasksBackup());
+        FileBackedTaskRepository repository = new FileBackedTaskRepository(fileStorage);
         Mockito.doThrow(new TaskFileStorageException()).when(fileStorage).save(Mockito.any());
+        //then
         assertDoesNotThrow(() -> repository.saveTask(TASK(1)));
     }
 
     @Test
     void shouldThrowsErrorForSave() throws TaskFileStorageException {
+        //given
+        Mockito.when(fileStorage.getBackup()).thenReturn(new TasksBackup());
+        FileBackedTaskRepository repository = new FileBackedTaskRepository(fileStorage);
         Mockito.doThrow(new RuntimeException()).when(fileStorage).save(Mockito.any());
+        //then
         assertThrows(RuntimeException.class, () -> repository.saveTask(TASK(1)));
     }
 
     @Test
     void shouldReturnBackup() throws TaskFileStorageException {
-
+        //given
         Epic epic1 = EPIC(1);
         Epic epic2 = EPIC(2);
 
@@ -137,16 +144,11 @@ class FileBackedTaskRepositoryTest {
         TasksBackup backup = new TasksBackup(tasksContainer, history);
         Mockito.when(fileStorage.getBackup()).thenReturn(backup);
 
-        assertTrue(repository.getAllEpics().isEmpty());
-        assertTrue(repository.getAllSubtasks().isEmpty());
-        assertTrue(repository.getAllTasks().isEmpty());
-        assertTrue(repository.getHistory().isEmpty());
+        //when
+        FileBackedTaskRepository repository = new FileBackedTaskRepository(fileStorage);
 
-        repository.loadFromFileStorage();
-        repository.loadFromFileStorage();
-
+        //then
         Mockito.verify(fileStorage, Mockito.times(1)).getBackup();
-
         assertEquals(List.of(epic1, epic2), repository.getAllEpics());
         assertEquals(List.of(subtask1, subtask2), repository.getAllSubtasks());
         assertEquals(List.of(task1, task2), repository.getAllTasks());
@@ -156,12 +158,34 @@ class FileBackedTaskRepositoryTest {
     }
 
     @Test
+    void getBackupShouldReturnEmptyTasksWhenFileStorageIsEmpty() throws TaskFileStorageException {
+        //given
+
+        TasksContainer tasksContainer = new TasksContainer();
+        List<Task> history = List.of();
+        TasksBackup backup = new TasksBackup(tasksContainer, history);
+        Mockito.when(fileStorage.getBackup()).thenReturn(backup);
+
+        //when
+        FileBackedTaskRepository repository = new FileBackedTaskRepository(fileStorage);
+
+        //then
+        assertTrue(repository.getAllEpics().isEmpty());
+        assertTrue(repository.getAllSubtasks().isEmpty());
+        assertTrue(repository.getAllTasks().isEmpty());
+        assertTrue(repository.getHistory().isEmpty());
+
+        Mockito.verify(fileStorage, Mockito.times(1)).getBackup();
+        Mockito.verifyNoMoreInteractions(fileStorage);
+    }
+
+    @Test
     void loadFromFileStorage_catchTaskFileStorageException_getBackupThrowTaskFileStorageException()
             throws TaskFileStorageException {
         //given
         Mockito.doThrow(new TaskFileStorageException()).when(fileStorage).getBackup();
         //then
-        assertDoesNotThrow(() -> repository.loadFromFileStorage());
+        assertDoesNotThrow(() -> new FileBackedTaskRepository(fileStorage));
     }
 
     @Test
@@ -169,6 +193,6 @@ class FileBackedTaskRepositoryTest {
         //given
         Mockito.doThrow(new RuntimeException()).when(fileStorage).getBackup();
         //then
-        assertThrows(RuntimeException.class, () -> repository.loadFromFileStorage());
+        assertThrows(RuntimeException.class, () -> new FileBackedTaskRepository(fileStorage));
     }
 }
