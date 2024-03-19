@@ -1,4 +1,4 @@
-package ru.praktikum.kanban.model;
+package ru.praktikum.kanban.dto;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -7,11 +7,11 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class CreateSubtask extends CreateTask {
+public class CreateSubtaskDto extends CreateTaskDto {
 
     private final int epicId;
 
-    public CreateSubtask(String name, String description, int epicId) {
+    public CreateSubtaskDto(String name, String description, int epicId) {
         super(name, description);
         this.epicId = epicId;
     }

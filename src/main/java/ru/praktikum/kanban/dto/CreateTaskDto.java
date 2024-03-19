@@ -1,4 +1,4 @@
-package ru.praktikum.kanban.model;
+package ru.praktikum.kanban.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -11,9 +11,8 @@ import ru.praktikum.kanban.model.TaskStatus;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class TaskDto {
-    private final int id;
+public class CreateTaskDto {
     @NonNull private final String name;
     @NonNull private final String description;
-    @NonNull private final TaskStatus status;
+    @NonNull private final TaskStatus status = TaskStatus.NEW;
 }

@@ -1,13 +1,13 @@
-package ru.praktikum.kanban.model;
+package ru.praktikum.kanban.dto;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class CreateEpic extends CreateTask {
+public class CreateEpicDto extends CreateTaskDto {
 
-    public CreateEpic(String name, String description) {
+    public CreateEpicDto(String name, String description) {
         super(name, description);
     }
 }

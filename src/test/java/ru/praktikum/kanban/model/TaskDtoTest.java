@@ -3,6 +3,9 @@ package ru.praktikum.kanban.model;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import ru.praktikum.kanban.dto.EpicDto;
+import ru.praktikum.kanban.dto.SubtaskDto;
+import ru.praktikum.kanban.dto.TaskDto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;

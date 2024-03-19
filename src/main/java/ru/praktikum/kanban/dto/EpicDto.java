@@ -1,10 +1,11 @@
-package ru.praktikum.kanban.model;
+package ru.praktikum.kanban.dto;
 
 import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+import ru.praktikum.kanban.model.TaskStatus;
 
 @Getter
 @ToString(callSuper = true)

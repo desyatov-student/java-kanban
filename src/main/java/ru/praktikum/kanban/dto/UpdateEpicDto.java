@@ -1,4 +1,4 @@
-package ru.praktikum.kanban.model;
+package ru.praktikum.kanban.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor
-public class UpdateEpic {
+public class UpdateEpicDto {
     private final int id;
     @NonNull private final String name;
     @NonNull private final String description;

@@ -5,10 +5,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.CreateEpic;
-import ru.praktikum.kanban.model.EpicDto;
-import ru.praktikum.kanban.model.SubtaskDto;
-import ru.praktikum.kanban.model.UpdateEpic;
+import ru.praktikum.kanban.dto.CreateEpicDto;
+import ru.praktikum.kanban.dto.EpicDto;
+import ru.praktikum.kanban.dto.SubtaskDto;
+import ru.praktikum.kanban.dto.UpdateEpicDto;
 import ru.praktikum.kanban.model.Epic;
 import ru.praktikum.kanban.util.StringUtils;
 
@@ -22,7 +22,7 @@ public interface EpicMapper {
 
     @Mapping(target = "subtasks", ignore = true)
     @Mapping(target = "status", ignore = true)
-    void updateEntityFromDto(UpdateEpic dto, @MappingTarget Epic epic);
+    void updateEntityFromDto(UpdateEpicDto dto, @MappingTarget Epic epic);
 
     default String toString(Epic epic) {
         return StringUtils.joining(DELIMITER_COMMA,
@@ -36,7 +36,7 @@ public interface EpicMapper {
     }
 
     @Mapping(target = "subtasks", expression = "java(new ArrayList<Integer>())")
-    Epic toEntity(int id, CreateEpic dto);
+    Epic toEntity(int id, CreateEpicDto dto);
 
     default Epic toEntity(String[] values) {
         return new Epic(

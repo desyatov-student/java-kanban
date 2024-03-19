@@ -4,9 +4,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.CreateSubtask;
-import ru.praktikum.kanban.model.SubtaskDto;
-import ru.praktikum.kanban.model.UpdateSubtask;
+import ru.praktikum.kanban.dto.CreateSubtaskDto;
+import ru.praktikum.kanban.dto.SubtaskDto;
+import ru.praktikum.kanban.dto.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.Subtask;
 import ru.praktikum.kanban.util.StringUtils;
 
@@ -18,7 +18,7 @@ public interface SubtaskMapper {
     SubtaskDto toDto(Subtask subtask);
 
     @Mapping(target = "epicId", ignore = true)
-    void updateEntityFromDto(UpdateSubtask dto, @MappingTarget Subtask subtask);
+    void updateEntityFromDto(UpdateSubtaskDto dto, @MappingTarget Subtask subtask);
 
     default String toString(Subtask subtask) {
         return StringUtils.joining(DELIMITER_COMMA,
@@ -31,7 +31,7 @@ public interface SubtaskMapper {
         );
     }
 
-    Subtask toEntity(int id, CreateSubtask dto);
+    Subtask toEntity(int id, CreateSubtaskDto dto);
 
     default Subtask toEntity(String[] values) {
         return new Subtask(

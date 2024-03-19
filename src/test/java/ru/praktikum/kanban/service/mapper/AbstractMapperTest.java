@@ -5,11 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.TaskDto;
+import ru.praktikum.kanban.dto.TaskDto;
 import ru.praktikum.kanban.model.Epic;
 import ru.praktikum.kanban.model.Task;
-import ru.praktikum.kanban.service.mapper.TaskMapper;
-import ru.praktikum.kanban.service.mapper.TaskMapperImpl;
 import ru.praktikum.kanban.util.AbstractMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

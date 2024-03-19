@@ -3,9 +3,9 @@ package ru.praktikum.kanban.service.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import ru.praktikum.kanban.model.TaskStatus;
-import ru.praktikum.kanban.model.CreateTask;
-import ru.praktikum.kanban.model.TaskDto;
-import ru.praktikum.kanban.model.UpdateTask;
+import ru.praktikum.kanban.dto.CreateTaskDto;
+import ru.praktikum.kanban.dto.TaskDto;
+import ru.praktikum.kanban.dto.UpdateTaskDto;
 import ru.praktikum.kanban.model.Task;
 import ru.praktikum.kanban.util.StringUtils;
 
@@ -17,7 +17,7 @@ public interface TaskMapper {
 
     TaskDto toDto(Task task);
 
-    void updateEntityFromDto(UpdateTask dto, @MappingTarget Task task);
+    void updateEntityFromDto(UpdateTaskDto dto, @MappingTarget Task task);
 
     default String toString(Task task) {
         return StringUtils.joining(DELIMITER_COMMA,
@@ -30,7 +30,7 @@ public interface TaskMapper {
         );
     }
 
-    Task toEntity(int id, CreateTask dto);
+    Task toEntity(int id, CreateTaskDto dto);
 
     default Task toEntity(String[] values) {
         return new Task(

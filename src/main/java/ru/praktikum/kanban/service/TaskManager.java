@@ -1,24 +1,24 @@
 package ru.praktikum.kanban.service;
 
 import java.util.List;
-import ru.praktikum.kanban.model.CreateEpic;
-import ru.praktikum.kanban.model.CreateSubtask;
-import ru.praktikum.kanban.model.CreateTask;
-import ru.praktikum.kanban.model.TaskDto;
-import ru.praktikum.kanban.model.EpicDto;
-import ru.praktikum.kanban.model.SubtaskDto;
-import ru.praktikum.kanban.model.UpdateEpic;
-import ru.praktikum.kanban.model.UpdateSubtask;
-import ru.praktikum.kanban.model.UpdateTask;
+import ru.praktikum.kanban.dto.CreateEpicDto;
+import ru.praktikum.kanban.dto.CreateSubtaskDto;
+import ru.praktikum.kanban.dto.CreateTaskDto;
+import ru.praktikum.kanban.dto.TaskDto;
+import ru.praktikum.kanban.dto.EpicDto;
+import ru.praktikum.kanban.dto.SubtaskDto;
+import ru.praktikum.kanban.dto.UpdateEpicDto;
+import ru.praktikum.kanban.dto.UpdateSubtaskDto;
+import ru.praktikum.kanban.dto.UpdateTaskDto;
 
 public interface TaskManager {
 
     // Task's methods
     List<TaskDto> getAllTasks();
 
-    TaskDto createTask(CreateTask createTask);
+    TaskDto createTask(CreateTaskDto createTaskDto);
 
-    TaskDto updateTask(UpdateTask updateTask);
+    TaskDto updateTask(UpdateTaskDto updateTaskDto);
 
     TaskDto getTask(int taskId);
 
@@ -32,9 +32,9 @@ public interface TaskManager {
 
     EpicDto getEpic(int epicId);
 
-    EpicDto createEpic(CreateEpic epicDto);
+    EpicDto createEpic(CreateEpicDto epicDto);
 
-    EpicDto updateEpic(UpdateEpic updateEpic);
+    EpicDto updateEpic(UpdateEpicDto updateEpicDto);
 
     void removeEpic(int epicId);
 
@@ -48,9 +48,9 @@ public interface TaskManager {
 
     List<SubtaskDto> getSubtasksWithEpicId(int epicId);
 
-    SubtaskDto createSubtask(CreateSubtask subtaskDto);
+    SubtaskDto createSubtask(CreateSubtaskDto subtaskDto);
 
-    SubtaskDto updateSubtask(UpdateSubtask updateSubtask);
+    SubtaskDto updateSubtask(UpdateSubtaskDto updateSubtaskDto);
 
     void removeSubtask(int subtaskId);
 

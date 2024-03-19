@@ -1,11 +1,11 @@
 package ru.praktikum.kanban;
 
-import ru.praktikum.kanban.model.CreateEpic;
-import ru.praktikum.kanban.model.CreateSubtask;
-import ru.praktikum.kanban.model.CreateTask;
-import ru.praktikum.kanban.model.EpicDto;
-import ru.praktikum.kanban.model.SubtaskDto;
-import ru.praktikum.kanban.model.TaskDto;
+import ru.praktikum.kanban.dto.CreateEpicDto;
+import ru.praktikum.kanban.dto.CreateSubtaskDto;
+import ru.praktikum.kanban.dto.CreateTaskDto;
+import ru.praktikum.kanban.dto.EpicDto;
+import ru.praktikum.kanban.dto.SubtaskDto;
+import ru.praktikum.kanban.dto.TaskDto;
 import ru.praktikum.kanban.service.TaskManager;
 import ru.praktikum.kanban.service.impl.Managers;
 
@@ -16,32 +16,32 @@ public class Main {
         TaskManager taskManager = Managers.getDefault();
 
         final TaskDto task1 = taskManager.createTask(
-                new CreateTask("Таск 1", "Description")
+                new CreateTaskDto("Таск 1", "Description")
         );
 
         final TaskDto task2 = taskManager.createTask(
-                new CreateTask("Таск 2", "Description")
+                new CreateTaskDto("Таск 2", "Description")
         );
 
         EpicDto epic = taskManager.createEpic(
-                new CreateEpic("Эпик с подзадачами", "Description")
+                new CreateEpicDto("Эпик с подзадачами", "Description")
         );
 
         EpicDto emptyEpic = taskManager.createEpic(
-                new CreateEpic("Пустой эпик", "Description")
+                new CreateEpicDto("Пустой эпик", "Description")
         );
 
         final SubtaskDto subtask1 = taskManager.createSubtask(
-                new CreateSubtask("Проектирование", "Спроектировать хранение данных", epic.getId())
+                new CreateSubtaskDto("Проектирование", "Спроектировать хранение данных", epic.getId())
         );
         SubtaskDto subtask2 = taskManager.createSubtask(
-                new CreateSubtask("Тест", "Написать тесты заглушки", epic.getId())
+                new CreateSubtaskDto("Тест", "Написать тесты заглушки", epic.getId())
         );
         SubtaskDto subtask3 = taskManager.createSubtask(
-                new CreateSubtask("Тест", "Написать тесты заглушки", epic.getId())
+                new CreateSubtaskDto("Тест", "Написать тесты заглушки", epic.getId())
         );
         SubtaskDto subtask4 = taskManager.createSubtask(
-                new CreateSubtask("Код", "Написать код", epic.getId())
+                new CreateSubtaskDto("Код", "Написать код", epic.getId())
         );
 
         taskManager.getEpic(epic.getId());
