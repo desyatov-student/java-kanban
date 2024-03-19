@@ -21,9 +21,9 @@ public class TaskFileStorage {
 
     private final Logger logger = Logger.getLogger(TaskFileStorage.class);
 
-    Path filePath;
-    TasksCsvWriter writer;
-    TasksCsvReader reader;
+    private Path filePath;
+    private final TasksCsvWriter writer;
+    private final TasksCsvReader reader;
 
     public static TaskFileStorage defaultStorage() {
         AdvancedTaskMapper mapper = new AdvancedTaskMapper();
