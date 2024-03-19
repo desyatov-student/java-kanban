@@ -18,8 +18,6 @@ import ru.praktikum.kanban.model.UpdateTask;
 import ru.praktikum.kanban.repository.impl.InMemoryTaskRepository;
 import ru.praktikum.kanban.service.HistoryManager;
 import ru.praktikum.kanban.service.TaskManager;
-import ru.praktikum.kanban.service.impl.HistoryManagerImpl;
-import ru.praktikum.kanban.service.impl.TaskManagerImpl;
 import ru.praktikum.kanban.service.mapper.EpicMapper;
 import ru.praktikum.kanban.service.mapper.EpicMapperImpl;
 import ru.praktikum.kanban.service.mapper.SubtaskMapper;
@@ -32,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class TaskManagerImplTest {
+class InMemoryTaskManagerTest {
 
     TaskManager taskManager;
 
@@ -46,7 +44,7 @@ class TaskManagerImplTest {
     void setUp() {
         InMemoryTaskRepository repository = new InMemoryTaskRepository();
         historyManager = Mockito.spy(new HistoryManagerImpl(repository));
-        taskManager = new TaskManagerImpl(
+        taskManager = new InMemoryTaskManager(
                 new IdentifierGenerator(),
                 repository,
                 historyManager

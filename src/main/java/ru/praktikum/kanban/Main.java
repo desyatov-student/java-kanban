@@ -28,7 +28,7 @@ public class Main {
         );
 
         EpicDto emptyEpic = taskManager.createEpic(
-                new CreateEpic("Пустой эпик", "")
+                new CreateEpic("Пустой эпик", "Description")
         );
 
         final SubtaskDto subtask1 = taskManager.createSubtask(

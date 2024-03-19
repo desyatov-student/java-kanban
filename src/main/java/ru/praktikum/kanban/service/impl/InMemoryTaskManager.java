@@ -28,7 +28,7 @@ import ru.praktikum.kanban.service.mapper.TaskMapper;
 import ru.praktikum.kanban.util.AbstractMapper;
 import ru.praktikum.kanban.util.IdentifierGenerator;
 
-public class TaskManagerImpl implements TaskManager {
+public class InMemoryTaskManager implements TaskManager {
     private final IdentifierGenerator identifierGenerator;
     private final TaskManagerRepository repository;
     private final HistoryManager historyManager;
@@ -37,7 +37,7 @@ public class TaskManagerImpl implements TaskManager {
     private final SubtaskMapper subtaskMapper;
     private final AbstractMapper<Task, TaskDto> abstractMapper;
 
-    public TaskManagerImpl(
+    public InMemoryTaskManager(
             IdentifierGenerator identifierGenerator,
             TaskManagerRepository repository,
             HistoryManager historyManager
@@ -55,7 +55,7 @@ public class TaskManagerImpl implements TaskManager {
         abstractMapper.put(Epic.class, value -> this.getEpicDtoWithEpicEntity((Epic) value));
     }
 
-    public TaskManagerImpl(TaskManagerRepository repository, HistoryManager historyManager) {
+    public InMemoryTaskManager(TaskManagerRepository repository, HistoryManager historyManager) {
         this(new IdentifierGenerator(), repository, historyManager);
     }
 

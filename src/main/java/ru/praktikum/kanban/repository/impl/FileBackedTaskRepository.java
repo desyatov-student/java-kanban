@@ -12,7 +12,7 @@ import ru.praktikum.kanban.util.Logger;
 public class FileBackedTaskRepository extends InMemoryTaskRepository {
 
     private final TaskFileStorage fileStorage;
-    boolean isLoaded = false;
+    private boolean isLoaded = false;
     private final Logger logger = Logger.getLogger(FileBackedTaskRepository.class);
 
     public FileBackedTaskRepository(TaskFileStorage fileStorage) {

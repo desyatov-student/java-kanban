@@ -11,7 +11,7 @@ public class Managers {
         FileBackedTaskRepository repository = new FileBackedTaskRepository(TaskFileStorage.defaultStorage());
         repository.loadFromFileStorage();
         HistoryManager historyManager = new HistoryManagerImpl(repository);
-        return new TaskManagerImpl(repository, historyManager);
+        return new FileBackedTaskManager(repository, historyManager);
     }
 
 }
