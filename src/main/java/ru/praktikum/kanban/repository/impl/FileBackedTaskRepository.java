@@ -53,7 +53,7 @@ public class FileBackedTaskRepository extends InMemoryTaskRepository {
             logger.info("Success loaded tasks from file: " + backup);
             isLoaded = true;
         } catch (TaskFileStorageException e) {
-            logger.error("Enable to save tasks changes", e);
+            logger.error("Enable to load tasks from file", e);
         }
     }
 
