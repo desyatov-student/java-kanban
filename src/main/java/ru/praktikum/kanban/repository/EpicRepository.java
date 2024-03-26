@@ -1,17 +1,17 @@
 package ru.praktikum.kanban.repository;
 
 import java.util.List;
-import ru.praktikum.kanban.model.entity.EpicEntity;
+import ru.praktikum.kanban.model.Epic;
 
 public interface EpicRepository {
 
-    List<EpicEntity> getAllEpics();
+    List<Epic> getAllEpics();
 
-    EpicEntity getEpic(int epicId);
+    Epic getEpic(Integer epicId);
 
-    void saveEpic(EpicEntity epicEntity);
+    void saveEpic(Epic epic);
 
-    void removeEpic(int epicId);
+    void removeEpic(Integer epicId);
 
     void removeAllEpics();
 }

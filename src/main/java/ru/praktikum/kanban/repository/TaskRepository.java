@@ -1,17 +1,17 @@
 package ru.praktikum.kanban.repository;
 
 import java.util.List;
-import ru.praktikum.kanban.model.entity.TaskEntity;
+import ru.praktikum.kanban.model.Task;
 
 public interface TaskRepository {
 
-    List<TaskEntity> getAllTasks();
+    List<Task> getAllTasks();
 
-    void saveTask(TaskEntity simpleTaskEntity);
+    void saveTask(Task simpleTaskEntity);
 
-    TaskEntity getTask(int taskId);
+    Task getTask(Integer taskId);
 
-    void removeTask(int taskId);
+    void removeTask(Integer taskId);
 
     void removeAllTasks();
 }

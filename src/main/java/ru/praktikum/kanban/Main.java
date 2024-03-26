@@ -1,11 +1,11 @@
 package ru.praktikum.kanban;
 
-import ru.praktikum.kanban.model.dto.create.CreateEpicDto;
-import ru.praktikum.kanban.model.dto.create.CreateSubtaskDto;
-import ru.praktikum.kanban.model.dto.create.CreateTaskDto;
-import ru.praktikum.kanban.model.dto.response.EpicDto;
-import ru.praktikum.kanban.model.dto.response.SubtaskDto;
-import ru.praktikum.kanban.model.dto.response.TaskDto;
+import ru.praktikum.kanban.dto.CreateEpicDto;
+import ru.praktikum.kanban.dto.CreateSubtaskDto;
+import ru.praktikum.kanban.dto.CreateTaskDto;
+import ru.praktikum.kanban.dto.EpicDto;
+import ru.praktikum.kanban.dto.SubtaskDto;
+import ru.praktikum.kanban.dto.TaskDto;
 import ru.praktikum.kanban.service.TaskManager;
 import ru.praktikum.kanban.service.impl.Managers;
 
@@ -16,19 +16,19 @@ public class Main {
         TaskManager taskManager = Managers.getDefault();
 
         final TaskDto task1 = taskManager.createTask(
-                new CreateTaskDto("Таск 1", "")
+                new CreateTaskDto("Таск 1", "Description")
         );
 
         final TaskDto task2 = taskManager.createTask(
-                new CreateTaskDto("Таск 2", "")
+                new CreateTaskDto("Таск 2", "Description")
         );
 
         EpicDto epic = taskManager.createEpic(
-                new CreateEpicDto("Эпик с подзадачами", "")
+                new CreateEpicDto("Эпик с подзадачами", "Description")
         );
 
         EpicDto emptyEpic = taskManager.createEpic(
-                new CreateEpicDto("Пустой эпик", "")
+                new CreateEpicDto("Пустой эпик", "Description")
         );
 
         final SubtaskDto subtask1 = taskManager.createSubtask(
@@ -67,6 +67,21 @@ public class Main {
         System.out.println("Удаляем эпик с подзадачами...");
         taskManager.removeEpic(epic.getId());
 
+        System.out.println();
+        System.out.println("1️⃣ ****** Данные в первом менеджере: ******");
+        System.out.println(taskManager.getAllEpics());
+        System.out.println(taskManager.getAllSubtasks());
+        System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getHistory());
+
+        System.out.println();
+        TaskManager taskManager2 = Managers.getDefault();
+        System.out.println();
+        System.out.println("2️⃣ ****** Данные во втором менеджере: ******");
+        System.out.println(taskManager2.getAllEpics());
+        System.out.println(taskManager2.getAllSubtasks());
+        System.out.println(taskManager2.getAllTasks());
+        System.out.println(taskManager2.getHistory());
+
     }
 }

@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class AbstractMapper<T, R> {
-    Map<Class, Function<T, R>> actions;
+    Map<Object, Function<T, R>> actions;
 
-    public AbstractMapper(Map<Class, Function<T, R>> actions) {
+    public AbstractMapper(Map<Object, Function<T, R>> actions) {
         this.actions = actions;
     }
 
@@ -15,7 +15,7 @@ public class AbstractMapper<T, R> {
         this.actions = new HashMap<>();
     }
 
-    public void put(Class key, Function<T, R> value) {
+    public void put(Object key, Function<T, R> value) {
         if (key == null || value == null) {
             throw new IllegalArgumentException("Argument is null");
         }
@@ -26,9 +26,9 @@ public class AbstractMapper<T, R> {
         if (object == null) {
             throw new IllegalArgumentException("Argument is null");
         }
-        Class key = object.getClass();
+        Object key = object.getClass();
         if (!actions.containsKey(key)) {
-            throw new IllegalArgumentException("No action for key=" + key);
+            throw new IllegalArgumentException("No action for key=" + key + " keys: " + actions.keySet());
         }
         Function<T, R> action = actions.get(key);
         return action.apply(object);

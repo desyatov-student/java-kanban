@@ -1,14 +1,14 @@
 package ru.praktikum.kanban.service;
 
 import java.util.List;
-import ru.praktikum.kanban.model.dto.response.BaseTaskDto;
+import ru.praktikum.kanban.model.Task;
 
 public interface HistoryManager {
 
-    List<BaseTaskDto> getHistory();
+    List<Task> getHistory();
 
-    void remove(int id);
+    void remove(Integer id);
 
-    void add(BaseTaskDto object);
+    void add(Task object);
 
 }
