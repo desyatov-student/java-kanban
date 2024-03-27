@@ -39,7 +39,9 @@ public interface SubtaskMapper {
                 values[2],
                 values[3],
                 TaskStatus.valueOf(values[4]),
-                Integer.parseInt(values[5])
+                Integer.parseInt(values[5]),
+                null,
+                null
         );
     }
 }

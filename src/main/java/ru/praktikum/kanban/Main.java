@@ -16,11 +16,11 @@ public class Main {
         TaskManager taskManager = Managers.getDefault();
 
         final TaskDto task1 = taskManager.createTask(
-                new CreateTaskDto("Таск 1", "Description")
+                new CreateTaskDto("Таск 1", "Description", null, null)
         );
 
         final TaskDto task2 = taskManager.createTask(
-                new CreateTaskDto("Таск 2", "Description")
+                new CreateTaskDto("Таск 2", "Description", null, null)
         );
 
         EpicDto epic = taskManager.createEpic(
@@ -32,16 +32,16 @@ public class Main {
         );
 
         final SubtaskDto subtask1 = taskManager.createSubtask(
-                new CreateSubtaskDto("Проектирование", "Спроектировать хранение данных", epic.getId())
+                new CreateSubtaskDto("Проектирование", "Спроектировать хранение данных", epic.getId(), null, null)
         );
         SubtaskDto subtask2 = taskManager.createSubtask(
-                new CreateSubtaskDto("Тест", "Написать тесты заглушки", epic.getId())
+                new CreateSubtaskDto("Тест", "Написать тесты заглушки", epic.getId(), null, null)
         );
         SubtaskDto subtask3 = taskManager.createSubtask(
-                new CreateSubtaskDto("Тест", "Написать тесты заглушки", epic.getId())
+                new CreateSubtaskDto("Тест", "Написать тесты заглушки", epic.getId(), null, null)
         );
         SubtaskDto subtask4 = taskManager.createSubtask(
-                new CreateSubtaskDto("Код", "Написать код", epic.getId())
+                new CreateSubtaskDto("Код", "Написать код", epic.getId(), null, null)
         );
 
         taskManager.getEpic(epic.getId());

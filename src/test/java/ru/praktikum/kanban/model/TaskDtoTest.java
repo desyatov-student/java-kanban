@@ -9,6 +9,9 @@ import ru.praktikum.kanban.dto.TaskDto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static ru.praktikum.kanban.helper.TaskFactory.EPIC_DTO;
+import static ru.praktikum.kanban.helper.TaskFactory.SUBTASK_DTO;
+import static ru.praktikum.kanban.helper.TaskFactory.TASK_DTO;
 
 class TaskDtoTest {
 
@@ -29,54 +32,54 @@ class TaskDtoTest {
 
         TestExample[] examples = {
                 new TestExample(
-                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
-                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
+                        EPIC_DTO(1),
+                        EPIC_DTO(1),
                         true
                 ),
                 new TestExample(
-                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
-                        new EpicDto(1, "2", "", TaskStatus.NEW, new ArrayList<>()),
+                        EPIC_DTO(1),
+                        EPIC_DTO(1, "2", null),
                         false
                 ),
                 new TestExample(
-                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
-                        new EpicDto(1, "", "2", TaskStatus.NEW, new ArrayList<>()),
+                        EPIC_DTO(1),
+                        EPIC_DTO(1, null, "2"),
                         false
                 ),
                 new TestExample(
-                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
-                        new EpicDto(1, "", "", TaskStatus.DONE, new ArrayList<>()),
+                        EPIC_DTO(1),
+                        EPIC_DTO(1, TaskStatus.DONE),
                         false
                 ),
                 new TestExample(
-                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
-                        new EpicDto(1, "", "", TaskStatus.NEW, List.of(
-                                new SubtaskDto(2, "", "", TaskStatus.NEW)
+                        EPIC_DTO(1),
+                        EPIC_DTO(1, List.of(
+                                SUBTASK_DTO(2)
                         )),
                         false
                 ),
                 new TestExample(
-                        new EpicDto(1, "", "", TaskStatus.NEW, List.of(
-                                new SubtaskDto(2, "", "", TaskStatus.NEW)
+                        EPIC_DTO(1, List.of(
+                                SUBTASK_DTO(2)
                         )),
-                        new EpicDto(1, "", "", TaskStatus.NEW, List.of(
-                                new SubtaskDto(2, "", "", TaskStatus.NEW)
+                        EPIC_DTO(1, List.of(
+                                SUBTASK_DTO(2)
                         )),
                         true
                 ),
                 new TestExample(
-                        new TaskDto(1, "", "", TaskStatus.NEW),
-                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
+                        TASK_DTO(1),
+                        EPIC_DTO(1),
                         false
                 ),
                 new TestExample(
-                        new SubtaskDto(1, "", "", TaskStatus.NEW),
-                        new EpicDto(1, "", "", TaskStatus.NEW, new ArrayList<>()),
+                        SUBTASK_DTO(1),
+                        EPIC_DTO(1),
                         false
                 ),
                 new TestExample(
-                        new SubtaskDto(1, "", "", TaskStatus.NEW),
-                        new TaskDto(1, "", "", TaskStatus.NEW),
+                        SUBTASK_DTO(1),
+                        TASK_DTO(1),
                         false
                 )
         };

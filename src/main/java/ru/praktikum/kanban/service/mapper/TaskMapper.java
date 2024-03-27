@@ -37,7 +37,9 @@ public interface TaskMapper {
                 Integer.parseInt(values[0]),
                 values[2],
                 values[3],
-                TaskStatus.valueOf(values[4])
+                TaskStatus.valueOf(values[4]),
+                null,
+                null
         );
     }
 }

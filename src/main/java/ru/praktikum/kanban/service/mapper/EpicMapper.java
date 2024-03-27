@@ -44,7 +44,9 @@ public interface EpicMapper {
                 values[2],
                 values[3],
                 TaskStatus.valueOf(values[4]),
-                List.of()
+                List.of(),
+                null,
+                null
         );
     }
 }

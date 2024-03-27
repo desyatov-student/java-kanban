@@ -7,6 +7,9 @@ import lombok.NonNull;
 import lombok.ToString;
 import ru.praktikum.kanban.model.TaskStatus;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 @Getter
 @AllArgsConstructor
 @ToString
@@ -16,4 +19,7 @@ public class TaskDto {
     @NonNull private final String name;
     @NonNull private final String description;
     @NonNull private final TaskStatus status;
+    private final LocalDateTime startTime;
+    private final Duration duration;
+    private final LocalDateTime endTime;
 }

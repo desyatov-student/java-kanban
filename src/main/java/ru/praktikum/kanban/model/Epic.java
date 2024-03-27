@@ -1,5 +1,7 @@
 package ru.praktikum.kanban.model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.EqualsAndHashCode;
@@ -18,8 +20,11 @@ public class Epic extends Task {
             @NonNull String name,
             @NonNull String description,
             @NonNull TaskStatus status,
-            @NonNull List<Integer> subtasks) {
-        super(id, name, description, status);
+            @NonNull List<Integer> subtasks,
+            LocalDateTime startTime,
+            Duration duration
+    ) {
+        super(id, name, description, status, startTime, duration);
         this.subtasks = new ArrayList<>(subtasks);
     }
 }

@@ -1,13 +1,18 @@
 package ru.praktikum.kanban.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
+import ru.praktikum.kanban.model.TaskStatus;
 
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
-public class CreateEpicDto extends CreateTaskDto {
-
-    public CreateEpicDto(String name, String description) {
-        super(name, description);
-    }
+@Getter
+@AllArgsConstructor
+@ToString
+@EqualsAndHashCode
+public class CreateEpicDto {
+    @NonNull private final String name;
+    @NonNull private final String description;
+    @NonNull private final TaskStatus status = TaskStatus.NEW;
 }
