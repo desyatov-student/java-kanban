@@ -29,7 +29,7 @@ public class TasksCsvReader {
         bufferedReader.readLine(); // skip first line with titles
         while (bufferedReader.ready()) {
             String line = bufferedReader.readLine();
-            String[] values = line.split(DELIMITER_COMMA);
+            String[] values = line.split(DELIMITER_COMMA, -1);
 
             TaskType taskType;
             try {

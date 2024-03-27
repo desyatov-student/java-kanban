@@ -1,5 +1,7 @@
 package ru.praktikum.kanban;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import ru.praktikum.kanban.dto.CreateEpicDto;
 import ru.praktikum.kanban.dto.CreateSubtaskDto;
 import ru.praktikum.kanban.dto.CreateTaskDto;
@@ -16,11 +18,11 @@ public class Main {
         TaskManager taskManager = Managers.getDefault();
 
         final TaskDto task1 = taskManager.createTask(
-                new CreateTaskDto("Таск 1", "Description", null, null)
+                new CreateTaskDto("Таск 1", "Description", LocalDateTime.now(), Duration.ofMinutes(60))
         );
 
         final TaskDto task2 = taskManager.createTask(
-                new CreateTaskDto("Таск 2", "Description", null, null)
+                new CreateTaskDto("Таск 2", "Description", LocalDateTime.now(), Duration.ofMinutes(60))
         );
 
         EpicDto epic = taskManager.createEpic(
@@ -32,16 +34,24 @@ public class Main {
         );
 
         final SubtaskDto subtask1 = taskManager.createSubtask(
-                new CreateSubtaskDto("Проектирование", "Спроектировать хранение данных", epic.getId(), null, null)
+                new CreateSubtaskDto(
+                        "Проектирование",
+                        "Description", epic.getId(), LocalDateTime.now(), Duration.ofMinutes(60))
         );
         SubtaskDto subtask2 = taskManager.createSubtask(
-                new CreateSubtaskDto("Тест", "Написать тесты заглушки", epic.getId(), null, null)
+                new CreateSubtaskDto(
+                        "Тест 1",
+                        "Description", epic.getId(), LocalDateTime.now(), Duration.ofMinutes(60))
         );
         SubtaskDto subtask3 = taskManager.createSubtask(
-                new CreateSubtaskDto("Тест", "Написать тесты заглушки", epic.getId(), null, null)
+                new CreateSubtaskDto(
+                        "Тест 2",
+                        "Description", epic.getId(), LocalDateTime.now(), Duration.ofMinutes(60))
         );
         SubtaskDto subtask4 = taskManager.createSubtask(
-                new CreateSubtaskDto("Код", "Написать код", epic.getId(), null, null)
+                new CreateSubtaskDto(
+                        "Код",
+                        "Description", epic.getId(), LocalDateTime.now(), Duration.ofMinutes(60))
         );
 
         taskManager.getEpic(epic.getId());

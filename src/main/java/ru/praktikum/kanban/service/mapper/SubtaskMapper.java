@@ -3,12 +3,13 @@ package ru.praktikum.kanban.service.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.dto.CreateSubtaskDto;
 import ru.praktikum.kanban.dto.SubtaskDto;
 import ru.praktikum.kanban.dto.UpdateSubtaskDto;
 import ru.praktikum.kanban.model.Subtask;
+import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.util.StringUtils;
+import ru.praktikum.kanban.util.TimeUtils;
 
 import static ru.praktikum.kanban.constant.DelimiterConstants.DELIMITER_COMMA;
 
@@ -27,7 +28,9 @@ public interface SubtaskMapper {
                 subtask.getName(),
                 subtask.getDescription(),
                 subtask.getStatus(),
-                subtask.getEpicId()
+                subtask.getEpicId(),
+                subtask.getStartTime() == null ? "" : subtask.getStartTime(),
+                subtask.getDuration() == null ? "" : subtask.getDuration().toMinutes()
         );
     }
 
@@ -40,8 +43,8 @@ public interface SubtaskMapper {
                 values[3],
                 TaskStatus.valueOf(values[4]),
                 Integer.parseInt(values[5]),
-                null,
-                null
+                TimeUtils.parseDateTime(values[6]).orElse(null),
+                TimeUtils.parseDuration(values[7]).orElse(null)
         );
     }
 }

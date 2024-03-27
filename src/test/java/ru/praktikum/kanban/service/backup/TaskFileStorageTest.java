@@ -1,5 +1,7 @@
 package ru.praktikum.kanban.service.backup;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,12 +47,13 @@ public class TaskFileStorageTest {
     }
 
     private static Stream<Arguments> provideModels() {
+
         return Stream.of(
                 Arguments.of(
                         CollectionsHelper.tasksListsToContainer(
-                                List.of(EPIC(5, List.of(6))),
-                                List.of(SUBTASK(6, 5), SUBTASK(7, 5)),
-                                List.of(TASK(1), TASK(2), TASK(3))
+                                List.of(EPIC(5, List.of(6), LocalDateTime.now(), Duration.ofMinutes(10))),
+                                List.of(SUBTASK(6, 5), SUBTASK(7, 5, LocalDateTime.now(), Duration.ofMinutes(10))),
+                                List.of(TASK(1), TASK(2), TASK(3, LocalDateTime.now(), Duration.ofMinutes(10)))
                         ),
                         List.of(TASK(1), TASK(4)),
                         List.of(TASK(1))

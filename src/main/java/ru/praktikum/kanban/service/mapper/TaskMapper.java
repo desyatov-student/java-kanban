@@ -2,12 +2,13 @@ package ru.praktikum.kanban.service.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
-import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.dto.CreateTaskDto;
 import ru.praktikum.kanban.dto.TaskDto;
 import ru.praktikum.kanban.dto.UpdateTaskDto;
 import ru.praktikum.kanban.model.Task;
+import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.util.StringUtils;
+import ru.praktikum.kanban.util.TimeUtils;
 
 import static ru.praktikum.kanban.constant.DelimiterConstants.DELIMITER_COMMA;
 
@@ -26,7 +27,9 @@ public interface TaskMapper {
                 task.getName(),
                 task.getDescription(),
                 task.getStatus(),
-                ""
+                "",
+                task.getStartTime() == null ? "" : task.getStartTime(),
+                task.getDuration() == null ? "" : task.getDuration().toMinutes()
         );
     }
 
@@ -38,8 +41,8 @@ public interface TaskMapper {
                 values[2],
                 values[3],
                 TaskStatus.valueOf(values[4]),
-                null,
-                null
+                TimeUtils.parseDateTime(values[6]).orElse(null),
+                TimeUtils.parseDuration(values[7]).orElse(null)
         );
     }
 }

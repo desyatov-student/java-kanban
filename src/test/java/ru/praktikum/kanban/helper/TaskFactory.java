@@ -1,5 +1,7 @@
 package ru.praktikum.kanban.helper;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import ru.praktikum.kanban.dto.EpicDto;
 import ru.praktikum.kanban.dto.SubtaskDto;
@@ -21,15 +23,32 @@ public final class TaskFactory {
     public static Subtask SUBTASK(Integer id, Integer epicId) { return SUBTASK(id, TaskStatus.NEW, epicId); }
     public static Subtask SUBTASK(Integer id, TaskStatus status) { return SUBTASK(id,status, 0); }
     public static Subtask SUBTASK(Integer id, TaskStatus status, Integer epicId) { return new Subtask(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, status, epicId, null, null); }
+    public static Subtask SUBTASK(
+            Integer id,
+            Integer epicId,
+            LocalDateTime startTime,
+            Duration duration
+    ) { return new Subtask(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, TaskStatus.NEW, epicId, startTime, duration); }
 
     public static Epic EPIC(Integer id) { return EPIC(id, TaskStatus.NEW, List.of()); }
     public static Epic EPIC(Integer id, List<Integer> subtasks) { return EPIC(id, TaskStatus.NEW, subtasks); }
     public static Epic EPIC(Integer id, TaskStatus status) { return EPIC(id, status, List.of()); }
     public static Epic EPIC(Integer id, TaskStatus status, List<Integer> subtasks) { return new Epic(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, status, subtasks, null, null); }
+    public static Epic EPIC(
+            Integer id,
+            List<Integer> subtasks,
+            LocalDateTime startTime,
+            Duration duration
+    ) { return new Epic(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, TaskStatus.NEW, subtasks, startTime, duration); }
 
     public static Task TASK(Integer id) { return TASK(id, TaskStatus.NEW); }
     public static Task TASK(Integer id, String name) { return new Task(id, name, DEFAULT_DESCRIPTION, TaskStatus.NEW, null, null); }
     public static Task TASK(Integer id, TaskStatus status) { return new Task(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, status, null, null); }
+    public static Task TASK(
+            Integer id,
+            LocalDateTime startTime,
+            Duration duration
+    ) { return new Task(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, TaskStatus.NEW, startTime, duration); }
 
     // DTO:
 
