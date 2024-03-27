@@ -25,6 +25,7 @@ public interface EpicMapper {
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "startTime", ignore = true)
     @Mapping(target = "duration", ignore = true)
+    @Mapping(target = "endTime", ignore = true)
     void updateEntityFromDto(UpdateEpicDto dto, @MappingTarget Epic epic);
 
     default String toString(Epic epic) {
@@ -36,13 +37,15 @@ public interface EpicMapper {
                 epic.getStatus(),
                 "",
                 epic.getStartTime() == null ? "" : epic.getStartTime(),
-                epic.getDuration() == null ? "" : epic.getDuration().toMinutes()
+                epic.getDuration() == null ? "" : epic.getDuration().toMinutes(),
+                epic.getEndTime() == null ? "" : epic.getEndTime()
         );
     }
 
     @Mapping(target = "subtasks", expression = "java(new ArrayList<Integer>())")
     @Mapping(target = "startTime", ignore = true)
     @Mapping(target = "duration", ignore = true)
+    @Mapping(target = "endTime", ignore = true)
     Epic toEntity(Integer id, CreateEpicDto dto);
 
     default Epic toEntity(String[] values) {
@@ -53,7 +56,8 @@ public interface EpicMapper {
                 TaskStatus.valueOf(values[4]),
                 List.of(),
                 TimeUtils.parseDateTime(values[6]).orElse(null),
-                TimeUtils.parseDuration(values[7]).orElse(null)
+                TimeUtils.parseDuration(values[7]).orElse(null),
+                TimeUtils.parseDateTime(values[8]).orElse(null)
         );
     }
 }

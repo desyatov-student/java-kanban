@@ -16,13 +16,15 @@ public class Main {
     public static void main(String[] args) {
 
         TaskManager taskManager = Managers.getDefault();
+        LocalDateTime startTime = LocalDateTime.now();
+        Duration duration = Duration.ofMinutes(60);
 
         final TaskDto task1 = taskManager.createTask(
-                new CreateTaskDto("Таск 1", "Description", LocalDateTime.now(), Duration.ofMinutes(60))
+                new CreateTaskDto("Таск 1", "Description", startTime, duration)
         );
 
         final TaskDto task2 = taskManager.createTask(
-                new CreateTaskDto("Таск 2", "Description", LocalDateTime.now(), Duration.ofMinutes(60))
+                new CreateTaskDto("Таск 2", "Description", startTime, duration)
         );
 
         EpicDto epic = taskManager.createEpic(
@@ -36,22 +38,22 @@ public class Main {
         final SubtaskDto subtask1 = taskManager.createSubtask(
                 new CreateSubtaskDto(
                         "Проектирование",
-                        "Description", epic.getId(), LocalDateTime.now(), Duration.ofMinutes(60))
+                        "Description", epic.getId(), startTime, duration)
         );
         SubtaskDto subtask2 = taskManager.createSubtask(
                 new CreateSubtaskDto(
                         "Тест 1",
-                        "Description", epic.getId(), LocalDateTime.now(), Duration.ofMinutes(60))
+                        "Description", epic.getId(), startTime, duration)
         );
         SubtaskDto subtask3 = taskManager.createSubtask(
                 new CreateSubtaskDto(
                         "Тест 2",
-                        "Description", epic.getId(), LocalDateTime.now(), Duration.ofMinutes(60))
+                        "Description", epic.getId(), startTime, duration)
         );
         SubtaskDto subtask4 = taskManager.createSubtask(
                 new CreateSubtaskDto(
                         "Код",
-                        "Description", epic.getId(), LocalDateTime.now(), Duration.ofMinutes(60))
+                        "Description", epic.getId(), startTime, duration)
         );
 
         taskManager.getEpic(epic.getId());

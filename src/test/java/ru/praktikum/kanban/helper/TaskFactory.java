@@ -33,13 +33,14 @@ public final class TaskFactory {
     public static Epic EPIC(Integer id) { return EPIC(id, TaskStatus.NEW, List.of()); }
     public static Epic EPIC(Integer id, List<Integer> subtasks) { return EPIC(id, TaskStatus.NEW, subtasks); }
     public static Epic EPIC(Integer id, TaskStatus status) { return EPIC(id, status, List.of()); }
-    public static Epic EPIC(Integer id, TaskStatus status, List<Integer> subtasks) { return new Epic(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, status, subtasks, null, null); }
+    public static Epic EPIC(Integer id, TaskStatus status, List<Integer> subtasks) { return new Epic(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, status, subtasks, null, null, null); }
     public static Epic EPIC(
             Integer id,
             List<Integer> subtasks,
             LocalDateTime startTime,
-            Duration duration
-    ) { return new Epic(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, TaskStatus.NEW, subtasks, startTime, duration); }
+            Duration duration,
+            LocalDateTime endTime
+    ) { return new Epic(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, TaskStatus.NEW, subtasks, startTime, duration, endTime); }
 
     public static Task TASK(Integer id) { return TASK(id, TaskStatus.NEW); }
     public static Task TASK(Integer id, String name) { return new Task(id, name, DEFAULT_DESCRIPTION, TaskStatus.NEW, null, null); }
