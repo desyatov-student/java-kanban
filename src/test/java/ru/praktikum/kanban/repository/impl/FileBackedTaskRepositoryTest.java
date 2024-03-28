@@ -158,18 +158,19 @@ class FileBackedTaskRepositoryTest {
         assertEquals(List.of(task1, task2), repository.getAllTasks());
         assertEquals(history, repository.getHistory());
 
-        Mockito.verifyNoMoreInteractions(fileStorage);
-
-        assertEquals(3, repository.prioritizedTasks.size());
-
-        List<Task> actualPrioritizedTasks = new ArrayList<>(repository.prioritizedTasks);
-        Task actualEpic = actualPrioritizedTasks.get(0);
-        Task actualSubtask = actualPrioritizedTasks.get(1);
-        Task actualTask = actualPrioritizedTasks.get(2);
-
+        Task actualEpic = repository.getAllEpics().get(0);
         assertEquals(epic1.getStartTime(), actualEpic.getStartTime());
         assertEquals(epic1.getDuration(), actualEpic.getDuration());
         assertEquals(epic1.getEndTime(), actualEpic.getEndTime());
+
+        Mockito.verifyNoMoreInteractions(fileStorage);
+
+        assertEquals(2, repository.prioritizedTasks.size());
+
+        List<Task> actualPrioritizedTasks = new ArrayList<>(repository.prioritizedTasks);
+
+        Task actualSubtask = actualPrioritizedTasks.get(0);
+        Task actualTask = actualPrioritizedTasks.get(1);
 
         assertEquals(subtask1.getStartTime(), actualSubtask.getStartTime());
         assertEquals(subtask1.getDuration(), actualSubtask.getDuration());

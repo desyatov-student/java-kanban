@@ -54,14 +54,16 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     @Override
     public void removeTask(Integer taskId) {
         Task task = tasks.remove(taskId);
-        if (task != null) {
+        if (validateStartTime(task)) {
             prioritizedTasks.remove(task);
         }
     }
 
     @Override
     public void removeAllTasks() {
-        prioritizedTasks.removeAll(tasks.values());
+        tasks.values().stream()
+                .filter(this::validateStartTime)
+                .forEach(prioritizedTasks::remove);
         tasks.clear();
     }
 
@@ -83,22 +85,15 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     @Override
     public void saveEpic(Epic epic) {
         epics.put(epic.getId(), epic);
-        if (epic.getStartTime() != null) {
-            prioritizedTasks.add(epic);
-        }
     }
 
     @Override
     public void removeEpic(Integer epicId) {
-        Epic epic = epics.remove(epicId);
-        if (epic != null) {
-            prioritizedTasks.remove(epic);
-        }
+        epics.remove(epicId);
     }
 
     @Override
     public void removeAllEpics() {
-        prioritizedTasks.removeAll(epics.values());
         epics.clear();
     }
 
@@ -128,14 +123,16 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     @Override
     public void removeSubtask(Integer subtaskId) {
         Subtask subtask = subtasks.remove(subtaskId);
-        if (subtask != null) {
+        if (validateStartTime(subtask)) {
             prioritizedTasks.remove(subtask);
         }
     }
 
     @Override
     public void removeAllSubtasks() {
-        prioritizedTasks.removeAll(subtasks.values());
+        subtasks.values().stream()
+                .filter(this::validateStartTime)
+                .forEach(prioritizedTasks::remove);
         subtasks.clear();
     }
 
@@ -162,5 +159,9 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     @Override
     public List<Task> getPrioritizedTasks() {
         return new ArrayList<>(prioritizedTasks);
+    }
+
+    private boolean validateStartTime(Task task) {
+        return task != null && task.getStartTime() != null;
     }
 }

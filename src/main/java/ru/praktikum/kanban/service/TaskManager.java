@@ -10,15 +10,16 @@ import ru.praktikum.kanban.dto.SubtaskDto;
 import ru.praktikum.kanban.dto.UpdateEpicDto;
 import ru.praktikum.kanban.dto.UpdateSubtaskDto;
 import ru.praktikum.kanban.dto.UpdateTaskDto;
+import ru.praktikum.kanban.exception.TaskValidationException;
 
 public interface TaskManager {
 
     // Task's methods
     List<TaskDto> getAllTasks();
 
-    TaskDto createTask(CreateTaskDto createTaskDto);
+    TaskDto createTask(CreateTaskDto createTaskDto) throws TaskValidationException;
 
-    TaskDto updateTask(UpdateTaskDto updateTaskDto);
+    TaskDto updateTask(UpdateTaskDto updateTaskDto) throws TaskValidationException;
 
     TaskDto getTask(Integer taskId);
 
@@ -48,9 +49,9 @@ public interface TaskManager {
 
     List<SubtaskDto> getSubtasksWithEpicId(Integer epicId);
 
-    SubtaskDto createSubtask(CreateSubtaskDto subtaskDto);
+    SubtaskDto createSubtask(CreateSubtaskDto subtaskDto) throws TaskValidationException;
 
-    SubtaskDto updateSubtask(UpdateSubtaskDto updateSubtaskDto);
+    SubtaskDto updateSubtask(UpdateSubtaskDto updateSubtaskDto) throws TaskValidationException;
 
     void removeSubtask(Integer subtaskId);
 

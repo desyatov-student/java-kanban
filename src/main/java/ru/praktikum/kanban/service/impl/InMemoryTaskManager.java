@@ -1,11 +1,16 @@
 package ru.praktikum.kanban.service.impl;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import ru.praktikum.kanban.dto.CreateEpicDto;
-import ru.praktikum.kanban.exception.TaskValidationException;
-import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.dto.CreateSubtaskDto;
 import ru.praktikum.kanban.dto.CreateTaskDto;
 import ru.praktikum.kanban.dto.EpicDto;
@@ -14,18 +19,20 @@ import ru.praktikum.kanban.dto.TaskDto;
 import ru.praktikum.kanban.dto.UpdateEpicDto;
 import ru.praktikum.kanban.dto.UpdateSubtaskDto;
 import ru.praktikum.kanban.dto.UpdateTaskDto;
+import ru.praktikum.kanban.exception.TaskValidationException;
 import ru.praktikum.kanban.model.Epic;
 import ru.praktikum.kanban.model.Subtask;
 import ru.praktikum.kanban.model.Task;
-import ru.praktikum.kanban.service.mapper.EpicMapperImpl;
-import ru.praktikum.kanban.service.mapper.SubtaskMapperImpl;
-import ru.praktikum.kanban.service.mapper.TaskMapperImpl;
+import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.repository.TaskManagerRepository;
 import ru.praktikum.kanban.service.HistoryManager;
 import ru.praktikum.kanban.service.TaskManager;
 import ru.praktikum.kanban.service.mapper.EpicMapper;
+import ru.praktikum.kanban.service.mapper.EpicMapperImpl;
 import ru.praktikum.kanban.service.mapper.SubtaskMapper;
+import ru.praktikum.kanban.service.mapper.SubtaskMapperImpl;
 import ru.praktikum.kanban.service.mapper.TaskMapper;
+import ru.praktikum.kanban.service.mapper.TaskMapperImpl;
 import ru.praktikum.kanban.util.AbstractMapper;
 import ru.praktikum.kanban.util.IdentifierGenerator;
 
@@ -58,6 +65,16 @@ public class InMemoryTaskManager implements TaskManager {
         abstractMapper.put(Epic.class, value -> this.getEpicDtoWithEpicEntity((Epic) value));
     }
 
+    @Getter
+    @ToString
+    @NoArgsConstructor
+    @AllArgsConstructor
+    private static class TimeContainer {
+        private LocalDateTime startTime;
+        private Duration duration;
+        private LocalDateTime endTime;
+    }
+
     public InMemoryTaskManager(TaskManagerRepository repository, HistoryManager historyManager) {
         this(new IdentifierGenerator(), repository, historyManager);
     }
@@ -76,18 +93,20 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public TaskDto createTask(CreateTaskDto createTaskDto) {
+    public TaskDto createTask(CreateTaskDto createTaskDto) throws TaskValidationException {
         Task task = taskMapper.toEntity(getNextTaskId(), createTaskDto);
+        validateTask(task);
         repository.saveTask(task);
         return taskMapper.toDto(task);
     }
 
     @Override
-    public TaskDto updateTask(UpdateTaskDto updateTaskDto) {
+    public TaskDto updateTask(UpdateTaskDto updateTaskDto) throws TaskValidationException {
         Task task = repository.getTask(updateTaskDto.getId());
         if (task == null) {
             return null;
         }
+        validateTask(task);
         taskMapper.updateEntityFromDto(updateTaskDto, task);
         return taskMapper.toDto(task);
     }
@@ -203,35 +222,37 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public SubtaskDto createSubtask(CreateSubtaskDto createSubtaskDto) {
+    public SubtaskDto createSubtask(CreateSubtaskDto createSubtaskDto) throws TaskValidationException {
         Integer epicId = createSubtaskDto.getEpicId();
         Epic epic = repository.getEpic(epicId);
         if (epic == null) {
             return null;
         }
         Subtask subtask = subtaskMapper.toEntity(getNextTaskId(), createSubtaskDto);
+        validateTask(subtask);
         subtask.setEpicId(epicId);
         epic.subtasks.add(subtask.getId());
 
         repository.saveSubtask(subtask);
-        updateEpicStatus(epic);
+        updateEpicData(epic);
 
         return subtaskMapper.toDto(subtask);
     }
 
     @Override
-    public SubtaskDto updateSubtask(UpdateSubtaskDto updateSubtaskDto) {
+    public SubtaskDto updateSubtask(UpdateSubtaskDto updateSubtaskDto) throws TaskValidationException {
         Subtask subtask = repository.getSubtask(updateSubtaskDto.getId());
         if (subtask == null) {
             return null;
         }
+        validateTask(subtask);
         Epic epic = repository.getEpic(subtask.getEpicId());
         if (epic == null) {
             return null;
         }
         subtaskMapper.updateEntityFromDto(updateSubtaskDto, subtask);
         subtask.setEpicId(epic.getId());
-        updateEpicStatus(epic);
+        updateEpicData(epic);
         return subtaskMapper.toDto(subtask);
     }
 
@@ -247,7 +268,7 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
         epic.subtasks.remove(subtaskId);
-        updateEpicStatus(epic);
+        updateEpicData(epic);
     }
 
     @Override
@@ -255,7 +276,7 @@ public class InMemoryTaskManager implements TaskManager {
         removeAllSubtaskFromRepository();
         for (Epic epic : repository.getAllEpics()) {
             epic.subtasks.clear();
-            epic.setStatus(TaskStatus.NEW);
+            updateEpicData(epic);
         }
     }
 
@@ -274,6 +295,9 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     private void validateTask(Task task) throws TaskValidationException {
+        if (task.getStartTime() == null && task.getEndTime() == null) {
+            return;
+        }
         boolean hasIntersection = taskValidator.hasIntersectionOfTime(task, repository.getPrioritizedTasks());
         if (hasIntersection) {
             throw new TaskValidationException("Could not validate task. Please change the start time. task: " + task);
@@ -303,14 +327,14 @@ public class InMemoryTaskManager implements TaskManager {
 
     // Helpers
 
-    private TaskStatus calculateEpicStatusWithSubtasks(List<Subtask> subtaskEntities) {
-        if (subtaskEntities.isEmpty()) {
+    private TaskStatus calculateEpicStatusWithSubtasks(List<Subtask> subtasks) {
+        if (subtasks.isEmpty()) {
             return TaskStatus.NEW;
         }
-        int size = subtaskEntities.size();
+        int size = subtasks.size();
         int newCount = 0;
         int doneCount = 0;
-        for (Subtask subtask : subtaskEntities) {
+        for (Subtask subtask : subtasks) {
             switch (subtask.getStatus()) {
                 case NEW:
                     newCount++;
@@ -332,13 +356,52 @@ public class InMemoryTaskManager implements TaskManager {
         return TaskStatus.IN_PROGRESS;
     }
 
-    private void updateEpicStatus(Epic epic) {
-        List<Subtask> subtasksEntities = epic.subtasks.stream()
+    private TimeContainer calculateEpicTime(List<Subtask> subtasks) {
+        if (subtasks.isEmpty()) {
+            return new TimeContainer();
+        }
+        Predicate<Subtask> filter = (task) -> task != null && task.getStartTime() != null;
+        return subtasks.stream().filter(filter)
+                .reduce(new TimeContainer(), (accum, subtask) -> {
+                    LocalDateTime startTime = minTime(accum.getStartTime(), subtask.getStartTime());
+                    LocalDateTime endTime = maxTime(accum.getEndTime(), subtask.getEndTime());
+                    Duration duration = sumNullableDuration(accum.duration, subtask.getDuration());
+                    return new TimeContainer(startTime, duration, endTime);
+                }, (accum1, accum2) -> accum2);
+    }
+
+    private Duration sumNullableDuration(Duration nullable, Duration duration) {
+        return (nullable == null) ? duration : nullable.plus(duration);
+    }
+
+    private LocalDateTime minTime(LocalDateTime initial, LocalDateTime time) {
+        if (initial == null) {
+            return time;
+        } else if (time.isBefore(initial)) {
+            return time;
+        }
+        return initial;
+    }
+
+    private LocalDateTime maxTime(LocalDateTime initial, LocalDateTime time) {
+        if (initial == null) {
+            return time;
+        } else if (time.isAfter(initial)) {
+            return time;
+        }
+        return initial;
+    }
+
+    private void updateEpicData(Epic epic) {
+        List<Subtask> subtasks = epic.subtasks.stream()
                 .map(repository::getSubtask)
                 .collect(Collectors.toList());
 
-        epic.setStatus(calculateEpicStatusWithSubtasks(subtasksEntities));
-
+        epic.setStatus(calculateEpicStatusWithSubtasks(subtasks));
+        TimeContainer timeContainer = calculateEpicTime(subtasks);
+        epic.setStartTime(timeContainer.getStartTime());
+        epic.setDuration(timeContainer.getDuration());
+        epic.setEndTime(timeContainer.getEndTime());
     }
 
     private EpicDto getEpicDtoWithEpicEntity(Epic epic) {

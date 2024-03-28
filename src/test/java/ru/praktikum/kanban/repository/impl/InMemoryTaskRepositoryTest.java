@@ -34,7 +34,7 @@ public class InMemoryTaskRepositoryTest {
         Task task2 = TASK(identifier.getNextId(), generator.getStartTime(), generator.getDuration());
         Task task3 = TASK(identifier.getNextId());
 
-        List<Task> expectedTasks =List.of(epic1, epic2, subtask1, subtask2, task1, task2);
+        List<Task> expectedTasks =List.of(subtask1, subtask2, task1, task2);
 
         // when
 

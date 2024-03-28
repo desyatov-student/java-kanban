@@ -6,6 +6,9 @@ import ru.praktikum.kanban.model.Task;
 public class TaskValidator {
 
     public boolean hasIntersectionOfTime(Task task, List<Task> tasks) {
+        if (tasks.isEmpty()) {
+            return false;
+        }
         return tasks.stream()
                 .anyMatch(task2 -> hasIntersectionOfTime(task, task2));
     }

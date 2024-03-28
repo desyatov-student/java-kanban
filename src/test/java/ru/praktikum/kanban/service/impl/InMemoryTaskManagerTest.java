@@ -1,5 +1,7 @@
 package ru.praktikum.kanban.service.impl;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,6 +10,8 @@ import org.mockito.Mockito;
 import ru.praktikum.kanban.dto.CreateTaskDto;
 import ru.praktikum.kanban.dto.UpdateEpicDto;
 import ru.praktikum.kanban.dto.UpdateSubtaskDto;
+import ru.praktikum.kanban.exception.TaskValidationException;
+import ru.praktikum.kanban.model.Subtask;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.dto.CreateEpicDto;
 import ru.praktikum.kanban.dto.CreateSubtaskDto;
@@ -32,6 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.praktikum.kanban.helper.TaskFactory.DEFAULT_DESCRIPTION;
 import static ru.praktikum.kanban.helper.TaskFactory.DEFAULT_NAME;
 import static ru.praktikum.kanban.helper.TaskFactory.EPIC_DTO;
+import static ru.praktikum.kanban.helper.TaskFactory.SUBTASK;
 import static ru.praktikum.kanban.helper.TaskFactory.SUBTASK_DTO;
 import static ru.praktikum.kanban.helper.TaskFactory.TASK_DTO;
 
@@ -75,7 +80,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void getEpic() {
+    void getEpic() throws TaskValidationException {
         EpicDto epic = taskManager.createEpic(CREATE_EPIC());
         SubtaskDto subtaskDto = taskManager.createSubtask(CREATE_SUBTASK(epic.getId()));
 
@@ -91,7 +96,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void removeEpic() {
+    void removeEpic() throws TaskValidationException {
         EpicDto epic1 = taskManager.createEpic(CREATE_EPIC());
         SubtaskDto subtask1 = taskManager.createSubtask(CREATE_SUBTASK(epic1.getId()));
 
@@ -138,7 +143,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void removeAllEpics() {
+    void removeAllEpics() throws TaskValidationException {
         EpicDto epic1 = taskManager.createEpic(CREATE_EPIC());
         SubtaskDto subtask1 = taskManager.createSubtask(CREATE_SUBTASK(epic1.getId()));
         SubtaskDto subtask2 = taskManager.createSubtask(CREATE_SUBTASK(epic1.getId()));
@@ -173,7 +178,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void createSubtask() {
+    void createSubtask() throws TaskValidationException {
 
         EpicDto epic = taskManager.createEpic(CREATE_EPIC());
         SubtaskDto subtask = taskManager.createSubtask(CREATE_SUBTASK(epic.getId()));
@@ -187,7 +192,93 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void getSubtask() {
+    void createSubtaskShouldCalculateEpicTimeWhenSaveSubtasks() throws TaskValidationException {
+        // given
+        EpicDto epic = taskManager.createEpic(CREATE_EPIC());
+        LocalDateTime startTime = LocalDateTime.of(2000, 1,1, 0,0);
+        Duration duration = Duration.ofHours(1);
+
+        // when
+        taskManager.createSubtask(CREATE_SUBTASK(epic.getId(), startTime, duration));
+        startTime = startTime.plusHours(2);
+        taskManager.createSubtask(CREATE_SUBTASK(epic.getId(), startTime, duration));
+        startTime = startTime.plusHours(2);
+        taskManager.createSubtask(CREATE_SUBTASK(epic.getId(), startTime, duration));
+
+        // then
+        EpicDto updatedEpic = taskManager.getEpic(epic.getId());
+        assertEquals(
+                LocalDateTime.of(2000, 1,1, 0,0),
+                updatedEpic.getStartTime());
+        assertEquals(
+                Duration.ofHours(3),
+                updatedEpic.getDuration()
+        );
+        assertEquals(
+                LocalDateTime.of(2000, 1,1, 5,0),
+                updatedEpic.getEndTime()
+        );
+
+    }
+
+    @Test
+    void removeSubtaskShouldReCalculateEpicTimeWhenRemove1Subtask() throws TaskValidationException {
+        // given
+        EpicDto epic = taskManager.createEpic(CREATE_EPIC());
+        LocalDateTime startTime = LocalDateTime.of(2000, 1,1, 0,0);
+        Duration duration = Duration.ofHours(1);
+
+        taskManager.createSubtask(CREATE_SUBTASK(epic.getId(), startTime, duration));
+        startTime = startTime.plusHours(2);
+        taskManager.createSubtask(CREATE_SUBTASK(epic.getId(), startTime, duration));
+        startTime = startTime.plusHours(2);
+        SubtaskDto subtask3 = taskManager.createSubtask(CREATE_SUBTASK(epic.getId(), startTime, duration));
+
+        // when
+        taskManager.removeSubtask(subtask3.getId());
+
+        // then
+        EpicDto updatedEpic = taskManager.getEpic(epic.getId());
+        assertEquals(
+                LocalDateTime.of(2000, 1,1, 0,0),
+                updatedEpic.getStartTime());
+        assertEquals(
+                Duration.ofHours(2),
+                updatedEpic.getDuration()
+        );
+        assertEquals(
+                LocalDateTime.of(2000, 1,1, 3,0),
+                updatedEpic.getEndTime()
+        );
+
+    }
+
+    @Test
+    void removeAllSubtasksShouldEpicHasEmptyTimeWhenEpicDoesNotHaveSubtasks() throws TaskValidationException {
+        // given
+        EpicDto epic = taskManager.createEpic(CREATE_EPIC());
+        LocalDateTime startTime = LocalDateTime.of(2000, 1,1, 0,0);
+        Duration duration = Duration.ofHours(1);
+
+        taskManager.createSubtask(CREATE_SUBTASK(epic.getId(), startTime, duration));
+        startTime = startTime.plusHours(2);
+        taskManager.createSubtask(CREATE_SUBTASK(epic.getId(), startTime, duration));
+        startTime = startTime.plusHours(2);
+        taskManager.createSubtask(CREATE_SUBTASK(epic.getId(), startTime, duration));
+
+        // when
+        taskManager.removeAllSubtasks();
+
+        // then
+        EpicDto updatedEpic = taskManager.getEpic(epic.getId());
+        assertNull(updatedEpic.getStartTime());
+        assertNull(updatedEpic.getDuration());
+        assertNull(updatedEpic.getEndTime());
+
+    }
+
+    @Test
+    void getSubtask() throws TaskValidationException {
 
         EpicDto epic = taskManager.createEpic(CREATE_EPIC());
         SubtaskDto subtask = taskManager.createSubtask(CREATE_SUBTASK(epic.getId()));
@@ -204,7 +295,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void getSubtaskWithEpicId() {
+    void getSubtaskWithEpicId() throws TaskValidationException {
 
         EpicDto epic = taskManager.createEpic(CREATE_EPIC());
         SubtaskDto subtask1 = taskManager.createSubtask(CREATE_SUBTASK(epic.getId()));
@@ -225,7 +316,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void updateSubtask() {
+    void updateSubtask() throws TaskValidationException {
 
         EpicDto epic = taskManager.createEpic(CREATE_EPIC());
         SubtaskDto subtask1 = taskManager.createSubtask(CREATE_SUBTASK(epic.getId()));
@@ -293,7 +384,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void removeSubtask() {
+    void removeSubtask() throws TaskValidationException {
         EpicDto epic = taskManager.createEpic(CREATE_EPIC());
         SubtaskDto subtask1 = taskManager.createSubtask(CREATE_SUBTASK(epic.getId()));
 
@@ -328,7 +419,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void removeAllSubtasks() {
+    void removeAllSubtasks() throws TaskValidationException {
         EpicDto epic1 = taskManager.createEpic(CREATE_EPIC());
         SubtaskDto subtask1 = taskManager.createSubtask(CREATE_SUBTASK(epic1.getId()));
         SubtaskDto subtask2 = taskManager.createSubtask(CREATE_SUBTASK(epic1.getId()));
@@ -369,7 +460,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void createTask() {
+    void createTask() throws TaskValidationException {
 
         TaskDto task = taskManager.createTask(CREATE_TASK);
         assertEquals(
@@ -386,7 +477,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void updateTask() {
+    void updateTask() throws TaskValidationException {
         TaskDto task = taskManager.createTask(CREATE_TASK);
         assertEquals(
                 List.of(
@@ -403,7 +494,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void removeTask() {
+    void removeTask() throws TaskValidationException {
         TaskDto task1 = taskManager.createTask(CREATE_TASK);
         TaskDto task2 = taskManager.createTask(CREATE_TASK);
         assertEquals(
@@ -424,7 +515,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void removeAllTask() {
+    void removeAllTask() throws TaskValidationException {
         TaskDto task1 = taskManager.createTask(CREATE_TASK);
         TaskDto task2 = taskManager.createTask(CREATE_TASK);
         assertEquals(
@@ -443,7 +534,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void getHistory() {
+    void getHistory() throws TaskValidationException {
         EpicDto epic = taskManager.createEpic(CREATE_EPIC());
         TaskDto task = taskManager.createTask(CREATE_TASK);
         SubtaskDto subtask = taskManager.createSubtask(CREATE_SUBTASK(epic.getId()));
@@ -465,7 +556,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldRemoveTaskFromHistory() {
+    void shouldRemoveTaskFromHistory() throws TaskValidationException {
         EpicDto epic = taskManager.createEpic(CREATE_EPIC());
         TaskDto task = taskManager.createTask(CREATE_TASK);
         SubtaskDto subtask = taskManager.createSubtask(CREATE_SUBTASK(epic.getId()));
@@ -510,7 +601,12 @@ class InMemoryTaskManagerTest {
 
     private CreateEpicDto CREATE_EPIC() { return new CreateEpicDto(DEFAULT_NAME, DEFAULT_DESCRIPTION); }
     private UpdateEpicDto UPDATE_EPIC(Integer id, String name) { return new UpdateEpicDto(id, name, DEFAULT_DESCRIPTION); }
-    private CreateSubtaskDto CREATE_SUBTASK(Integer epicId) { return new CreateSubtaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, epicId, null, null); }
+    private CreateSubtaskDto CREATE_SUBTASK(Integer epicId) { return CREATE_SUBTASK(epicId, null, null); }
+    private CreateSubtaskDto CREATE_SUBTASK(
+            Integer epicId,
+            LocalDateTime startTime,
+            Duration duration
+    ) { return new CreateSubtaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, epicId, startTime, duration); }
     private UpdateSubtaskDto UPDATE_SUBTASK(Integer id, TaskStatus status) { return new UpdateSubtaskDto(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, status, null, null); }
     private final CreateTaskDto CREATE_TASK = new CreateTaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, null, null);
     private UpdateTaskDto UPDATE_TASK(Integer id, TaskStatus status) { return new UpdateTaskDto(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, status); }
