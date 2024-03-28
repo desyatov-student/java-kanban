@@ -59,4 +59,6 @@ public interface TaskManager {
     // History's methods
 
     List<TaskDto> getHistory();
+
+    List<TaskDto> getPrioritizedTasks();
 }

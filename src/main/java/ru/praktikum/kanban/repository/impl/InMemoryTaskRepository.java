@@ -4,25 +4,28 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
-import ru.praktikum.kanban.service.impl.HistoryLinkedList;
 import ru.praktikum.kanban.model.Epic;
 import ru.praktikum.kanban.model.Subtask;
 import ru.praktikum.kanban.model.Task;
 import ru.praktikum.kanban.repository.HistoryRepository;
 import ru.praktikum.kanban.repository.TaskManagerRepository;
+import ru.praktikum.kanban.service.impl.HistoryLinkedList;
 
 public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRepository {
     protected final HashMap<Integer, Task> tasks;
     protected final HashMap<Integer, Epic> epics;
     protected final HashMap<Integer, Subtask> subtasks;
     protected final HistoryLinkedList history;
+    protected final TreeSet<Task> prioritizedTasks;
 
     public InMemoryTaskRepository() {
         this.tasks = new HashMap<>();
         this.epics = new HashMap<>();
         this.subtasks = new HashMap<>();
         this.history = new HistoryLinkedList();
+        this.prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
     }
 
     // Task's methods
@@ -38,6 +41,9 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     @Override
     public void saveTask(Task task) {
         tasks.put(task.getId(), task);
+        if (task.getStartTime() != null) {
+            prioritizedTasks.add(task);
+        }
     }
 
     @Override
@@ -47,11 +53,15 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
 
     @Override
     public void removeTask(Integer taskId) {
-        tasks.remove(taskId);
+        Task task = tasks.remove(taskId);
+        if (task != null) {
+            prioritizedTasks.remove(task);
+        }
     }
 
     @Override
     public void removeAllTasks() {
+        prioritizedTasks.removeAll(tasks.values());
         tasks.clear();
     }
 
@@ -73,20 +83,22 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     @Override
     public void saveEpic(Epic epic) {
         epics.put(epic.getId(), epic);
-    }
-
-    @Override
-    public void saveSubtask(Subtask subtask) {
-        subtasks.put(subtask.getId(), subtask);
+        if (epic.getStartTime() != null) {
+            prioritizedTasks.add(epic);
+        }
     }
 
     @Override
     public void removeEpic(Integer epicId) {
-        epics.remove(epicId);
+        Epic epic = epics.remove(epicId);
+        if (epic != null) {
+            prioritizedTasks.remove(epic);
+        }
     }
 
     @Override
     public void removeAllEpics() {
+        prioritizedTasks.removeAll(epics.values());
         epics.clear();
     }
 
@@ -106,12 +118,24 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     }
 
     @Override
+    public void saveSubtask(Subtask subtask) {
+        subtasks.put(subtask.getId(), subtask);
+        if (subtask.getStartTime() != null) {
+            prioritizedTasks.add(subtask);
+        }
+    }
+
+    @Override
     public void removeSubtask(Integer subtaskId) {
-        subtasks.remove(subtaskId);
+        Subtask subtask = subtasks.remove(subtaskId);
+        if (subtask != null) {
+            prioritizedTasks.remove(subtask);
+        }
     }
 
     @Override
     public void removeAllSubtasks() {
+        prioritizedTasks.removeAll(subtasks.values());
         subtasks.clear();
     }
 
@@ -133,5 +157,10 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
             return;
         }
         history.add(task);
+    }
+
+    @Override
+    public List<Task> getPrioritizedTasks() {
+        return new ArrayList<>(prioritizedTasks);
     }
 }

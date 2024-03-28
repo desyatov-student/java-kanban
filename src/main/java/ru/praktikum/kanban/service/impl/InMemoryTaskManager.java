@@ -263,6 +263,13 @@ public class InMemoryTaskManager implements TaskManager {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<TaskDto> getPrioritizedTasks() {
+        return repository.getPrioritizedTasks().stream()
+                .map(abstractMapper::tryMap)
+                .collect(Collectors.toList());
+    }
+
     private void removeTaskFromRepository(Integer taskId) {
         repository.removeTask(taskId);
         historyManager.remove(taskId);
