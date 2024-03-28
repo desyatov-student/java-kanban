@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import ru.praktikum.kanban.dto.CreateEpicDto;
+import ru.praktikum.kanban.exception.TaskValidationException;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.dto.CreateSubtaskDto;
 import ru.praktikum.kanban.dto.CreateTaskDto;
@@ -36,6 +37,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final EpicMapper epicMapper;
     private final SubtaskMapper subtaskMapper;
     private final AbstractMapper<Task, TaskDto> abstractMapper;
+    private final TaskValidator taskValidator;
 
     public InMemoryTaskManager(
             IdentifierGenerator identifierGenerator,
@@ -49,6 +51,7 @@ public class InMemoryTaskManager implements TaskManager {
         this.epicMapper = new EpicMapperImpl();
         this.subtaskMapper = new SubtaskMapperImpl();
         this.abstractMapper = new AbstractMapper<>();
+        this.taskValidator = new TaskValidator();
 
         abstractMapper.put(Task.class, value -> taskMapper.toDto((Task) value));
         abstractMapper.put(Subtask.class, value -> subtaskMapper.toDto((Subtask) value));
@@ -268,6 +271,13 @@ public class InMemoryTaskManager implements TaskManager {
         return repository.getPrioritizedTasks().stream()
                 .map(abstractMapper::tryMap)
                 .collect(Collectors.toList());
+    }
+
+    private void validateTask(Task task) throws TaskValidationException {
+        boolean hasIntersection = taskValidator.hasIntersectionOfTime(task, repository.getPrioritizedTasks());
+        if (hasIntersection) {
+            throw new TaskValidationException("Could not validate task. Please change the start time. task: " + task);
+        }
     }
 
     private void removeTaskFromRepository(Integer taskId) {
