@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.praktikum.kanban.exception.TaskFileStorageException;
+import ru.praktikum.kanban.helper.StartTimeGenerator;
 import ru.praktikum.kanban.model.Epic;
 import ru.praktikum.kanban.model.Subtask;
 import ru.praktikum.kanban.model.Task;
@@ -121,15 +122,18 @@ class FileBackedTaskRepositoryTest {
 
     @Test
     void shouldReturnBackup() throws TaskFileStorageException {
-        //given
-        Epic epic1 = EPIC(1);
-        Epic epic2 = EPIC(2);
+        // given
 
-        Subtask subtask1 = SUBTASK(3, epic1.getId());
+        StartTimeGenerator generator = new StartTimeGenerator();
+
+        Epic epic1 = EPIC(5, List.of(), generator.getStartTime(), generator.getDuration(), generator.getEndTime());
+        Epic epic2 = EPIC(6);
+
+        Subtask subtask1 = SUBTASK(3, epic1.getId(), generator.getStartTime(), generator.getDuration());
         Subtask subtask2 = SUBTASK(4, epic1.getId());
 
-        Task task1 = TASK(5);
-        Task task2 = TASK(6);
+        Task task1 = TASK(1, generator.getStartTime(), generator.getDuration());
+        Task task2 = TASK(2);
 
         TasksContainer tasksContainer = new TasksContainer();
         tasksContainer.addEpic(epic1);
@@ -155,6 +159,26 @@ class FileBackedTaskRepositoryTest {
         assertEquals(history, repository.getHistory());
 
         Mockito.verifyNoMoreInteractions(fileStorage);
+
+        assertEquals(3, repository.prioritizedTasks.size());
+
+        List<Task> actualPrioritizedTasks = new ArrayList<>(repository.prioritizedTasks);
+        Task actualEpic = actualPrioritizedTasks.get(0);
+        Task actualSubtask = actualPrioritizedTasks.get(1);
+        Task actualTask = actualPrioritizedTasks.get(2);
+
+        assertEquals(epic1.getStartTime(), actualEpic.getStartTime());
+        assertEquals(epic1.getDuration(), actualEpic.getDuration());
+        assertEquals(epic1.getEndTime(), actualEpic.getEndTime());
+
+        assertEquals(subtask1.getStartTime(), actualSubtask.getStartTime());
+        assertEquals(subtask1.getDuration(), actualSubtask.getDuration());
+        assertEquals(subtask1.getEndTime(), actualSubtask.getEndTime());
+
+        assertEquals(task1.getStartTime(), actualTask.getStartTime());
+        assertEquals(task1.getDuration(), actualTask.getDuration());
+        assertEquals(task1.getEndTime(), actualTask.getEndTime());
+
     }
 
     @Test

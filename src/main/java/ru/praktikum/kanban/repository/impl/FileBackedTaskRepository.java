@@ -1,5 +1,7 @@
 package ru.praktikum.kanban.repository.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import ru.praktikum.kanban.exception.TaskFileStorageException;
 import ru.praktikum.kanban.service.backup.TaskFileStorage;
 import ru.praktikum.kanban.service.backup.TasksContainer;
@@ -49,6 +51,11 @@ public class FileBackedTaskRepository extends InMemoryTaskRepository {
 
             history.clear();
             history.putAll(backup.getHistory());
+
+            List<Task> tasksWithStartTime = backup.getTasksList().stream()
+                    .filter(task -> task.getStartTime() != null)
+                    .collect(Collectors.toList());
+            prioritizedTasks.addAll(tasksWithStartTime);
 
             logger.info("Success loaded tasks from file: " + backup);
             isLoaded = true;

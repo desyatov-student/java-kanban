@@ -1,9 +1,8 @@
 package ru.praktikum.kanban.repository.impl;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import ru.praktikum.kanban.helper.StartTimeGenerator;
 import ru.praktikum.kanban.model.Epic;
 import ru.praktikum.kanban.model.Subtask;
 import ru.praktikum.kanban.model.Task;
@@ -20,24 +19,19 @@ public class InMemoryTaskRepositoryTest {
     void getPrioritizedTasksShouldReturnTasksSortedByStartTimeWhenSaveTasksWithStartTime() {
         // given
         InMemoryTaskRepository repository = new InMemoryTaskRepository();
-        DataGenerator generator = new DataGenerator();
+        StartTimeGenerator generator = new StartTimeGenerator();
         IdentifierGenerator identifier = new IdentifierGenerator();
 
-        Epic epic1 = EPIC(identifier.getNextId(), List.of(), generator.startTime, generator.duration, generator.endTime);
-        generator = generator.getNext();
-        Epic epic2 = EPIC(identifier.getNextId(), List.of(), generator.startTime, generator.duration, generator.endTime);
+        Epic epic1 = EPIC(identifier.getNextId(), List.of(), generator.getStartTime(), generator.getDuration(), generator.getEndTime());
+        Epic epic2 = EPIC(identifier.getNextId(), List.of(), generator.getStartTime(), generator.getDuration(), generator.getEndTime());
         Epic epic3 = EPIC(identifier.getNextId(), List.of());
 
-        generator = generator.getNext();
-        Subtask subtask1 = SUBTASK(identifier.getNextId(), epic1.getId(), generator.startTime, generator.duration);
-        generator = generator.getNext();
-        Subtask subtask2 = SUBTASK(identifier.getNextId(), epic1.getId(), generator.startTime, generator.duration);
+        Subtask subtask1 = SUBTASK(identifier.getNextId(), epic1.getId(), generator.getStartTime(), generator.getDuration());
+        Subtask subtask2 = SUBTASK(identifier.getNextId(), epic1.getId(), generator.getStartTime(), generator.getDuration());
         Subtask subtask3 = SUBTASK(identifier.getNextId(), epic1.getId());
 
-        generator = generator.getNext();
-        Task task1 = TASK(identifier.getNextId(), generator.startTime, generator.duration);
-        generator = generator.getNext();
-        Task task2 = TASK(identifier.getNextId(), generator.startTime, generator.duration);
+        Task task1 = TASK(identifier.getNextId(), generator.getStartTime(), generator.getDuration());
+        Task task2 = TASK(identifier.getNextId(), generator.getStartTime(), generator.getDuration());
         Task task3 = TASK(identifier.getNextId());
 
         List<Task> expectedTasks =List.of(epic1, epic2, subtask1, subtask2, task1, task2);
@@ -58,28 +52,5 @@ public class InMemoryTaskRepositoryTest {
 
         assertEquals(expectedTasks, repository.getPrioritizedTasks());
 
-    }
-
-    static class DataGenerator {
-        LocalDateTime startTime;
-        Duration duration;
-        LocalDateTime endTime;
-
-        public DataGenerator() {
-            this.startTime = LocalDateTime.now();
-            this.duration = Duration.ofMinutes(30);
-            this.endTime = startTime.plus(duration);
-        }
-
-        public DataGenerator(LocalDateTime startTime, Duration duration, LocalDateTime endTime) {
-            this.startTime = startTime;
-            this.duration = duration;
-            this.endTime = endTime;
-        }
-
-        DataGenerator getNext() {
-            LocalDateTime newStartTime = this.startTime.plusDays(1);
-            return new DataGenerator(newStartTime, duration, newStartTime.plus(duration));
-        }
     }
 }
