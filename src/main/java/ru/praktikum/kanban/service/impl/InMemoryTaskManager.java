@@ -45,7 +45,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final EpicMapper epicMapper;
     private final SubtaskMapper subtaskMapper;
     private final AbstractMapper<Task, TaskDto> abstractMapper;
-    private final TaskValidator taskValidator;
+    private final TaskScheduleValidator taskScheduleValidator;
 
     public InMemoryTaskManager(
             IdentifierGenerator identifierGenerator,
@@ -59,7 +59,9 @@ public class InMemoryTaskManager implements TaskManager {
         this.epicMapper = new EpicMapperImpl();
         this.subtaskMapper = new SubtaskMapperImpl();
         this.abstractMapper = new AbstractMapper<>();
-        this.taskValidator = new TaskValidator();
+        this.taskScheduleValidator = new TaskScheduleValidator();
+
+        taskScheduleValidator.resetSchedule(repository.getPrioritizedTasks());
 
         abstractMapper.put(Task.class, taskMapper::toDto);
         abstractMapper.put(Subtask.class, value -> subtaskMapper.toDto((Subtask) value));
@@ -96,7 +98,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public TaskDto createTask(CreateTaskDto createTaskDto) throws TaskValidationException {
         Task task = taskMapper.toEntity(getNextTaskId(), createTaskDto);
-        validateTask(task);
+        validateTask(task, false);
         repository.saveTask(task);
         return taskMapper.toDto(task);
     }
@@ -107,7 +109,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (task == null) {
             return null;
         }
-        validateTask(task);
+        validateTask(task, isTimeChanged(task, updateTaskDto));
         taskMapper.updateEntityFromDto(updateTaskDto, task);
         return taskMapper.toDto(task);
     }
@@ -230,7 +232,7 @@ public class InMemoryTaskManager implements TaskManager {
             throw new TaskValidationException("Epic not found: " + epicId);
         }
         Subtask subtask = subtaskMapper.toEntity(getNextTaskId(), createSubtaskDto);
-        validateTask(subtask);
+        validateTask(subtask, false);
         subtask.setEpicId(epicId);
         epic.subtasks.add(subtask.getId());
 
@@ -246,7 +248,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (subtask == null) {
             return null;
         }
-        validateTask(subtask);
+        validateTask(subtask, isTimeChanged(subtask, updateSubtaskDto));
         Epic epic = repository.getEpic(subtask.getEpicId());
         if (epic == null) {
             return null;
@@ -295,11 +297,14 @@ public class InMemoryTaskManager implements TaskManager {
                 .collect(Collectors.toList());
     }
 
-    private void validateTask(Task task) throws TaskValidationException {
+    private void validateTask(Task task, boolean isTimeChanged) throws TaskValidationException {
         if (task.getStartTime() == null && task.getEndTime() == null) {
             return;
         }
-        boolean hasIntersection = taskValidator.hasIntersectionOfTime(task, repository.getPrioritizedTasks());
+        if (isTimeChanged) {
+            taskScheduleValidator.resetScheduleOnyForTask(task);
+        }
+        boolean hasIntersection = taskScheduleValidator.checkIntersectionAndUpdateSchedule(task);
         if (hasIntersection) {
             throw new TaskValidationException("Could not validate task. Please change the start time");
         }
@@ -391,6 +396,24 @@ public class InMemoryTaskManager implements TaskManager {
             return time;
         }
         return initial;
+    }
+
+    private boolean isTimeChanged(Task task, UpdateTaskDto updateTaskDto) {
+        if (task.getStartTime() == null || task.getEndTime() == null
+                || updateTaskDto.getStartTime() == null || updateTaskDto.getDuration() == null) {
+            return false;
+        }
+        return updateTaskDto.getStartTime().isEqual(task.getStartTime())
+                && updateTaskDto.getDuration().compareTo(task.getDuration()) == 0;
+    }
+
+    private boolean isTimeChanged(Subtask subtask, UpdateSubtaskDto updateSubtaskDto) {
+        if (subtask.getStartTime() == null || subtask.getEndTime() == null
+                || updateSubtaskDto.getStartTime() == null || updateSubtaskDto.getDuration() == null) {
+            return false;
+        }
+        return updateSubtaskDto.getStartTime().isEqual(subtask.getStartTime())
+                && updateSubtaskDto.getDuration().compareTo(subtask.getDuration()) == 0;
     }
 
     private void updateEpicData(Epic epic) {

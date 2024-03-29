@@ -21,7 +21,7 @@ public class TaskValidatorTest {
         Task task1 = TASK(1, time(8, 0), duration());
         List<Task> tasks = List.of(
                 // 8:00-9:00 6:00-7:00
-                TASK(2, time(7, 0), duration()),
+                TASK(2, time(6, 0), duration()),
                 // 8:00-9:00 7:00-8:00
                 TASK(2, time(7, 0), duration()),
                 // 8:00-9:00 9:00-10:00

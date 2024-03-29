@@ -235,15 +235,17 @@ class InMemoryTaskManagerTest {
     @Test
     void updateSubtaskShouldThrowTaskValidationExceptionWhenCreateTimeIntersectsExistTask() throws TaskValidationException {
         // given
-        LocalDateTime startTime = LocalDateTime.now();
+        LocalDateTime startTime1 = LocalDateTime.now();
+        LocalDateTime startTime2 = startTime1.plusHours(2);
         Duration duration = Duration.ofHours(1);
         EpicDto epic = taskManager.createEpic(CREATE_EPIC());
-        SubtaskDto subtaskDto = taskManager.createSubtask(CREATE_SUBTASK(epic.getId(), startTime, duration));
+        SubtaskDto subtaskDto1 = taskManager.createSubtask(CREATE_SUBTASK(epic.getId(), startTime1, duration));
+        taskManager.createSubtask(CREATE_SUBTASK(epic.getId(), startTime2, duration));
 
         // when
         TaskValidationException exception = assertThrows(
                 TaskValidationException.class,
-                () -> taskManager.updateSubtask(UPDATE_SUBTASK(subtaskDto.getId(), startTime, duration))
+                () -> taskManager.updateSubtask(UPDATE_SUBTASK(subtaskDto1.getId(), startTime2, duration))
         );
 
         // then
@@ -550,14 +552,16 @@ class InMemoryTaskManagerTest {
     @Test
     void updateTaskShouldThrowTaskValidationExceptionWhenCreateTimeIntersectsExistTask() throws TaskValidationException {
         // given
-        LocalDateTime startTime = LocalDateTime.now();
+        LocalDateTime startTime1 = LocalDateTime.now();
+        LocalDateTime startTime2 = startTime1.plusHours(2);
         Duration duration = Duration.ofHours(1);
-        TaskDto taskDto = taskManager.createTask(CREATE_TASK(startTime, duration));
+        TaskDto taskDto1 = taskManager.createTask(CREATE_TASK(startTime1, duration));
+        taskManager.createTask(CREATE_TASK(startTime2, duration));
 
         // when
         TaskValidationException exception = assertThrows(
                 TaskValidationException.class,
-                () -> taskManager.updateTask(UPDATE_TASK(taskDto.getId(), startTime, duration))
+                () -> taskManager.updateTask(UPDATE_TASK(taskDto1.getId(), startTime2, duration))
         );
 
         // then
