@@ -211,6 +211,22 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
+    void createSubtaskShouldThrowTaskValidationExceptionWhenEpicNotFound() throws TaskValidationException {
+        // given
+        Integer epicId = 1;
+        CreateSubtaskDto createSubtaskDto = CREATE_SUBTASK(epicId);
+
+        // when
+        TaskValidationException exception = assertThrows(
+                TaskValidationException.class,
+                () -> taskManager.createSubtask(createSubtaskDto)
+        );
+
+        // then
+        assertEquals("Epic not found: " + epicId, exception.getMessage());
+    }
+
+    @Test
     void updateSubtaskShouldThrowTaskValidationExceptionWhenCreateTimeIntersectsExistTask() throws TaskValidationException {
         // given
         LocalDateTime startTime = LocalDateTime.now();

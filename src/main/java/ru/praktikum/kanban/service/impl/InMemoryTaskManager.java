@@ -226,7 +226,7 @@ public class InMemoryTaskManager implements TaskManager {
         Integer epicId = createSubtaskDto.getEpicId();
         Epic epic = repository.getEpic(epicId);
         if (epic == null) {
-            return null;
+            throw new TaskValidationException("Epic not found: " + epicId);
         }
         Subtask subtask = subtaskMapper.toEntity(getNextTaskId(), createSubtaskDto);
         validateTask(subtask);
