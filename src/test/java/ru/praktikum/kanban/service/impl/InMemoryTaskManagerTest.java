@@ -6,19 +6,22 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import ru.praktikum.kanban.dto.CreateTaskDto;
-import ru.praktikum.kanban.dto.UpdateEpicDto;
-import ru.praktikum.kanban.dto.UpdateSubtaskDto;
-import ru.praktikum.kanban.exception.TaskValidationException;
-import ru.praktikum.kanban.model.Subtask;
-import ru.praktikum.kanban.model.TaskStatus;
+import org.mockito.junit.jupiter.MockitoExtension;
 import ru.praktikum.kanban.dto.CreateEpicDto;
 import ru.praktikum.kanban.dto.CreateSubtaskDto;
+import ru.praktikum.kanban.dto.CreateTaskDto;
 import ru.praktikum.kanban.dto.EpicDto;
 import ru.praktikum.kanban.dto.SubtaskDto;
 import ru.praktikum.kanban.dto.TaskDto;
+import ru.praktikum.kanban.dto.UpdateEpicDto;
+import ru.praktikum.kanban.dto.UpdateSubtaskDto;
 import ru.praktikum.kanban.dto.UpdateTaskDto;
+import ru.praktikum.kanban.exception.TaskValidationException;
+import ru.praktikum.kanban.model.Subtask;
+import ru.praktikum.kanban.model.Task;
+import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.repository.impl.InMemoryTaskRepository;
 import ru.praktikum.kanban.service.HistoryManager;
 import ru.praktikum.kanban.service.TaskManager;
@@ -39,12 +42,14 @@ import static ru.praktikum.kanban.helper.TaskFactory.DEFAULT_NAME;
 import static ru.praktikum.kanban.helper.TaskFactory.EPIC_DTO;
 import static ru.praktikum.kanban.helper.TaskFactory.SUBTASK;
 import static ru.praktikum.kanban.helper.TaskFactory.SUBTASK_DTO;
+import static ru.praktikum.kanban.helper.TaskFactory.TASK;
 import static ru.praktikum.kanban.helper.TaskFactory.TASK_DTO;
 
+@ExtendWith(MockitoExtension.class)
 class InMemoryTaskManagerTest {
 
     TaskManager taskManager;
-
+    InMemoryTaskRepository repository;
     HistoryManager historyManager;
 
     private final TaskMapper taskMapper = new TaskMapperImpl();
@@ -53,7 +58,7 @@ class InMemoryTaskManagerTest {
 
     @BeforeEach
     void setUp() {
-        InMemoryTaskRepository repository = new InMemoryTaskRepository();
+        repository = Mockito.spy(InMemoryTaskRepository.class);
         historyManager = Mockito.spy(new HistoryManagerImpl(repository));
         taskManager = new InMemoryTaskManager(
                 new IdentifierGenerator(),
@@ -685,6 +690,29 @@ class InMemoryTaskManagerTest {
         assertEquals(numbersOfTasks, history.size());
         assertEquals(expected, history);
     }
+
+    @Test
+    void getPrioritizedTasksShouldMapTasksToDtoWhenRepositoryHasTasks() {
+        // given
+        LocalDateTime startTime = LocalDateTime.now();
+        Duration duration = Duration.ofHours(1);
+        Task task = TASK(1, startTime, duration);
+        Subtask subtask = SUBTASK(2, 2, startTime, duration);
+
+        Mockito.when(repository.getPrioritizedTasks()).thenReturn(List.of(task, subtask));
+
+        List<TaskDto> expectedTasks = List.of(
+                taskMapper.toDto(task),
+                subtaskMapper.toDto(subtask)
+        );
+
+        // when
+        List<TaskDto> actualTasks = taskManager.getPrioritizedTasks();
+
+        // then
+        assertEquals(expectedTasks, actualTasks);
+    }
+
 
     private CreateEpicDto CREATE_EPIC() { return new CreateEpicDto(DEFAULT_NAME, DEFAULT_DESCRIPTION); }
     private UpdateEpicDto UPDATE_EPIC(Integer id, String name) { return new UpdateEpicDto(id, name, DEFAULT_DESCRIPTION); }

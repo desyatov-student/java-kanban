@@ -60,7 +60,7 @@ public class InMemoryTaskManager implements TaskManager {
         this.abstractMapper = new AbstractMapper<>();
         this.taskValidator = new TaskValidator();
 
-        abstractMapper.put(Task.class, value -> taskMapper.toDto((Task) value));
+        abstractMapper.put(Task.class, taskMapper::toDto);
         abstractMapper.put(Subtask.class, value -> subtaskMapper.toDto((Subtask) value));
         abstractMapper.put(Epic.class, value -> this.getEpicDtoWithEpicEntity((Epic) value));
     }
