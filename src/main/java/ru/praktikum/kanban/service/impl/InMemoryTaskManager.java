@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -112,13 +113,13 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public TaskDto getTask(Integer taskId) {
+    public Optional<TaskDto> getTask(Integer taskId) {
         Task task = repository.getTask(taskId);
         if (task == null) {
-            return null;
+            return Optional.empty();
         }
         historyManager.add(task);
-        return taskMapper.toDto(task);
+        return Optional.of(taskMapper.toDto(task));
     }
 
     @Override
@@ -144,13 +145,13 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public EpicDto getEpic(Integer epicId) {
+    public Optional<EpicDto> getEpic(Integer epicId) {
         Epic epic = repository.getEpic(epicId);
         if (epic == null) {
-            return null;
+            return Optional.empty();
         }
         historyManager.add(epic);
-        return getEpicDtoWithEpicEntity(epic);
+        return Optional.of(getEpicDtoWithEpicEntity(epic));
     }
 
     @Override
@@ -200,13 +201,13 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public SubtaskDto getSubtask(Integer subtaskId) {
+    public Optional<SubtaskDto> getSubtask(Integer subtaskId) {
         Subtask subtask = repository.getSubtask(subtaskId);
         if (subtask == null) {
-            return null;
+            return Optional.empty();
         }
         historyManager.add(subtask);
-        return subtaskMapper.toDto(subtask);
+        return Optional.of(subtaskMapper.toDto(subtask));
     }
 
     @Override

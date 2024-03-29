@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -92,13 +93,13 @@ class InMemoryTaskManagerTest {
 
         assertEquals(
                 EPIC_DTO(epic.getId(), TaskStatus.NEW, List.of(SUBTASK_DTO(subtaskDto.getId(), TaskStatus.NEW))),
-                taskManager.getEpic(epic.getId())
+                taskManager.getEpic(epic.getId()).get()
         );
     }
 
     @Test
     void getEpicAndResultIsEmpty() {
-        assertNull(taskManager.getEpic(10));
+        assertEquals(Optional.empty(), taskManager.getEpic(10));
     }
 
     @Test
@@ -264,7 +265,7 @@ class InMemoryTaskManagerTest {
         taskManager.createSubtask(CREATE_SUBTASK(epic.getId(), startTime, duration));
 
         // then
-        EpicDto updatedEpic = taskManager.getEpic(epic.getId());
+        EpicDto updatedEpic = taskManager.getEpic(epic.getId()).get();
         assertEquals(
                 LocalDateTime.of(2000, 1,1, 0,0),
                 updatedEpic.getStartTime());
@@ -296,7 +297,7 @@ class InMemoryTaskManagerTest {
         taskManager.removeSubtask(subtask3.getId());
 
         // then
-        EpicDto updatedEpic = taskManager.getEpic(epic.getId());
+        EpicDto updatedEpic = taskManager.getEpic(epic.getId()).get();
         assertEquals(
                 LocalDateTime.of(2000, 1,1, 0,0),
                 updatedEpic.getStartTime());
@@ -328,7 +329,7 @@ class InMemoryTaskManagerTest {
         taskManager.removeAllSubtasks();
 
         // then
-        EpicDto updatedEpic = taskManager.getEpic(epic.getId());
+        EpicDto updatedEpic = taskManager.getEpic(epic.getId()).get();
         assertNull(updatedEpic.getStartTime());
         assertNull(updatedEpic.getDuration());
         assertNull(updatedEpic.getEndTime());
@@ -343,13 +344,13 @@ class InMemoryTaskManagerTest {
 
         assertEquals(
                 SUBTASK_DTO(subtask.getId(), TaskStatus.NEW),
-                taskManager.getSubtask(subtask.getId())
+                taskManager.getSubtask(subtask.getId()).get()
         );
     }
 
     @Test
     void getSubtaskAndResultIsEmpty() {
-        assertNull(taskManager.getSubtask(10));
+        assertEquals(Optional.empty(), taskManager.getSubtask(10));
     }
 
     @Test
@@ -565,7 +566,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     void getTaskAndResultIsEmpty() {
-        assertNull(taskManager.getTask(10));
+        assertEquals(Optional.empty(), taskManager.getTask(10));
     }
 
     @Test
@@ -581,7 +582,7 @@ class InMemoryTaskManagerTest {
 
         assertEquals(
                 TASK_DTO(task.getId(), TaskStatus.DONE),
-                taskManager.getTask(task.getId())
+                taskManager.getTask(task.getId()).get()
         );
     }
 
@@ -653,9 +654,9 @@ class InMemoryTaskManagerTest {
         TaskDto task = taskManager.createTask(CREATE_TASK);
         SubtaskDto subtask = taskManager.createSubtask(CREATE_SUBTASK(epic.getId()));
 
-        subtask =taskManager.getSubtask(subtask.getId());
-        epic = taskManager.getEpic(epic.getId());
-        task = taskManager.getTask(task.getId());
+        subtask =taskManager.getSubtask(subtask.getId()).get();
+        epic = taskManager.getEpic(epic.getId()).get();
+        task = taskManager.getTask(task.getId()).get();
 
         Mockito.verify(historyManager).add(epicMapper.toEntity(epic.getId(), CREATE_EPIC()));
         Mockito.verify(historyManager).add(taskMapper.toEntity(task.getId(), CREATE_TASK));
