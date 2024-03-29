@@ -32,6 +32,7 @@ import ru.praktikum.kanban.util.IdentifierGenerator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.praktikum.kanban.helper.TaskFactory.DEFAULT_DESCRIPTION;
 import static ru.praktikum.kanban.helper.TaskFactory.DEFAULT_NAME;
@@ -189,6 +190,42 @@ class InMemoryTaskManagerTest {
                 ),
                 taskManager.getAllEpics()
         );
+    }
+
+    @Test
+    void createSubtaskShouldThrowTaskValidationExceptionWhenCreateTimeIntersectsExistTask() throws TaskValidationException {
+        // given
+        LocalDateTime startTime = LocalDateTime.now();
+        Duration duration = Duration.ofHours(1);
+        EpicDto epic = taskManager.createEpic(CREATE_EPIC());
+        taskManager.createSubtask(CREATE_SUBTASK(epic.getId(), startTime, duration));
+
+        // when
+        TaskValidationException exception = assertThrows(
+                TaskValidationException.class,
+                () -> taskManager.createSubtask(CREATE_SUBTASK(epic.getId(), startTime, duration))
+        );
+
+        // then
+        assertEquals("Could not validate task. Please change the start time", exception.getMessage());
+    }
+
+    @Test
+    void updateSubtaskShouldThrowTaskValidationExceptionWhenCreateTimeIntersectsExistTask() throws TaskValidationException {
+        // given
+        LocalDateTime startTime = LocalDateTime.now();
+        Duration duration = Duration.ofHours(1);
+        EpicDto epic = taskManager.createEpic(CREATE_EPIC());
+        SubtaskDto subtaskDto = taskManager.createSubtask(CREATE_SUBTASK(epic.getId(), startTime, duration));
+
+        // when
+        TaskValidationException exception = assertThrows(
+                TaskValidationException.class,
+                () -> taskManager.updateSubtask(UPDATE_SUBTASK(subtaskDto.getId(), startTime, duration))
+        );
+
+        // then
+        assertEquals("Could not validate task. Please change the start time", exception.getMessage());
     }
 
     @Test
@@ -472,6 +509,40 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
+    void createTaskShouldThrowTaskValidationExceptionWhenCreateTimeIntersectsExistTask() throws TaskValidationException {
+        // given
+        LocalDateTime startTime = LocalDateTime.now();
+        Duration duration = Duration.ofHours(1);
+        taskManager.createTask(CREATE_TASK(startTime, duration));
+
+        // when
+        TaskValidationException exception = assertThrows(
+                TaskValidationException.class,
+                () -> taskManager.createTask(CREATE_TASK(startTime, duration))
+        );
+
+        // then
+        assertEquals("Could not validate task. Please change the start time", exception.getMessage());
+    }
+
+    @Test
+    void updateTaskShouldThrowTaskValidationExceptionWhenCreateTimeIntersectsExistTask() throws TaskValidationException {
+        // given
+        LocalDateTime startTime = LocalDateTime.now();
+        Duration duration = Duration.ofHours(1);
+        TaskDto taskDto = taskManager.createTask(CREATE_TASK(startTime, duration));
+
+        // when
+        TaskValidationException exception = assertThrows(
+                TaskValidationException.class,
+                () -> taskManager.updateTask(UPDATE_TASK(taskDto.getId(), startTime, duration))
+        );
+
+        // then
+        assertEquals("Could not validate task. Please change the start time", exception.getMessage());
+    }
+
+    @Test
     void getTaskAndResultIsEmpty() {
         assertNull(taskManager.getTask(10));
     }
@@ -608,6 +679,20 @@ class InMemoryTaskManagerTest {
             Duration duration
     ) { return new CreateSubtaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, epicId, startTime, duration); }
     private UpdateSubtaskDto UPDATE_SUBTASK(Integer id, TaskStatus status) { return new UpdateSubtaskDto(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, status, null, null); }
-    private final CreateTaskDto CREATE_TASK = new CreateTaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, null, null);
+    private UpdateSubtaskDto UPDATE_SUBTASK(
+            Integer id,
+            LocalDateTime startTime,
+            Duration duration
+    ) { return new UpdateSubtaskDto(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, TaskStatus.NEW, startTime, duration); }
+    private final CreateTaskDto CREATE_TASK = CREATE_TASK(null, null);
+    private CreateTaskDto CREATE_TASK(
+            LocalDateTime startTime,
+            Duration duration
+    ) { return new CreateTaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, startTime, duration); }
     private UpdateTaskDto UPDATE_TASK(Integer id, TaskStatus status) { return new UpdateTaskDto(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, status); }
+    private UpdateTaskDto UPDATE_TASK(
+            Integer id,
+            LocalDateTime startTime,
+            Duration duration
+    ) { return new UpdateTaskDto(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, TaskStatus.NEW, startTime, duration); }
 }

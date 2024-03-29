@@ -300,7 +300,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         boolean hasIntersection = taskValidator.hasIntersectionOfTime(task, repository.getPrioritizedTasks());
         if (hasIntersection) {
-            throw new TaskValidationException("Could not validate task. Please change the start time. task: " + task);
+            throw new TaskValidationException("Could not validate task. Please change the start time");
         }
     }
 

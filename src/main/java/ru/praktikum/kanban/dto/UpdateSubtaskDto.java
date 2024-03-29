@@ -19,6 +19,6 @@ public class UpdateSubtaskDto {
     @NonNull private final String name;
     @NonNull private final String description;
     @NonNull private final TaskStatus status;
-    private final Duration duration;
     private final LocalDateTime startTime;
+    private final Duration duration;
 }
