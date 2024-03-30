@@ -738,7 +738,7 @@ class InMemoryTaskManagerTest {
             LocalDateTime startTime,
             Duration duration
     ) { return new CreateTaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, startTime, duration); }
-    private UpdateTaskDto UPDATE_TASK(Integer id, TaskStatus status) { return new UpdateTaskDto(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, status); }
+    private UpdateTaskDto UPDATE_TASK(Integer id, TaskStatus status) { return new UpdateTaskDto(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, status, null, null); }
     private UpdateTaskDto UPDATE_TASK(
             Integer id,
             LocalDateTime startTime,

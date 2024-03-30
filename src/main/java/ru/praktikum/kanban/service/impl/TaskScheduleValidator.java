@@ -57,17 +57,17 @@ public class TaskScheduleValidator {
     }
 
     // При обновлении расписания таски старое нужно убрать чтобы не было ложного пересечения.
-    public void resetScheduleOnyForTask(Task task) {
-        splitTimeToSegments(task.getStartTime(), task.getEndTime(), segment, (segment) -> {
+    public void resetScheduleForTaskTime(TaskTime taskTime) {
+        splitTimeToSegments(taskTime.getStartTime(), taskTime.getEndTime(), segment, (segment) -> {
             schedule.put(segment, false);
             return true;
         });
     }
 
-    public boolean checkIntersectionAndUpdateSchedule(Task task) {
+    public boolean checkIntersectionAndUpdateSchedule(TaskTime taskTime) {
         HashMap<LocalDateTime, Boolean> scheduleUpdate = new HashMap<>();
         AtomicBoolean hasIntersection = new AtomicBoolean(false);
-        splitTimeToSegments(task.getStartTime(), task.getEndTime(), segment, (segment) -> {
+        splitTimeToSegments(taskTime.getStartTime(), taskTime.getEndTime(), segment, (segment) -> {
             if (schedule.getOrDefault(segment, false)) {
                 // Останавливаем перебор сегментов т.к. получили пересечений.
                 hasIntersection.set(true);

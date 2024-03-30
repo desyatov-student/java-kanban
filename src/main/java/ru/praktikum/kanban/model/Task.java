@@ -25,17 +25,13 @@ public class Task {
     private Duration duration;
 
     public LocalDateTime getEndTime() {
-        if (startTime == null) {
+        if (isTimeEmpty()) {
             return null;
         }
         return startTime.plus(duration);
     }
 
-    public boolean isStartTimeEmpty() {
-        return startTime == null;
-    }
-
-    public boolean isDurationEmpty() {
-        return duration == null;
+    public boolean isTimeEmpty() {
+        return startTime == null || duration == null;
     }
 }

@@ -41,7 +41,7 @@ public class TaskScheduleValidatorTest {
         validator.resetSchedule(tasks);
 
         // when
-        boolean result1 = validator.checkIntersectionAndUpdateSchedule(task1);
+        boolean result1 = validator.checkIntersectionAndUpdateSchedule(TaskTime.of(task1));
 
         // then
         assertFalse(result1);
@@ -65,7 +65,7 @@ public class TaskScheduleValidatorTest {
         validator.resetSchedule(tasks);
 
         // when
-        boolean result1 = validator.checkIntersectionAndUpdateSchedule(task1);
+        boolean result1 = validator.checkIntersectionAndUpdateSchedule(TaskTime.of(task1));
 
         // then
         assertTrue(result1);
@@ -78,8 +78,8 @@ public class TaskScheduleValidatorTest {
         Task task1 = TASK(1, time(8, 0), duration());
 
         // when
-        boolean result1 = validator.checkIntersectionAndUpdateSchedule(task1);
-        boolean result2 = validator.checkIntersectionAndUpdateSchedule(task1);
+        boolean result1 = validator.checkIntersectionAndUpdateSchedule(TaskTime.of(task1));
+        boolean result2 = validator.checkIntersectionAndUpdateSchedule(TaskTime.of(task1));
 
         // then
         assertFalse(result1);
