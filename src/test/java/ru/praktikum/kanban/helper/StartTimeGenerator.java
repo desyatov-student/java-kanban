@@ -5,11 +5,11 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 
 public class StartTimeGenerator {
-    LocalDateTime startTime;
+    private LocalDateTime startTime;
     @Getter
-    Duration duration;
+    private final Duration duration;
     @Getter
-    LocalDateTime endTime;
+    private LocalDateTime endTime;
 
     public LocalDateTime getStartTime() {
         LocalDateTime oldStartTime = startTime;
