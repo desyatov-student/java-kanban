@@ -1,16 +1,10 @@
 package ru.praktikum.kanban.service.impl;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import ru.praktikum.kanban.dto.CreateEpicDto;
 import ru.praktikum.kanban.dto.CreateSubtaskDto;
 import ru.praktikum.kanban.dto.CreateTaskDto;
@@ -66,16 +60,6 @@ public class InMemoryTaskManager implements TaskManager {
         abstractMapper.put(Task.class, taskMapper::toDto);
         abstractMapper.put(Subtask.class, value -> subtaskMapper.toDto((Subtask) value));
         abstractMapper.put(Epic.class, value -> this.getEpicDtoWithEpicEntity((Epic) value));
-    }
-
-    @Getter
-    @ToString
-    @NoArgsConstructor
-    @AllArgsConstructor
-    private static class TimeContainer {
-        private LocalDateTime startTime;
-        private Duration duration;
-        private LocalDateTime endTime;
     }
 
     public InMemoryTaskManager(TaskManagerRepository repository, HistoryManager historyManager) {
@@ -362,40 +346,13 @@ public class InMemoryTaskManager implements TaskManager {
         return TaskStatus.IN_PROGRESS;
     }
 
-    private TimeContainer calculateEpicTime(List<Subtask> subtasks) {
+    private EpicTime calculateEpicTime(List<Subtask> subtasks) {
         if (subtasks.isEmpty()) {
-            return new TimeContainer();
+            return new EpicTime();
         }
-        Predicate<Subtask> filter = (task) -> task != null && task.getStartTime() != null;
-        return subtasks.stream().filter(filter)
-                .reduce(new TimeContainer(), (accum, subtask) -> {
-                    LocalDateTime startTime = minTime(accum.getStartTime(), subtask.getStartTime());
-                    LocalDateTime endTime = maxTime(accum.getEndTime(), subtask.getEndTime());
-                    Duration duration = sumNullableDuration(accum.duration, subtask.getDuration());
-                    return new TimeContainer(startTime, duration, endTime);
-                }, (accum1, accum2) -> accum2);
-    }
-
-    private Duration sumNullableDuration(Duration nullable, Duration duration) {
-        return (nullable == null) ? duration : nullable.plus(duration);
-    }
-
-    private LocalDateTime minTime(LocalDateTime initial, LocalDateTime time) {
-        if (initial == null) {
-            return time;
-        } else if (time.isBefore(initial)) {
-            return time;
-        }
-        return initial;
-    }
-
-    private LocalDateTime maxTime(LocalDateTime initial, LocalDateTime time) {
-        if (initial == null) {
-            return time;
-        } else if (time.isAfter(initial)) {
-            return time;
-        }
-        return initial;
+        return subtasks.stream()
+                .filter(task -> !task.isStartTimeEmpty())
+                .collect(new EpicTimeCollector());
     }
 
     private boolean isTimeChanged(Task task, UpdateTaskDto updateTaskDto) {
@@ -422,10 +379,10 @@ public class InMemoryTaskManager implements TaskManager {
                 .collect(Collectors.toList());
 
         epic.setStatus(calculateEpicStatusWithSubtasks(subtasks));
-        TimeContainer timeContainer = calculateEpicTime(subtasks);
-        epic.setStartTime(timeContainer.getStartTime());
-        epic.setDuration(timeContainer.getDuration());
-        epic.setEndTime(timeContainer.getEndTime());
+        EpicTime epicTime = calculateEpicTime(subtasks);
+        epic.setStartTime(epicTime.getStartTime());
+        epic.setDuration(epicTime.getDuration());
+        epic.setEndTime(epicTime.getEndTime());
     }
 
     private EpicDto getEpicDtoWithEpicEntity(Epic epic) {

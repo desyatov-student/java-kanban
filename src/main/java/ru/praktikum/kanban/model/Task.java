@@ -30,4 +30,12 @@ public class Task {
         }
         return startTime.plus(duration);
     }
+
+    public boolean isStartTimeEmpty() {
+        return startTime == null;
+    }
+
+    public boolean isDurationEmpty() {
+        return duration == null;
+    }
 }
