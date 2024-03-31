@@ -41,7 +41,7 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     @Override
     public void saveTask(Task task) {
         tasks.put(task.getId(), task);
-        if (task.getStartTime() != null) {
+        if (!task.isTimeEmpty()) {
             prioritizedTasks.add(task);
         }
     }
@@ -115,7 +115,7 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     @Override
     public void saveSubtask(Subtask subtask) {
         subtasks.put(subtask.getId(), subtask);
-        if (subtask.getStartTime() != null) {
+        if (!subtask.isTimeEmpty()) {
             prioritizedTasks.add(subtask);
         }
     }
@@ -162,6 +162,6 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     }
 
     private boolean validateStartTime(Task task) {
-        return task != null && task.getStartTime() != null;
+        return task != null && !task.isTimeEmpty();
     }
 }
