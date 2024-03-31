@@ -17,10 +17,8 @@ public class TaskScheduleValidatorTest {
 
     @BeforeEach
     void setUp() {
-        LocalDateTime startTime = time(0, 0);
-        Duration duration = Duration.ofHours(4);
         Duration segmentDuration = Duration.ofMinutes(15);
-        validator = new TaskScheduleValidator(duration, segmentDuration, startTime);
+        validator = new TaskScheduleValidator(segmentDuration);
     }
 
     @Test

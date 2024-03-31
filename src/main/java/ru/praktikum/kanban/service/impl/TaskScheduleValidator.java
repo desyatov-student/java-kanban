@@ -13,39 +13,29 @@ import ru.praktikum.kanban.model.Task;
 
 public class TaskScheduleValidator {
 
-    private static final int SCHEDULE_DURATION_IN_DAYS = 365;
     private static final int SEGMENT_DURATION_IN_MINUTES = 15;
     private final HashMap<LocalDateTime, Boolean> schedule;
-    private final Duration duration;
     private final Duration segment;
 
     public TaskScheduleValidator() {
-        this.schedule = new HashMap<>();
-        this.duration = Duration.ofDays(SCHEDULE_DURATION_IN_DAYS);
-        this.segment = Duration.ofMinutes(SEGMENT_DURATION_IN_MINUTES);
-        initializeScheduleMap(LocalDateTime.now());
+        this(Duration.ofMinutes(SEGMENT_DURATION_IN_MINUTES));
     }
 
-    public TaskScheduleValidator(Duration duration, Duration segment, LocalDateTime startDate) {
+    public TaskScheduleValidator(Duration segment) {
         this.schedule = new HashMap<>();
-        this.duration = duration;
         this.segment = segment;
-        initializeScheduleMap(startDate);
+        initializeScheduleMap();
     }
 
     // метод используется когда восстанавливаем таски из файла
     public void resetSchedule(List<Task> tasks) {
+        initializeScheduleMap();
         if (tasks.isEmpty()) {
-            initializeScheduleMap(LocalDateTime.now());
             return;
         }
         List<Task> sortedTasks = tasks.stream()
                 .sorted(Comparator.comparing(Task::getStartTime))
                 .collect(Collectors.toList());
-
-        Task first = sortedTasks.get(0);
-        // Заполняем дефолтными значениями таблицу расписания с даты начала первой таски округленную в меньшую сторону
-        initializeScheduleMap(roundToLow(first.getStartTime()));
 
         // для каждой таски находим все временные интервалы и помечаем занятость в таблице расписания
         for (Task task : sortedTasks) {
@@ -88,13 +78,8 @@ public class TaskScheduleValidator {
         }
     }
 
-    // Заполняет расписание дефолтными значениями false (свободно)
-    private void initializeScheduleMap(LocalDateTime startTime) {
+    private void initializeScheduleMap() {
         schedule.clear();
-        splitTimeToSegments(startTime, startTime.plus(duration), segment, (segment) -> {
-            schedule.put(segment, false);
-            return true;
-        });
     }
 
     // Разделяет временной интервал на кусочки длинной segmentDuration. Можно остановить разделение с помощью predicate.
