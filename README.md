@@ -26,7 +26,7 @@ UpdateEpicDto updateEpicDto = new UpdateEpicDto(10, "Имя", "описание"
 ```Java
 UpdateSubtaskDto updateSubtaskDto = new UpdateSubtaskDto(11, "Имя", "описание", TaskStatus.DONE);
 ```
-Создание задачи:
+Обновление задачи:
 ```Java
 UpdateTaskDto updateTaskDto = new UpdateTaskDto(12, "Имя", "описание", TaskStatus.DONE);
 ```
