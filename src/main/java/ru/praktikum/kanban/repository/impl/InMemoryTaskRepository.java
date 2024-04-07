@@ -1,18 +1,22 @@
 package ru.praktikum.kanban.repository.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import lombok.experimental.ExtensionMethod;
 import ru.praktikum.kanban.model.Epic;
 import ru.praktikum.kanban.model.Subtask;
 import ru.praktikum.kanban.model.Task;
 import ru.praktikum.kanban.repository.HistoryRepository;
 import ru.praktikum.kanban.repository.TaskManagerRepository;
 import ru.praktikum.kanban.service.impl.HistoryLinkedList;
+import ru.praktikum.kanban.util.StreamExtensions;
 
+@ExtensionMethod(StreamExtensions.class)
 public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRepository {
     protected final HashMap<Integer, Task> tasks;
     protected final HashMap<Integer, Epic> epics;
@@ -35,7 +39,7 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
         return new ArrayList<>(tasks.values())
                 .stream()
                 .sorted(Comparator.comparing(Task::getId))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -74,7 +78,7 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
         return new ArrayList<>(epics.values())
                 .stream()
                 .sorted(Comparator.comparing(Epic::getId))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -104,7 +108,7 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
         return new ArrayList<>(subtasks.values())
                 .stream()
                 .sorted(Comparator.comparing(Subtask::getId))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -154,6 +158,14 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
             return;
         }
         history.add(task);
+    }
+
+    @Override
+    public Integer getLastId() {
+        return Stream.of(epics.values(), subtasks.values(), tasks.values())
+                .flatMap(Collection::stream)
+                .map(Task::getId)
+                .max(Integer::compareTo).orElse(-1);
     }
 
     @Override

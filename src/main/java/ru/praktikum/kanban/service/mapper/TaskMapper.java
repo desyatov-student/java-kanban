@@ -10,6 +10,12 @@ import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.util.StringUtils;
 import ru.praktikum.kanban.util.TimeUtils;
 
+import static ru.praktikum.kanban.constant.CsvConstants.INDEX_TASK_DESCRIPTION;
+import static ru.praktikum.kanban.constant.CsvConstants.INDEX_TASK_DURATION;
+import static ru.praktikum.kanban.constant.CsvConstants.INDEX_TASK_ID;
+import static ru.praktikum.kanban.constant.CsvConstants.INDEX_TASK_NAME;
+import static ru.praktikum.kanban.constant.CsvConstants.INDEX_TASK_START_TIME;
+import static ru.praktikum.kanban.constant.CsvConstants.INDEX_TASK_STATUS;
 import static ru.praktikum.kanban.constant.DelimiterConstants.DELIMITER_COMMA;
 
 
@@ -37,12 +43,12 @@ public interface TaskMapper {
 
     default Task toEntity(String[] values) {
         return new Task(
-                Integer.parseInt(values[0]),
-                values[2],
-                values[3],
-                TaskStatus.valueOf(values[4]),
-                TimeUtils.parseDateTime(values[6]).orElse(null),
-                TimeUtils.parseDuration(values[7]).orElse(null)
+                Integer.parseInt(values[INDEX_TASK_ID]),
+                values[INDEX_TASK_NAME],
+                values[INDEX_TASK_DESCRIPTION],
+                TaskStatus.valueOf(values[INDEX_TASK_STATUS]),
+                TimeUtils.parseDateTime(values[INDEX_TASK_START_TIME]).orElse(null),
+                TimeUtils.parseDuration(values[INDEX_TASK_DURATION]).orElse(null)
         );
     }
 }

@@ -54,7 +54,7 @@ public class FileBackedTaskRepository extends InMemoryTaskRepository {
 
             Stream.of(tasksContainer.subtasks.values(), tasksContainer.tasks.values())
                     .flatMap(Collection::stream)
-                    .filter(task -> task.getStartTime() != null)
+                    .filter(task -> !task.isTimeEmpty())
                     .forEach(prioritizedTasks::add);
 
             logger.info("Success loaded tasks from file: " + backup);

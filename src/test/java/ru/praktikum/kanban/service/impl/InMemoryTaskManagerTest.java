@@ -62,7 +62,6 @@ class InMemoryTaskManagerTest {
         repository = Mockito.spy(InMemoryTaskRepository.class);
         historyManager = Mockito.spy(new HistoryManagerImpl(repository));
         taskManager = new InMemoryTaskManager(
-                new IdentifierGenerator(),
                 repository,
                 historyManager
         );

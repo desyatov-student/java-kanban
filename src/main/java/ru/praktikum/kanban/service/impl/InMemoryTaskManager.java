@@ -30,6 +30,8 @@ import ru.praktikum.kanban.service.mapper.TaskMapperImpl;
 import ru.praktikum.kanban.util.AbstractMapper;
 import ru.praktikum.kanban.util.IdentifierGenerator;
 
+import static ru.praktikum.kanban.util.IdentifierGenerator.INITIAL_IDENTIFIER;
+
 public class InMemoryTaskManager implements TaskManager {
     private final IdentifierGenerator identifierGenerator;
     private final TaskManagerRepository repository;
@@ -41,11 +43,11 @@ public class InMemoryTaskManager implements TaskManager {
     private final TaskScheduleValidator taskScheduleValidator;
 
     public InMemoryTaskManager(
-            IdentifierGenerator identifierGenerator,
             TaskManagerRepository repository,
             HistoryManager historyManager
     ) {
-        this.identifierGenerator = identifierGenerator;
+        Integer lastId = repository.getLastId();
+        this.identifierGenerator = new IdentifierGenerator(lastId > 0 ? lastId : INITIAL_IDENTIFIER);
         this.repository = repository;
         this.historyManager = historyManager;
         this.taskMapper = new TaskMapperImpl();
@@ -59,10 +61,6 @@ public class InMemoryTaskManager implements TaskManager {
         abstractMapper.put(Task.class, taskMapper::toDto);
         abstractMapper.put(Subtask.class, value -> subtaskMapper.toDto((Subtask) value));
         abstractMapper.put(Epic.class, value -> this.getEpicDtoWithEpicEntity((Epic) value));
-    }
-
-    public InMemoryTaskManager(TaskManagerRepository repository, HistoryManager historyManager) {
-        this(new IdentifierGenerator(), repository, historyManager);
     }
 
     private Integer getNextTaskId() {
@@ -288,7 +286,7 @@ public class InMemoryTaskManager implements TaskManager {
             if (!task.isTimeEmpty()) {
                 taskScheduleValidator.resetScheduleForTaskTime(TaskTime.of(task));
             }
-            // Если обновление содержит время то мы его проверяем на пересечение с остальными и добавляем в расписание
+            // Если обновление содержит время, то мы его проверяем на пересечение с остальными и добавляем в расписание
             if (!updateTaskDto.isTimeEmpty()) {
                 checkIntersection(TaskTime.of(updateTaskDto));
             }

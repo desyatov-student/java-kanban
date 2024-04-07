@@ -13,6 +13,13 @@ import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.util.StringUtils;
 import ru.praktikum.kanban.util.TimeUtils;
 
+import static ru.praktikum.kanban.constant.CsvConstants.INDEX_TASK_DESCRIPTION;
+import static ru.praktikum.kanban.constant.CsvConstants.INDEX_TASK_DURATION;
+import static ru.praktikum.kanban.constant.CsvConstants.INDEX_TASK_END_TIME;
+import static ru.praktikum.kanban.constant.CsvConstants.INDEX_TASK_ID;
+import static ru.praktikum.kanban.constant.CsvConstants.INDEX_TASK_NAME;
+import static ru.praktikum.kanban.constant.CsvConstants.INDEX_TASK_START_TIME;
+import static ru.praktikum.kanban.constant.CsvConstants.INDEX_TASK_STATUS;
 import static ru.praktikum.kanban.constant.DelimiterConstants.DELIMITER_COMMA;
 
 @Mapper(config = ErrorUnmappedMapperConfig.class)
@@ -50,14 +57,14 @@ public interface EpicMapper {
 
     default Epic toEntity(String[] values) {
         return new Epic(
-                Integer.parseInt(values[0]),
-                values[2],
-                values[3],
-                TaskStatus.valueOf(values[4]),
+                Integer.parseInt(values[INDEX_TASK_ID]),
+                values[INDEX_TASK_NAME],
+                values[INDEX_TASK_DESCRIPTION],
+                TaskStatus.valueOf(values[INDEX_TASK_STATUS]),
                 List.of(),
-                TimeUtils.parseDateTime(values[6]).orElse(null),
-                TimeUtils.parseDuration(values[7]).orElse(null),
-                TimeUtils.parseDateTime(values[8]).orElse(null)
+                TimeUtils.parseDateTime(values[INDEX_TASK_START_TIME]).orElse(null),
+                TimeUtils.parseDuration(values[INDEX_TASK_DURATION]).orElse(null),
+                TimeUtils.parseDateTime(values[INDEX_TASK_END_TIME]).orElse(null)
         );
     }
 }

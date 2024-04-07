@@ -7,10 +7,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import ru.praktikum.kanban.service.mapper.TaskType;
 import ru.praktikum.kanban.model.Task;
 import ru.praktikum.kanban.service.mapper.AdvancedTaskMapper;
+import ru.praktikum.kanban.service.mapper.TaskType;
 
+import static ru.praktikum.kanban.constant.CsvConstants.INDEX_TASK_TYPE;
 import static ru.praktikum.kanban.constant.DelimiterConstants.DELIMITER_COMMA;
 
 public class TasksCsvReader {
@@ -33,7 +34,7 @@ public class TasksCsvReader {
 
             TaskType taskType;
             try {
-                taskType = TaskType.valueOf(values[1]);
+                taskType = TaskType.valueOf(values[INDEX_TASK_TYPE]);
             } catch (Exception e) {
                 taskType = null;
             }
