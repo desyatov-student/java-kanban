@@ -46,8 +46,7 @@ public class InMemoryTaskManager implements TaskManager {
             TaskManagerRepository repository,
             HistoryManager historyManager
     ) {
-        Integer lastId = repository.getLastId();
-        this.identifierGenerator = new IdentifierGenerator(lastId > 0 ? lastId : INITIAL_IDENTIFIER);
+        this.identifierGenerator = new IdentifierGenerator(repository.getLastId().orElse(INITIAL_IDENTIFIER));
         this.repository = repository;
         this.historyManager = historyManager;
         this.taskMapper = new TaskMapperImpl();

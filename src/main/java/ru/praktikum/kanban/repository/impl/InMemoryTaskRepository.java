@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 import lombok.experimental.ExtensionMethod;
@@ -161,11 +162,11 @@ public class InMemoryTaskRepository implements TaskManagerRepository, HistoryRep
     }
 
     @Override
-    public Integer getLastId() {
+    public Optional<Integer> getLastId() {
         return Stream.of(epics.values(), subtasks.values(), tasks.values())
                 .flatMap(Collection::stream)
                 .map(Task::getId)
-                .max(Integer::compareTo).orElse(-1);
+                .max(Integer::compareTo);
     }
 
     @Override
