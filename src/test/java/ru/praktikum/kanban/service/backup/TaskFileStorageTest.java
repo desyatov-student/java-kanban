@@ -1,5 +1,7 @@
 package ru.praktikum.kanban.service.backup;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,10 +10,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.praktikum.kanban.exception.TaskFileStorageException;
 import ru.praktikum.kanban.helper.CollectionsHelper;
+import ru.praktikum.kanban.model.Epic;
 import ru.praktikum.kanban.model.Task;
 import ru.praktikum.kanban.service.mapper.AdvancedTaskMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static ru.praktikum.kanban.helper.TaskFactory.EPIC;
 import static ru.praktikum.kanban.helper.TaskFactory.SUBTASK;
 import static ru.praktikum.kanban.helper.TaskFactory.TASK;
@@ -42,15 +46,40 @@ public class TaskFileStorageTest {
 
         assertEquals(expectedBackup.getTasksList(), actualBackup.getTasksList());
         assertEquals(expectedHistory, actualBackup.getHistory());
+
+        if (!tasksContainer.epics.isEmpty()) {
+            Epic expectedEpic = tasksContainer.epics.get(5);
+            Epic actualEpic = actualBackup.tasksContainer.epics.get(5);
+            assertEquals(expectedEpic.getStartTime(), actualEpic.getStartTime());
+            assertEquals(expectedEpic.getDuration(), actualEpic.getDuration());
+            assertEquals(expectedEpic.getEndTime(), actualEpic.getEndTime());
+
+            assertNotNull(actualEpic.getStartTime());
+            assertNotNull(actualEpic.getDuration());
+            assertNotNull(actualEpic.getEndTime());
+
+            Task expectedTask = tasksContainer.tasks.get(3);
+            Task actualTask = actualBackup.tasksContainer.tasks.get(3);
+            assertEquals(expectedTask.getStartTime(), actualTask.getStartTime());
+            assertEquals(expectedTask.getDuration(), actualTask.getDuration());
+            assertEquals(expectedTask.getEndTime(), actualTask.getEndTime());
+
+            assertNotNull(actualTask.getStartTime());
+            assertNotNull(actualTask.getDuration());
+            assertNotNull(actualTask.getEndTime());
+        }
     }
 
     private static Stream<Arguments> provideModels() {
+        LocalDateTime startTime = LocalDateTime.now();
+        Duration duration = Duration.ofMinutes(10);
+        LocalDateTime endTime = startTime.plus(duration);
         return Stream.of(
                 Arguments.of(
                         CollectionsHelper.tasksListsToContainer(
-                                List.of(EPIC(5, List.of(6))),
-                                List.of(SUBTASK(6, 5), SUBTASK(7, 5)),
-                                List.of(TASK(1), TASK(2), TASK(3))
+                                List.of(EPIC(5, List.of(6), startTime, duration, endTime)),
+                                List.of(SUBTASK(6, 5), SUBTASK(7, 5, startTime, duration)),
+                                List.of(TASK(1), TASK(2), TASK(3, startTime, duration))
                         ),
                         List.of(TASK(1), TASK(4)),
                         List.of(TASK(1))

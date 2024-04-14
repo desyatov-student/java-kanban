@@ -1,6 +1,7 @@
 package ru.praktikum.kanban.service;
 
 import java.util.List;
+import java.util.Optional;
 import ru.praktikum.kanban.dto.CreateEpicDto;
 import ru.praktikum.kanban.dto.CreateSubtaskDto;
 import ru.praktikum.kanban.dto.CreateTaskDto;
@@ -10,17 +11,18 @@ import ru.praktikum.kanban.dto.SubtaskDto;
 import ru.praktikum.kanban.dto.UpdateEpicDto;
 import ru.praktikum.kanban.dto.UpdateSubtaskDto;
 import ru.praktikum.kanban.dto.UpdateTaskDto;
+import ru.praktikum.kanban.exception.TaskValidationException;
 
 public interface TaskManager {
 
     // Task's methods
     List<TaskDto> getAllTasks();
 
-    TaskDto createTask(CreateTaskDto createTaskDto);
+    TaskDto createTask(CreateTaskDto createTaskDto) throws TaskValidationException;
 
-    TaskDto updateTask(UpdateTaskDto updateTaskDto);
+    TaskDto updateTask(UpdateTaskDto updateTaskDto) throws TaskValidationException;
 
-    TaskDto getTask(Integer taskId);
+    Optional<TaskDto> getTask(Integer taskId);
 
     void removeTask(Integer taskId);
 
@@ -30,7 +32,7 @@ public interface TaskManager {
 
     List<EpicDto> getAllEpics();
 
-    EpicDto getEpic(Integer epicId);
+    Optional<EpicDto> getEpic(Integer epicId);
 
     EpicDto createEpic(CreateEpicDto epicDto);
 
@@ -44,13 +46,13 @@ public interface TaskManager {
 
     List<SubtaskDto> getAllSubtasks();
 
-    SubtaskDto getSubtask(Integer subtaskId);
+    Optional<SubtaskDto> getSubtask(Integer subtaskId);
 
     List<SubtaskDto> getSubtasksWithEpicId(Integer epicId);
 
-    SubtaskDto createSubtask(CreateSubtaskDto subtaskDto);
+    SubtaskDto createSubtask(CreateSubtaskDto subtaskDto) throws TaskValidationException;
 
-    SubtaskDto updateSubtask(UpdateSubtaskDto updateSubtaskDto);
+    SubtaskDto updateSubtask(UpdateSubtaskDto updateSubtaskDto) throws TaskValidationException;
 
     void removeSubtask(Integer subtaskId);
 
@@ -59,4 +61,6 @@ public interface TaskManager {
     // History's methods
 
     List<TaskDto> getHistory();
+
+    List<TaskDto> getPrioritizedTasks();
 }

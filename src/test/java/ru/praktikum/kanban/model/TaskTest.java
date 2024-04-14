@@ -56,7 +56,7 @@ public class TaskTest {
                         false
                 ),
                 Arguments.of(
-                        new Task(1, "", "", TaskStatus.NEW),
+                        TASK(1, TaskStatus.NEW),
                         EPIC(1, TaskStatus.NEW),
                         false
                 ),

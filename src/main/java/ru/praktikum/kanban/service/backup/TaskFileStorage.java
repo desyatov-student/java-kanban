@@ -15,7 +15,7 @@ import ru.praktikum.kanban.util.Logger;
 
 public class TaskFileStorage {
 
-    private static final String FILE_FIRST_LINE = "id,type,name,description,status,epic";
+    private static final String FILE_FIRST_LINE = "id,type,name,description,status,epic,startTime,duration,endTime";
     private static final String FILE_PREFIX = "tasks";
     private static final String FILE_SUFFIX = ".csv";
 

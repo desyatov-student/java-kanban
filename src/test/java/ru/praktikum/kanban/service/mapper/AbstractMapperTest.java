@@ -12,6 +12,8 @@ import ru.praktikum.kanban.util.AbstractMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ru.praktikum.kanban.helper.TaskFactory.EPIC;
+import static ru.praktikum.kanban.helper.TaskFactory.TASK;
 
 class AbstractMapperTest {
 
@@ -27,8 +29,16 @@ class AbstractMapperTest {
     void shouldMapToTaskEntityToTaskDto() {
         abstractMapper.put(Task.class, (value) -> taskMapper.toDto((Task) value));
 
-        Task task = new Task(1, "", "", TaskStatus.NEW);
-        TaskDto expected = new TaskDto(task.getId(), task.getName(), task.getDescription(), task.getStatus());
+        Task task = TASK(1);
+        TaskDto expected = new TaskDto(
+                task.getId(),
+                task.getName(),
+                task.getDescription(),
+                task.getStatus(),
+                null,
+                null,
+                null
+        );
         TaskDto actual = abstractMapper.tryMap(task);
         assertEquals(expected, actual);
     }
@@ -52,7 +62,7 @@ class AbstractMapperTest {
 
     @Test
     void shouldBeThrowAndAbstractMapperHasNoClassAndNoFunction() {
-        Epic epic = new Epic(1, "", "", TaskStatus.NEW, List.of());
+        Epic epic = EPIC(1);
         assertThrows(IllegalArgumentException.class, () -> abstractMapper.tryMap(epic));
     }
 }

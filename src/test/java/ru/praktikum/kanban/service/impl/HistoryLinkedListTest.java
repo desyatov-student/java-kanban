@@ -12,6 +12,7 @@ import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.Task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static ru.praktikum.kanban.helper.TaskFactory.TASK;
 
 class HistoryLinkedListTest {
 
@@ -159,7 +160,4 @@ class HistoryLinkedListTest {
                 )
         );
     }
-
-    private static Task TASK(Integer id, String name) { return new Task(id, name, "", TaskStatus.NEW); }
-    private static Task TASK(Integer id) { return TASK(id, ""); }
 }

@@ -1,19 +1,25 @@
 package ru.praktikum.kanban.dto;
 
-import lombok.AllArgsConstructor;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 import ru.praktikum.kanban.model.TaskStatus;
 
-@Getter
-@ToString
-@EqualsAndHashCode
-@AllArgsConstructor
-public class UpdateSubtaskDto {
-    @NonNull private final Integer id;
-    @NonNull private final String name;
-    @NonNull private final String description;
-    @NonNull private final TaskStatus status;
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class UpdateSubtaskDto extends UpdateTaskDto {
+
+    public UpdateSubtaskDto(
+            @NonNull Integer id,
+            @NonNull String name,
+            @NonNull String description,
+            @NonNull TaskStatus status,
+            LocalDateTime startTime,
+            Duration duration
+    ) {
+        super(id, name, description, status, startTime, duration);
+    }
+
 }
