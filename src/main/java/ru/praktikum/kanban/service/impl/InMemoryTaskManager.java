@@ -84,8 +84,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public TaskDto updateTask(UpdateTaskDto updateTaskDto) throws TaskValidationException {
-        Task task = repository.getTask(updateTaskDto.getId());
+    public TaskDto updateTask(Integer id, UpdateTaskDto updateTaskDto) throws TaskValidationException {
+        Task task = repository.getTask(id);
         if (task == null) {
             return null;
         }
@@ -96,8 +96,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Optional<TaskDto> getTask(Integer taskId) {
-        Task task = repository.getTask(taskId);
+    public Optional<TaskDto> getTask(Integer id) {
+        Task task = repository.getTask(id);
         if (task == null) {
             return Optional.empty();
         }
@@ -106,8 +106,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void removeTask(Integer taskId) {
-        removeTaskFromRepository(taskId);
+    public void removeTask(Integer id) {
+        removeTaskFromRepository(id);
     }
 
     @Override
@@ -128,8 +128,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Optional<EpicDto> getEpic(Integer epicId) {
-        Epic epic = repository.getEpic(epicId);
+    public Optional<EpicDto> getEpic(Integer id) {
+        Epic epic = repository.getEpic(id);
         if (epic == null) {
             return Optional.empty();
         }
@@ -145,8 +145,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public EpicDto updateEpic(UpdateEpicDto updateEpicDto) {
-        Epic epic = repository.getEpic(updateEpicDto.getId());
+    public EpicDto updateEpic(Integer id, UpdateEpicDto updateEpicDto) {
+        Epic epic = repository.getEpic(id);
         if (epic == null) {
             return null;
         }
@@ -156,8 +156,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void removeEpic(Integer epicId) {
-        Epic epic = repository.getEpic(epicId);
+    public void removeEpic(Integer id) {
+        Epic epic = repository.getEpic(id);
         if (epic == null) {
             return;
         }
@@ -185,8 +185,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Optional<SubtaskDto> getSubtask(Integer subtaskId) {
-        Subtask subtask = repository.getSubtask(subtaskId);
+    public Optional<SubtaskDto> getSubtask(Integer id) {
+        Subtask subtask = repository.getSubtask(id);
         if (subtask == null) {
             return Optional.empty();
         }
@@ -195,8 +195,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<SubtaskDto> getSubtasksWithEpicId(Integer epicId) {
-        Epic epic = repository.getEpic(epicId);
+    public List<SubtaskDto> getSubtasksWithEpicId(Integer id) {
+        Epic epic = repository.getEpic(id);
         if (epic == null) {
             return new ArrayList<>();
         }
@@ -224,8 +224,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public SubtaskDto updateSubtask(UpdateSubtaskDto updateSubtaskDto) throws TaskValidationException {
-        Subtask subtask = repository.getSubtask(updateSubtaskDto.getId());
+    public SubtaskDto updateSubtask(Integer id, UpdateSubtaskDto updateSubtaskDto) throws TaskValidationException {
+        Subtask subtask = repository.getSubtask(id);
         if (subtask == null) {
             return null;
         }
@@ -241,17 +241,17 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void removeSubtask(Integer subtaskId) {
-        Subtask subtask = repository.getSubtask(subtaskId);
+    public void removeSubtask(Integer id) {
+        Subtask subtask = repository.getSubtask(id);
         if (subtask == null) {
             return;
         }
-        removeSubtaskFromRepository(subtaskId);
+        removeSubtaskFromRepository(id);
         Epic epic = repository.getEpic(subtask.getEpicId());
         if (epic == null) {
             return;
         }
-        epic.subtasks.remove(subtaskId);
+        epic.subtasks.remove(id);
         updateEpicData(epic);
     }
 

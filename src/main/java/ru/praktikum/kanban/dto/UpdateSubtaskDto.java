@@ -12,14 +12,13 @@ import ru.praktikum.kanban.model.TaskStatus;
 public class UpdateSubtaskDto extends UpdateTaskDto {
 
     public UpdateSubtaskDto(
-            @NonNull Integer id,
             @NonNull String name,
             @NonNull String description,
             @NonNull TaskStatus status,
             LocalDateTime startTime,
             Duration duration
     ) {
-        super(id, name, description, status, startTime, duration);
+        super(name, description, status, startTime, duration);
     }
 
 }

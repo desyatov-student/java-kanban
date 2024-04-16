@@ -14,7 +14,6 @@ import ru.praktikum.kanban.model.TaskStatus;
 @EqualsAndHashCode
 @AllArgsConstructor
 public class UpdateTaskDto {
-    @NonNull private final Integer id;
     @NonNull private final String name;
     @NonNull private final String description;
     @NonNull private final TaskStatus status;

@@ -20,11 +20,11 @@ public interface TaskManager {
 
     TaskDto createTask(CreateTaskDto createTaskDto) throws TaskValidationException;
 
-    TaskDto updateTask(UpdateTaskDto updateTaskDto) throws TaskValidationException;
+    TaskDto updateTask(Integer id, UpdateTaskDto updateTaskDto) throws TaskValidationException;
 
-    Optional<TaskDto> getTask(Integer taskId);
+    Optional<TaskDto> getTask(Integer id);
 
-    void removeTask(Integer taskId);
+    void removeTask(Integer id);
 
     void removeAllTasks();
 
@@ -32,13 +32,13 @@ public interface TaskManager {
 
     List<EpicDto> getAllEpics();
 
-    Optional<EpicDto> getEpic(Integer epicId);
+    Optional<EpicDto> getEpic(Integer id);
 
     EpicDto createEpic(CreateEpicDto epicDto);
 
-    EpicDto updateEpic(UpdateEpicDto updateEpicDto);
+    EpicDto updateEpic(Integer id, UpdateEpicDto updateEpicDto);
 
-    void removeEpic(Integer epicId);
+    void removeEpic(Integer id);
 
     void removeAllEpics();
 
@@ -46,15 +46,15 @@ public interface TaskManager {
 
     List<SubtaskDto> getAllSubtasks();
 
-    Optional<SubtaskDto> getSubtask(Integer subtaskId);
+    Optional<SubtaskDto> getSubtask(Integer id);
 
-    List<SubtaskDto> getSubtasksWithEpicId(Integer epicId);
+    List<SubtaskDto> getSubtasksWithEpicId(Integer id);
 
     SubtaskDto createSubtask(CreateSubtaskDto subtaskDto) throws TaskValidationException;
 
-    SubtaskDto updateSubtask(UpdateSubtaskDto updateSubtaskDto) throws TaskValidationException;
+    SubtaskDto updateSubtask(Integer id, UpdateSubtaskDto updateSubtaskDto) throws TaskValidationException;
 
-    void removeSubtask(Integer subtaskId);
+    void removeSubtask(Integer id);
 
     void removeAllSubtasks();
 
