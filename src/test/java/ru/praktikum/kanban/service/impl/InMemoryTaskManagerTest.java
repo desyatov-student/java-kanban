@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.verification.VerificationMode;
 import ru.praktikum.kanban.dto.CreateEpicDto;
 import ru.praktikum.kanban.dto.CreateSubtaskDto;
 import ru.praktikum.kanban.dto.CreateTaskDto;
@@ -40,6 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.praktikum.kanban.helper.TaskFactory.DEFAULT_DESCRIPTION;
 import static ru.praktikum.kanban.helper.TaskFactory.DEFAULT_NAME;
+import static ru.praktikum.kanban.helper.TaskFactory.EPIC;
 import static ru.praktikum.kanban.helper.TaskFactory.EPIC_DTO;
 import static ru.praktikum.kanban.helper.TaskFactory.SUBTASK;
 import static ru.praktikum.kanban.helper.TaskFactory.SUBTASK_DTO;
@@ -83,6 +85,7 @@ class InMemoryTaskManagerTest {
                 ),
                 taskManager.getAllEpics()
         );
+        Mockito.verify(repository, Mockito.times(1)).saveEpic(EPIC(epic.getId()));
     }
 
     @Test
@@ -146,6 +149,7 @@ class InMemoryTaskManagerTest {
                 ),
                 taskManager.getAllEpics()
         );
+        Mockito.verify(repository, Mockito.times(2)).saveEpic(EPIC(epic.getId()));
     }
 
     @Test
@@ -195,6 +199,8 @@ class InMemoryTaskManagerTest {
                 ),
                 taskManager.getAllEpics()
         );
+        Mockito.verify(repository, Mockito.times(1)).saveSubtask(SUBTASK(subtask.getId()));
+        Mockito.verify(repository, Mockito.times(2)).saveEpic(EPIC(epic.getId()));
     }
 
     @Test
@@ -391,6 +397,8 @@ class InMemoryTaskManagerTest {
                 ),
                 taskManager.getAllEpics()
         );
+        Mockito.verify(repository, Mockito.times(1)).saveSubtask(SUBTASK(subtask1.getId()));
+        Mockito.verify(repository, Mockito.times(3)).saveEpic(EPIC(epic.getId()));
 
         SubtaskDto subtask2 = taskManager.createSubtask(CREATE_SUBTASK(epic.getId()));
 
@@ -476,6 +484,9 @@ class InMemoryTaskManagerTest {
                 ),
                 taskManager.getAllEpics()
         );
+
+        Mockito.verify(repository, Mockito.times(3)).saveSubtask(Mockito.any());
+        Mockito.verify(repository, Mockito.times(7)).saveEpic(EPIC(epic.getId()));
     }
 
     @Test
@@ -529,6 +540,7 @@ class InMemoryTaskManagerTest {
                 ),
                 taskManager.getAllTasks()
         );
+        Mockito.verify(repository, Mockito.times(1)).saveTask(TASK(task.getId()));
     }
 
     @Test
@@ -536,7 +548,7 @@ class InMemoryTaskManagerTest {
         // given
         LocalDateTime startTime = LocalDateTime.now();
         Duration duration = Duration.ofHours(1);
-        taskManager.createTask(CREATE_TASK(startTime, duration));
+        TaskDto taskDto = taskManager.createTask(CREATE_TASK(startTime, duration));
 
         // when
         TaskValidationException exception = assertThrows(
@@ -546,6 +558,7 @@ class InMemoryTaskManagerTest {
 
         // then
         assertEquals("Could not validate task. Please change the start time", exception.getMessage());
+        Mockito.verify(repository, Mockito.times(1)).saveTask(TASK(taskDto.getId()));
     }
 
     @Test
@@ -565,6 +578,7 @@ class InMemoryTaskManagerTest {
 
         // then
         assertEquals("Could not validate task. Please change the start time", exception.getMessage());
+        Mockito.verify(repository, Mockito.times(1)).saveTask(TASK(taskDto1.getId()));
     }
 
     @Test
@@ -587,6 +601,8 @@ class InMemoryTaskManagerTest {
                 TASK_DTO(task.getId(), TaskStatus.DONE),
                 taskManager.getTask(task.getId()).get()
         );
+
+        Mockito.verify(repository, Mockito.times(2)).saveTask(TASK(task.getId()));
     }
 
     @Test

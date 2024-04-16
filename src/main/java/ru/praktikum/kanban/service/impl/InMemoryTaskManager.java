@@ -91,6 +91,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         validateUpdateForTask(task, updateTaskDto);
         taskMapper.updateEntityFromDto(updateTaskDto, task);
+        repository.saveTask(task);
         return taskMapper.toDto(task);
     }
 
@@ -150,6 +151,7 @@ public class InMemoryTaskManager implements TaskManager {
             return null;
         }
         epicMapper.updateEntityFromDto(updateEpicDto, epic);
+        repository.saveEpic(epic);
         return getEpicDtoWithEpicEntity(epic);
     }
 
@@ -218,7 +220,6 @@ public class InMemoryTaskManager implements TaskManager {
 
         repository.saveSubtask(subtask);
         updateEpicData(epic);
-
         return subtaskMapper.toDto(subtask);
     }
 
@@ -388,6 +389,7 @@ public class InMemoryTaskManager implements TaskManager {
         epic.setStartTime(epicTime.getStartTime());
         epic.setDuration(epicTime.getDuration());
         epic.setEndTime(epicTime.getEndTime());
+        repository.saveEpic(epic);
     }
 
     private EpicDto getEpicDtoWithEpicEntity(Epic epic) {
