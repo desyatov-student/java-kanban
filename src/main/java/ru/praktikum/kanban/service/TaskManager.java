@@ -20,7 +20,7 @@ public interface TaskManager {
 
     TaskDto createTask(CreateTaskDto createTaskDto) throws TaskValidationException;
 
-    TaskDto updateTask(Integer id, UpdateTaskDto updateTaskDto) throws TaskValidationException;
+    Optional<TaskDto> updateTask(Integer id, UpdateTaskDto updateTaskDto) throws TaskValidationException;
 
     Optional<TaskDto> getTask(Integer id);
 

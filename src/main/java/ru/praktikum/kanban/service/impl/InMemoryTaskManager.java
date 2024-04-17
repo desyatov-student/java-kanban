@@ -84,15 +84,15 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public TaskDto updateTask(Integer id, UpdateTaskDto updateTaskDto) throws TaskValidationException {
+    public Optional<TaskDto> updateTask(Integer id, UpdateTaskDto updateTaskDto) throws TaskValidationException {
         Task task = repository.getTask(id);
         if (task == null) {
-            return null;
+            return Optional.empty();
         }
         validateUpdateForTask(task, updateTaskDto);
         taskMapper.updateEntityFromDto(updateTaskDto, task);
         repository.saveTask(task);
-        return taskMapper.toDto(task);
+        return Optional.of(taskMapper.toDto(task));
     }
 
     @Override

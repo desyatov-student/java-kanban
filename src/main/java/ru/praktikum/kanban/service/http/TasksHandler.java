@@ -1,13 +1,10 @@
 package ru.praktikum.kanban.service.http;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 import ru.praktikum.kanban.dto.CreateTaskDto;
@@ -16,8 +13,6 @@ import ru.praktikum.kanban.dto.UpdateTaskDto;
 import ru.praktikum.kanban.exception.PreconditionsException;
 import ru.praktikum.kanban.exception.TaskValidationException;
 import ru.praktikum.kanban.service.TaskManager;
-import ru.praktikum.kanban.type.adapter.DurationAdapter;
-import ru.praktikum.kanban.type.adapter.LocalDateTimeAdapter;
 import ru.praktikum.kanban.util.Logger;
 
 import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
@@ -43,11 +38,7 @@ public class TasksHandler implements HttpHandler {
                 .handle(RequestMethod.DELETE, "/tasks/{id}", this::removeTask)
                 .handle(RequestMethod.PATCH, "/tasks/{id}", this::updateTask);
 
-        this.gson = new GsonBuilder()
-                .serializeNulls()
-                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
-                .registerTypeAdapter(Duration.class, new DurationAdapter())
-                .create();
+        this.gson = GsonFactory.taskGson();
     }
 
     @Override
@@ -97,21 +88,27 @@ public class TasksHandler implements HttpHandler {
     private void updateTask(Map<String, String> params, HttpExchange exchange) throws IOException {
         String body = new String(exchange.getRequestBody().readAllBytes(), DEFAULT_CHARSET);
         Optional<Integer> taskIdOpt = getTaskId(params);
-        if (taskIdOpt.isEmpty()) {
+        if (taskIdOpt.isEmpty() || body.isBlank()) {
             endpointHandler.writeResponse(exchange, SC_BAD_REQUEST);
             return;
         }
         int taskId = taskIdOpt.get();
         try {
             UpdateTaskDto updateTaskDto = gson.fromJson(body, UpdateTaskDto.class);
-            TaskDto taskDto = taskManager.updateTask(taskId, updateTaskDto);
+            Preconditions.checkState(updateTaskDto);
+            Optional<TaskDto> taskDtoOpt = taskManager.updateTask(taskId, updateTaskDto);
+            if (taskDtoOpt.isEmpty()) {
+                endpointHandler.writeResponse(exchange, SC_NOT_FOUND);
+                return;
+            }
+            TaskDto taskDto = taskDtoOpt.get();
             String taskJson = gson.toJson(taskDto);
             logger.info("updateTask. success");
             endpointHandler.writeResponse(exchange, taskJson, SC_OK);
         } catch (TaskValidationException e) {
             logger.error("updateTask. Could not update task", e);
             endpointHandler.writeResponse(exchange, SC_NOT_ACCEPTABLE);
-        } catch (JsonSyntaxException e) {
+        } catch (JsonSyntaxException | PreconditionsException e) {
             logger.error("updateTask. Could not parse body: " + body, e);
             endpointHandler.writeResponse(exchange, SC_BAD_REQUEST);
         }

@@ -90,6 +90,8 @@ public final class TaskFactory {
             LocalDateTime startTime,
             Duration duration
     ) { return new CreateTaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, startTime, duration); }
+
+    public static UpdateTaskDto UPDATE_TASK = UPDATE_TASK(null, null);
     public static UpdateTaskDto UPDATE_TASK(TaskStatus status) { return new UpdateTaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, status, null, null); }
     public static UpdateTaskDto UPDATE_TASK(
             LocalDateTime startTime,
