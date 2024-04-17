@@ -12,13 +12,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.praktikum.kanban.dto.CreateEpicDto;
 import ru.praktikum.kanban.dto.CreateSubtaskDto;
-import ru.praktikum.kanban.dto.CreateTaskDto;
 import ru.praktikum.kanban.dto.EpicDto;
 import ru.praktikum.kanban.dto.SubtaskDto;
 import ru.praktikum.kanban.dto.TaskDto;
-import ru.praktikum.kanban.dto.UpdateEpicDto;
-import ru.praktikum.kanban.dto.UpdateSubtaskDto;
-import ru.praktikum.kanban.dto.UpdateTaskDto;
 import ru.praktikum.kanban.exception.TaskValidationException;
 import ru.praktikum.kanban.model.Subtask;
 import ru.praktikum.kanban.model.Task;
@@ -37,14 +33,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static ru.praktikum.kanban.helper.TaskFactory.DEFAULT_DESCRIPTION;
-import static ru.praktikum.kanban.helper.TaskFactory.DEFAULT_NAME;
+import static ru.praktikum.kanban.helper.TaskFactory.CREATE_EPIC;
+import static ru.praktikum.kanban.helper.TaskFactory.CREATE_SUBTASK;
+import static ru.praktikum.kanban.helper.TaskFactory.CREATE_TASK;
 import static ru.praktikum.kanban.helper.TaskFactory.EPIC;
 import static ru.praktikum.kanban.helper.TaskFactory.EPIC_DTO;
 import static ru.praktikum.kanban.helper.TaskFactory.SUBTASK;
 import static ru.praktikum.kanban.helper.TaskFactory.SUBTASK_DTO;
 import static ru.praktikum.kanban.helper.TaskFactory.TASK;
 import static ru.praktikum.kanban.helper.TaskFactory.TASK_DTO;
+import static ru.praktikum.kanban.helper.TaskFactory.UPDATE_EPIC;
+import static ru.praktikum.kanban.helper.TaskFactory.UPDATE_SUBTASK;
+import static ru.praktikum.kanban.helper.TaskFactory.UPDATE_TASK;
 
 @ExtendWith(MockitoExtension.class)
 class InMemoryTaskManagerTest {
@@ -730,29 +730,4 @@ class InMemoryTaskManagerTest {
         // then
         assertEquals(expectedTasks, actualTasks);
     }
-
-
-    private CreateEpicDto CREATE_EPIC() { return new CreateEpicDto(DEFAULT_NAME, DEFAULT_DESCRIPTION); }
-    private UpdateEpicDto UPDATE_EPIC(String name) { return new UpdateEpicDto(name, DEFAULT_DESCRIPTION); }
-    private CreateSubtaskDto CREATE_SUBTASK(Integer epicId) { return CREATE_SUBTASK(epicId, null, null); }
-    private CreateSubtaskDto CREATE_SUBTASK(
-            Integer epicId,
-            LocalDateTime startTime,
-            Duration duration
-    ) { return new CreateSubtaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, epicId, startTime, duration); }
-    private UpdateSubtaskDto UPDATE_SUBTASK(TaskStatus status) { return new UpdateSubtaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, status, null, null); }
-    private UpdateSubtaskDto UPDATE_SUBTASK(
-            LocalDateTime startTime,
-            Duration duration
-    ) { return new UpdateSubtaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, TaskStatus.NEW, startTime, duration); }
-    private final CreateTaskDto CREATE_TASK = CREATE_TASK(null, null);
-    private CreateTaskDto CREATE_TASK(
-            LocalDateTime startTime,
-            Duration duration
-    ) { return new CreateTaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, startTime, duration); }
-    private UpdateTaskDto UPDATE_TASK(TaskStatus status) { return new UpdateTaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, status, null, null); }
-    private UpdateTaskDto UPDATE_TASK(
-            LocalDateTime startTime,
-            Duration duration
-    ) { return new UpdateTaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, TaskStatus.NEW, startTime, duration); }
 }
