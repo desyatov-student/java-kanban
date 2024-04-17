@@ -145,14 +145,14 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public EpicDto updateEpic(Integer id, UpdateEpicDto updateEpicDto) {
+    public Optional<EpicDto> updateEpic(Integer id, UpdateEpicDto updateEpicDto) {
         Epic epic = repository.getEpic(id);
         if (epic == null) {
-            return null;
+            return Optional.empty();
         }
         epicMapper.updateEntityFromDto(updateEpicDto, epic);
         repository.saveEpic(epic);
-        return getEpicDtoWithEpicEntity(epic);
+        return Optional.of(getEpicDtoWithEpicEntity(epic));
     }
 
     @Override

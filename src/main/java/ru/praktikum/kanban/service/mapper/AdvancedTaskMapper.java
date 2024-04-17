@@ -47,7 +47,7 @@ public class AdvancedTaskMapper {
         valuesToTaskMapper.put(TaskType.SUBTASK, input -> {
             Subtask subtask = subtaskMapper.toEntity(input.propertiesValues);
             Epic epic = input.tasksContainer.epics.get(subtask.getEpicId());
-            epic.subtasks.add(subtask.getEpicId());
+            epic.subtasks.add(subtask.getId());
             input.tasksContainer.addSubtask(subtask);
             return subtask;
         });

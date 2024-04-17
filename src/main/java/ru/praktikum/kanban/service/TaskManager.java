@@ -36,7 +36,7 @@ public interface TaskManager {
 
     EpicDto createEpic(CreateEpicDto epicDto);
 
-    EpicDto updateEpic(Integer id, UpdateEpicDto updateEpicDto);
+    Optional<EpicDto> updateEpic(Integer id, UpdateEpicDto updateEpicDto);
 
     void removeEpic(Integer id);
 

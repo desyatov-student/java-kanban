@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import ru.praktikum.kanban.exception.TaskFileStorageException;
 import ru.praktikum.kanban.helper.CollectionsHelper;
 import ru.praktikum.kanban.model.Epic;
+import ru.praktikum.kanban.model.Subtask;
 import ru.praktikum.kanban.model.Task;
 import ru.praktikum.kanban.service.mapper.AdvancedTaskMapper;
 
@@ -50,9 +51,14 @@ public class TaskFileStorageTest {
         if (!tasksContainer.epics.isEmpty()) {
             Epic expectedEpic = tasksContainer.epics.get(5);
             Epic actualEpic = actualBackup.tasksContainer.epics.get(5);
+            assertEquals(expectedEpic.getId(), actualEpic.getId());
+            assertEquals(expectedEpic.getName(), actualEpic.getName());
+            assertEquals(expectedEpic.getDescription(), actualEpic.getDescription());
+            assertEquals(expectedEpic.getStatus(), actualEpic.getStatus());
             assertEquals(expectedEpic.getStartTime(), actualEpic.getStartTime());
             assertEquals(expectedEpic.getDuration(), actualEpic.getDuration());
             assertEquals(expectedEpic.getEndTime(), actualEpic.getEndTime());
+            assertEquals(expectedEpic.subtasks, actualEpic.subtasks);
 
             assertNotNull(actualEpic.getStartTime());
             assertNotNull(actualEpic.getDuration());
@@ -60,6 +66,10 @@ public class TaskFileStorageTest {
 
             Task expectedTask = tasksContainer.tasks.get(3);
             Task actualTask = actualBackup.tasksContainer.tasks.get(3);
+            assertEquals(expectedTask.getId(), actualTask.getId());
+            assertEquals(expectedTask.getName(), actualTask.getName());
+            assertEquals(expectedTask.getDescription(), actualTask.getDescription());
+            assertEquals(expectedTask.getStatus(), actualTask.getStatus());
             assertEquals(expectedTask.getStartTime(), actualTask.getStartTime());
             assertEquals(expectedTask.getDuration(), actualTask.getDuration());
             assertEquals(expectedTask.getEndTime(), actualTask.getEndTime());
@@ -67,6 +77,20 @@ public class TaskFileStorageTest {
             assertNotNull(actualTask.getStartTime());
             assertNotNull(actualTask.getDuration());
             assertNotNull(actualTask.getEndTime());
+
+            Subtask expectedSubtask = tasksContainer.subtasks.get(7);
+            Subtask actualSubtask = actualBackup.tasksContainer.subtasks.get(7);
+            assertEquals(expectedSubtask.getId(), actualSubtask.getId());
+            assertEquals(expectedSubtask.getName(), actualSubtask.getName());
+            assertEquals(expectedSubtask.getDescription(), actualSubtask.getDescription());
+            assertEquals(expectedSubtask.getStatus(), actualSubtask.getStatus());
+            assertEquals(expectedSubtask.getStartTime(), actualSubtask.getStartTime());
+            assertEquals(expectedSubtask.getDuration(), actualSubtask.getDuration());
+            assertEquals(expectedSubtask.getEndTime(), actualSubtask.getEndTime());
+
+            assertNotNull(actualSubtask.getStartTime());
+            assertNotNull(actualSubtask.getDuration());
+            assertNotNull(actualSubtask.getEndTime());
         }
     }
 
@@ -77,7 +101,7 @@ public class TaskFileStorageTest {
         return Stream.of(
                 Arguments.of(
                         CollectionsHelper.tasksListsToContainer(
-                                List.of(EPIC(5, List.of(6), startTime, duration, endTime)),
+                                List.of(EPIC(5, List.of(6, 7), startTime, duration, endTime)),
                                 List.of(SUBTASK(6, 5), SUBTASK(7, 5, startTime, duration)),
                                 List.of(TASK(1), TASK(2), TASK(3, startTime, duration))
                         ),

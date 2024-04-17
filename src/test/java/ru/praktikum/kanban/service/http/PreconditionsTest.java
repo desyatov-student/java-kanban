@@ -17,14 +17,14 @@ class PreconditionsTest {
     Gson gson = GsonFactory.taskGson();
 
     @Test
-    void checkState_DoesNotThrowException_CreateTaskHasNameAndDescription() {
+    void checkRequiredValues_DoesNotThrowException_CreateTaskHasNameAndDescription() {
         // Given
         // Then
-        assertDoesNotThrow(() -> Preconditions.checkState(CREATE_TASK));
+        assertDoesNotThrow(() -> Preconditions.checkRequiredValues(CREATE_TASK));
     }
 
     @Test
-    void checkState_ThrowsPreconditionsException_CreateTaskDoesNotHaveDescription() {
+    void checkRequiredValues_ThrowsPreconditionsException_CreateTaskDoesNotHaveDescription() {
         // Given
         CreateTaskDto createTaskDto = gson.fromJson("{\"name\":\"name\"}", CreateTaskDto.class);
 
@@ -32,7 +32,7 @@ class PreconditionsTest {
 
         PreconditionsException exception = assertThrows(
                 PreconditionsException.class,
-                () -> Preconditions.checkState(createTaskDto)
+                () -> Preconditions.checkRequiredValues(createTaskDto)
         );
 
         // Then
@@ -40,7 +40,7 @@ class PreconditionsTest {
     }
 
     @Test
-    void checkState_ThrowsPreconditionsException_CreateTaskDoesNotHaveName() {
+    void checkRequiredValues_ThrowsPreconditionsException_CreateTaskDoesNotHaveName() {
         // Given
         CreateTaskDto createTaskDto = gson.fromJson("{\"description\":\"description\"}", CreateTaskDto.class);
 
@@ -48,7 +48,7 @@ class PreconditionsTest {
 
         PreconditionsException exception = assertThrows(
                 PreconditionsException.class,
-                () -> Preconditions.checkState(createTaskDto)
+                () -> Preconditions.checkRequiredValues(createTaskDto)
         );
 
         // Then
@@ -56,14 +56,14 @@ class PreconditionsTest {
     }
 
     @Test
-    void testCheckState_DoesNotThrowException_UpdateTaskHasAnyValue() {
+    void checkEmpty_DoesAnyNotThrowException_UpdateTaskHasAnyValue() {
         // Given
         // Then
-        assertDoesNotThrow(() -> Preconditions.checkState(UPDATE_TASK));
+        assertDoesNotThrow(() -> Preconditions.checkEmpty(UPDATE_TASK));
     }
 
     @Test
-    void testCheckState_ThrowsPreconditionsException_UpdateTaskDoesNotHaveValues() {
+    void checkEmpty_ThrowsPreconditionsException_UpdateTaskDoesAnyNotHaveValues() {
         // Given
         UpdateTaskDto updateTaskDto = gson.fromJson("{}", UpdateTaskDto.class);
 
@@ -71,7 +71,7 @@ class PreconditionsTest {
 
         PreconditionsException exception = assertThrows(
                 PreconditionsException.class,
-                () -> Preconditions.checkState(updateTaskDto)
+                () -> Preconditions.checkEmpty(updateTaskDto)
         );
 
         // Then

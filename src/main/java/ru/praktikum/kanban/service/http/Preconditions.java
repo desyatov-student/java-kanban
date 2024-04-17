@@ -2,23 +2,29 @@ package ru.praktikum.kanban.service.http;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
-import ru.praktikum.kanban.dto.CreateTaskDto;
-import ru.praktikum.kanban.dto.UpdateTaskDto;
+import java.util.stream.Collectors;
 import ru.praktikum.kanban.exception.PreconditionsException;
 
 public final class Preconditions {
     private Preconditions() {
     }
 
-    public static void checkState(CreateTaskDto createTaskDto) throws PreconditionsException {
-        checkNotNull(createTaskDto.getName(), "Property name is null");
-        checkNotNull(createTaskDto.getDescription(), "Property description is null");
+    public static <T> void checkRequiredValues(T object) throws PreconditionsException {
+        List<String> required = List.of("name", "description");
+        List<Field> fields = Arrays.stream(object.getClass().getDeclaredFields())
+                .filter(field -> required.contains(field.getName()))
+                .collect(Collectors.toList());
+        for (Field field : fields) {
+            Object value = getObjectValue(field, object);
+            checkNotNull(value, String.format("Property %s is null", field.getName()));
+        }
     }
 
-    public static void checkState(UpdateTaskDto updateTaskDto) throws PreconditionsException {
-        boolean hasValue = Arrays.stream(UpdateTaskDto.class.getDeclaredFields())
-                .map(field -> getObjectValue(field, updateTaskDto))
+    public static <T> void checkEmpty(T object) throws PreconditionsException {
+        boolean hasValue = Arrays.stream(object.getClass().getDeclaredFields())
+                .map(field -> getObjectValue(field, object))
                 .anyMatch(Objects::nonNull);
         if (hasValue) {
             return;

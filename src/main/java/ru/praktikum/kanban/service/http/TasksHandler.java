@@ -74,7 +74,7 @@ public class TasksHandler implements HttpHandler {
                 throw new PreconditionsException("Body is empty");
             }
             CreateTaskDto createTaskDto = gson.fromJson(body, CreateTaskDto.class);
-            Preconditions.checkState(createTaskDto);
+            Preconditions.checkRequiredValues(createTaskDto);
             TaskDto taskDto = taskManager.createTask(createTaskDto);
             String taskJson = gson.toJson(taskDto);
             logger.info("createTask. success");
@@ -98,7 +98,7 @@ public class TasksHandler implements HttpHandler {
         int taskId = taskIdOpt.get();
         try {
             UpdateTaskDto updateTaskDto = gson.fromJson(body, UpdateTaskDto.class);
-            Preconditions.checkState(updateTaskDto);
+            Preconditions.checkEmpty(updateTaskDto);
             Optional<TaskDto> taskDtoOpt = taskManager.updateTask(taskId, updateTaskDto);
             if (taskDtoOpt.isEmpty()) {
                 endpointHandler.writeResponse(exchange, SC_NOT_FOUND);

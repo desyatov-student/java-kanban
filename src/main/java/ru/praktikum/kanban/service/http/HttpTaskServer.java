@@ -30,7 +30,7 @@ public class HttpTaskServer {
     private HttpServer createHttpServer() {
         try {
             HttpServer httpServer = HttpServer.create(new InetSocketAddress(PORT), 0);
-            httpServer.createContext("/pics", new EpicsHandler(taskManager));
+            httpServer.createContext("/epics", new EpicsHandler(taskManager));
             httpServer.createContext("/subtask", new SubtasksHandler(taskManager));
             httpServer.createContext("/tasks", new TasksHandler(taskManager));
             httpServer.createContext("/history", new HistoryHandler(taskManager));
