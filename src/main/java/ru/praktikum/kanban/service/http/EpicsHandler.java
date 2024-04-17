@@ -12,13 +12,11 @@ import ru.praktikum.kanban.dto.EpicDto;
 import ru.praktikum.kanban.dto.TaskDto;
 import ru.praktikum.kanban.dto.UpdateEpicDto;
 import ru.praktikum.kanban.exception.PreconditionsException;
-import ru.praktikum.kanban.exception.TaskValidationException;
 import ru.praktikum.kanban.service.TaskManager;
 import ru.praktikum.kanban.util.Logger;
 
 import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.apache.http.HttpStatus.SC_CREATED;
-import static org.apache.http.HttpStatus.SC_NOT_ACCEPTABLE;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;
 import static ru.praktikum.kanban.service.http.EndpointHandler.DEFAULT_CHARSET;
