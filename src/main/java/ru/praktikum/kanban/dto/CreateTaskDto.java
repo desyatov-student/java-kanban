@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
-import ru.praktikum.kanban.model.TaskStatus;
 
 @Getter
 @AllArgsConstructor
@@ -16,7 +15,6 @@ import ru.praktikum.kanban.model.TaskStatus;
 public class CreateTaskDto {
     @NonNull private final String name;
     @NonNull private final String description;
-    @NonNull private final TaskStatus status = TaskStatus.NEW;
     private final LocalDateTime startTime;
     private final Duration duration;
 }

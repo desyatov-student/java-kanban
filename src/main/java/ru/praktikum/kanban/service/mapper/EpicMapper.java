@@ -1,9 +1,11 @@
 package ru.praktikum.kanban.service.mapper;
 
 import java.util.List;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import ru.praktikum.kanban.dto.CreateEpicDto;
 import ru.praktikum.kanban.dto.EpicDto;
 import ru.praktikum.kanban.dto.SubtaskDto;
@@ -33,6 +35,7 @@ public interface EpicMapper {
     @Mapping(target = "startTime", ignore = true)
     @Mapping(target = "duration", ignore = true)
     @Mapping(target = "endTime", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromDto(UpdateEpicDto dto, @MappingTarget Epic epic);
 
     default String toString(Epic epic) {
@@ -49,6 +52,7 @@ public interface EpicMapper {
         );
     }
 
+    @Mapping(target = "status", expression = "java(TaskStatus.NEW)")
     @Mapping(target = "subtasks", expression = "java(new ArrayList<Integer>())")
     @Mapping(target = "startTime", ignore = true)
     @Mapping(target = "duration", ignore = true)

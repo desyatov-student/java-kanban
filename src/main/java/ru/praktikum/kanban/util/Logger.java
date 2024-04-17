@@ -26,6 +26,10 @@ public class Logger {
         print(Level.INFO, message, null);
     }
 
+    public void info(String message, Throwable exception) {
+        print(Level.INFO, message, exception);
+    }
+
     public void error(String message) {
         error(message, null);
     }

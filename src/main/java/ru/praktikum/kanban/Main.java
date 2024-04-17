@@ -80,14 +80,6 @@ public class Main {
         taskManager.getEpic(epic.getId());
         System.out.println(taskManager.getHistory());
 
-        System.out.println("Удаляем задачу...");
-        taskManager.removeTask(task1.getId());
-
-        System.out.println(taskManager.getHistory());
-
-        System.out.println("Удаляем эпик с подзадачами...");
-        taskManager.removeEpic(epic.getId());
-
         System.out.println();
         System.out.println("1️⃣ ****** Данные в первом менеджере: ******");
         System.out.println(taskManager.getAllEpics());

@@ -14,7 +14,7 @@ public final class TimeUtils {
         try {
             result = LocalDateTime.parse(value);
         } catch (Exception e) {
-            logger.error("Enable to parse LocalDateTime from string: " + value, e);
+            logger.info("Enable to parse LocalDateTime from string: " + value, e);
         }
         return Optional.ofNullable(result);
     }
@@ -24,7 +24,7 @@ public final class TimeUtils {
         try {
             result = Duration.ofMinutes(Long.parseLong(value));
         } catch (Exception e) {
-            logger.error("Enable to parse Duration from string: " + value, e);
+            logger.info("Enable to parse Duration from string: " + value, e);
         }
         return Optional.ofNullable(result);
     }
