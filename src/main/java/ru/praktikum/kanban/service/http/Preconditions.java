@@ -7,19 +7,13 @@ import ru.praktikum.kanban.dto.CreateTaskDto;
 import ru.praktikum.kanban.dto.UpdateTaskDto;
 import ru.praktikum.kanban.exception.PreconditionsException;
 
-import static lombok.Lombok.checkNotNull;
-
 public final class Preconditions {
     private Preconditions() {
     }
 
     public static void checkState(CreateTaskDto createTaskDto) throws PreconditionsException {
-        try {
-            checkNotNull(createTaskDto.getName(), "Property name is null");
-            checkNotNull(createTaskDto.getDescription(), "Property description is null");
-        } catch (NullPointerException e) {
-            throw new PreconditionsException(e.getMessage());
-        }
+        checkNotNull(createTaskDto.getName(), "Property name is null");
+        checkNotNull(createTaskDto.getDescription(), "Property description is null");
     }
 
     public static void checkState(UpdateTaskDto updateTaskDto) throws PreconditionsException {
@@ -38,6 +32,12 @@ public final class Preconditions {
             return field.get(object);
         } catch (IllegalAccessException e) {
             return null;
+        }
+    }
+
+    public static <T> void checkNotNull(T value, String message) throws PreconditionsException {
+        if (value == null) {
+            throw new PreconditionsException(message);
         }
     }
 }

@@ -70,6 +70,9 @@ public class TasksHandler implements HttpHandler {
     private void createTask(HttpExchange exchange) throws IOException {
         String body = new String(exchange.getRequestBody().readAllBytes(), DEFAULT_CHARSET);
         try {
+            if (body.isBlank()) {
+                throw new PreconditionsException("Body is empty");
+            }
             CreateTaskDto createTaskDto = gson.fromJson(body, CreateTaskDto.class);
             Preconditions.checkState(createTaskDto);
             TaskDto taskDto = taskManager.createTask(createTaskDto);
