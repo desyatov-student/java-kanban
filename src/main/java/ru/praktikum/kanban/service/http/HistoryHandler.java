@@ -5,7 +5,6 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import ru.praktikum.kanban.service.TaskManager;
-import ru.praktikum.kanban.util.Logger;
 
 import static org.apache.http.HttpStatus.SC_OK;
 

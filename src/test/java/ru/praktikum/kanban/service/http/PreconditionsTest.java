@@ -5,12 +5,13 @@ import org.junit.jupiter.api.Test;
 import ru.praktikum.kanban.dto.CreateTaskDto;
 import ru.praktikum.kanban.dto.UpdateTaskDto;
 import ru.praktikum.kanban.exception.PreconditionsException;
+import ru.praktikum.kanban.model.TaskStatus;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static ru.praktikum.kanban.helper.TaskFactory.CREATE_TASK;
-import static ru.praktikum.kanban.helper.TaskFactory.UPDATE_TASK;
+import static ru.praktikum.kanban.helper.TaskFactory.CREATE_SUBTASK;
+import static ru.praktikum.kanban.helper.TaskFactory.UPDATE_SUBTASK;
 
 class PreconditionsTest {
 
@@ -20,7 +21,7 @@ class PreconditionsTest {
     void checkRequiredValues_DoesNotThrowException_CreateTaskHasNameAndDescription() {
         // Given
         // Then
-        assertDoesNotThrow(() -> Preconditions.checkRequiredValues(CREATE_TASK));
+        assertDoesNotThrow(() -> Preconditions.checkRequiredValues(CREATE_SUBTASK));
     }
 
     @Test
@@ -59,7 +60,7 @@ class PreconditionsTest {
     void checkEmpty_DoesAnyNotThrowException_UpdateTaskHasAnyValue() {
         // Given
         // Then
-        assertDoesNotThrow(() -> Preconditions.checkEmpty(UPDATE_TASK));
+        assertDoesNotThrow(() -> Preconditions.checkEmpty(UPDATE_SUBTASK(TaskStatus.NEW)));
     }
 
     @Test

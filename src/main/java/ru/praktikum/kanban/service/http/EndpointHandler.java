@@ -95,7 +95,7 @@ public class EndpointHandler {
             } else {
                 biHandler.handle(endpointData.getParams(), exchange);
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             logger.error("Failed handle HttpExchange", e);
             writeResponse(exchange, SC_INTERNAL_SERVER_ERROR);
         }

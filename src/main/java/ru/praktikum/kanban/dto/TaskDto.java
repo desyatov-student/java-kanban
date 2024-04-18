@@ -1,14 +1,13 @@
 package ru.praktikum.kanban.dto;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 import ru.praktikum.kanban.model.TaskStatus;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
