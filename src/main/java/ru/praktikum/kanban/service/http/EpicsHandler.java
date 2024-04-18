@@ -26,7 +26,7 @@ public class EpicsHandler implements HttpHandler {
     private final TaskManager taskManager;
     private final EndpointHandler endpointHandler;
     private final Gson gson;
-    private static final Logger logger = Logger.getLogger(TasksHandler.class);
+    private static final Logger logger = Logger.getLogger(EpicsHandler.class);
 
     public EpicsHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
