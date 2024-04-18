@@ -52,12 +52,13 @@ public class EpicsHandler implements HttpHandler {
     }
 
     private void getEpic(Map<String, String> params, HttpExchange exchange) throws IOException {
-        Optional<Integer> epicIdOpt = getEpicId(params);
-        if (epicIdOpt.isEmpty()) {
+        int epicId;
+        try {
+            epicId = Preconditions.getIntValue("id", params);
+        } catch (PreconditionsException e) {
             endpointHandler.writeResponse(exchange, SC_BAD_REQUEST);
             return;
         }
-        int epicId = epicIdOpt.get();
         Optional<EpicDto> epicOpt = taskManager.getEpic(epicId);
         if (epicOpt.isEmpty()) {
             endpointHandler.writeResponse(exchange, SC_NOT_FOUND);
@@ -68,12 +69,13 @@ public class EpicsHandler implements HttpHandler {
     }
 
     private void getEpicSubtasks(Map<String, String> params, HttpExchange exchange) throws IOException {
-        Optional<Integer> epicIdOpt = getEpicId(params);
-        if (epicIdOpt.isEmpty()) {
+        int epicId;
+        try {
+            epicId = Preconditions.getIntValue("id", params);
+        } catch (PreconditionsException e) {
             endpointHandler.writeResponse(exchange, SC_BAD_REQUEST);
             return;
         }
-        int epicId = epicIdOpt.get();
         String subtasksJson = gson.toJson(taskManager.getSubtasksWithEpicId(epicId));
         endpointHandler.writeResponse(exchange, subtasksJson, SC_OK);
     }
@@ -98,13 +100,11 @@ public class EpicsHandler implements HttpHandler {
 
     private void updateEpic(Map<String, String> params, HttpExchange exchange) throws IOException {
         String body = new String(exchange.getRequestBody().readAllBytes(), DEFAULT_CHARSET);
-        Optional<Integer> epicIdOpt = getEpicId(params);
-        if (epicIdOpt.isEmpty() || body.isBlank()) {
-            endpointHandler.writeResponse(exchange, SC_BAD_REQUEST);
-            return;
-        }
-        int epicId = epicIdOpt.get();
         try {
+            if (body.isBlank()) {
+                throw new PreconditionsException("Body is empty");
+            }
+            int epicId = Preconditions.getIntValue("id", params);
             UpdateEpicDto updateEpicDto = gson.fromJson(body, UpdateEpicDto.class);
             Preconditions.checkEmpty(updateEpicDto);
             Optional<EpicDto> epicDtoOpt = taskManager.updateEpic(epicId, updateEpicDto);
@@ -123,21 +123,14 @@ public class EpicsHandler implements HttpHandler {
     }
 
     private void removeEpic(Map<String, String> params, HttpExchange exchange) throws IOException {
-        Optional<Integer> epicIdOpt = getEpicId(params);
-        if (epicIdOpt.isEmpty()) {
+        int epicId;
+        try {
+            epicId = Preconditions.getIntValue("id", params);
+        } catch (PreconditionsException e) {
             endpointHandler.writeResponse(exchange, SC_BAD_REQUEST);
             return;
         }
-        int epicId = epicIdOpt.get();
         taskManager.removeEpic(epicId);
         endpointHandler.writeResponse(exchange, SC_OK);
-    }
-
-    private Optional<Integer> getEpicId(Map<String, String> params) {
-        try {
-            return Optional.of(Integer.parseInt(params.get("id")));
-        } catch (Exception exception) {
-            return Optional.empty();
-        }
     }
 }

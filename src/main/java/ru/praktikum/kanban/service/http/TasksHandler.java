@@ -52,12 +52,13 @@ public class TasksHandler implements HttpHandler {
     }
 
     private void getTask(Map<String, String> params, HttpExchange exchange) throws IOException {
-        Optional<Integer> taskIdOpt = getTaskId(params);
-        if (taskIdOpt.isEmpty()) {
+        int taskId;
+        try {
+            taskId = Preconditions.getIntValue("id", params);
+        } catch (PreconditionsException e) {
             endpointHandler.writeResponse(exchange, SC_BAD_REQUEST);
             return;
         }
-        int taskId = taskIdOpt.get();
         Optional<TaskDto> taskOpt = taskManager.getTask(taskId);
         if (taskOpt.isEmpty()) {
             endpointHandler.writeResponse(exchange, SC_NOT_FOUND);
@@ -90,13 +91,11 @@ public class TasksHandler implements HttpHandler {
 
     private void updateTask(Map<String, String> params, HttpExchange exchange) throws IOException {
         String body = new String(exchange.getRequestBody().readAllBytes(), DEFAULT_CHARSET);
-        Optional<Integer> taskIdOpt = getTaskId(params);
-        if (taskIdOpt.isEmpty() || body.isBlank()) {
-            endpointHandler.writeResponse(exchange, SC_BAD_REQUEST);
-            return;
-        }
-        int taskId = taskIdOpt.get();
         try {
+            if (body.isBlank()) {
+                throw new PreconditionsException("Body is empty");
+            }
+            int taskId = Preconditions.getIntValue("id", params);
             UpdateTaskDto updateTaskDto = gson.fromJson(body, UpdateTaskDto.class);
             Preconditions.checkEmpty(updateTaskDto);
             Optional<TaskDto> taskDtoOpt = taskManager.updateTask(taskId, updateTaskDto);
@@ -118,21 +117,14 @@ public class TasksHandler implements HttpHandler {
     }
 
     private void removeTask(Map<String, String> params, HttpExchange exchange) throws IOException {
-        Optional<Integer> taskIdOpt = getTaskId(params);
-        if (taskIdOpt.isEmpty()) {
+        int taskId;
+        try {
+            taskId = Preconditions.getIntValue("id", params);
+        } catch (PreconditionsException e) {
             endpointHandler.writeResponse(exchange, SC_BAD_REQUEST);
             return;
         }
-        int taskId = taskIdOpt.get();
         taskManager.removeTask(taskId);
         endpointHandler.writeResponse(exchange, SC_OK);
-    }
-
-    private Optional<Integer> getTaskId(Map<String, String> params) {
-        try {
-            return Optional.of(Integer.parseInt(params.get("id")));
-        } catch (Exception exception) {
-            return Optional.empty();
-        }
     }
 }
