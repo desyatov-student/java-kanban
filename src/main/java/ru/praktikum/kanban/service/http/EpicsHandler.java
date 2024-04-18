@@ -90,10 +90,10 @@ public class EpicsHandler implements HttpHandler {
             Preconditions.checkRequiredValues(createEpicDto);
             TaskDto taskDto = taskManager.createEpic(createEpicDto);
             String taskJson = gson.toJson(taskDto);
-            logger.info("createTask. success");
+            logger.info("createEpic. success");
             endpointHandler.writeResponse(exchange, taskJson, SC_CREATED);
         } catch (JsonSyntaxException | PreconditionsException e) {
-            logger.error("createTask. Could not parse body: " + body, e);
+            logger.error("createEpic. Could not parse body: " + body, e);
             endpointHandler.writeResponse(exchange, SC_BAD_REQUEST);
         }
     }
@@ -114,10 +114,10 @@ public class EpicsHandler implements HttpHandler {
             }
             EpicDto epicDto = epicDtoOpt.get();
             String epicJson = gson.toJson(epicDto);
-            logger.info("updateTask. success");
+            logger.info("updateEpic. success");
             endpointHandler.writeResponse(exchange, epicJson, SC_OK);
         } catch (JsonSyntaxException | PreconditionsException e) {
-            logger.error("updateTask. Could not parse body: " + body, e);
+            logger.error("updateEpic. Could not parse body: " + body, e);
             endpointHandler.writeResponse(exchange, SC_BAD_REQUEST);
         }
     }

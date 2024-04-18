@@ -50,9 +50,9 @@ public interface TaskManager {
 
     List<SubtaskDto> getSubtasksWithEpicId(Integer id);
 
-    SubtaskDto createSubtask(CreateSubtaskDto subtaskDto) throws TaskValidationException;
+    SubtaskDto createSubtask(Integer epicId, CreateSubtaskDto subtaskDto) throws TaskValidationException;
 
-    SubtaskDto updateSubtask(Integer id, UpdateSubtaskDto updateSubtaskDto) throws TaskValidationException;
+    Optional<SubtaskDto> updateSubtask(Integer id, UpdateSubtaskDto updateSubtaskDto) throws TaskValidationException;
 
     void removeSubtask(Integer id);
 

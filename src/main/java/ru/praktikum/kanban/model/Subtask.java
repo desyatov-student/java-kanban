@@ -5,17 +5,15 @@ import java.time.LocalDateTime;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 import lombok.ToString;
 
-@Setter
 @Getter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class Subtask extends Task {
 
     @EqualsAndHashCode.Exclude
-    private Integer epicId;
+    private final Integer epicId;
 
     public Subtask(
             @NonNull Integer id,

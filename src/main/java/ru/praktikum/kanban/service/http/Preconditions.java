@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import ru.praktikum.kanban.exception.PreconditionsException;
 
 public final class Preconditions {
@@ -24,13 +25,18 @@ public final class Preconditions {
     }
 
     public static <T> void checkEmpty(T object) throws PreconditionsException {
-        boolean hasValue = Arrays.stream(object.getClass().getDeclaredFields())
+        Field[] superclassFields = {};
+        if (!object.getClass().equals(Object.class)) {
+            superclassFields = object.getClass().getSuperclass().getDeclaredFields();
+        }
+        boolean hasValue = Stream.of(object.getClass().getDeclaredFields(), superclassFields)
+                .flatMap(Arrays::stream)
                 .map(field -> getObjectValue(field, object))
                 .anyMatch(Objects::nonNull);
         if (hasValue) {
             return;
         }
-        throw new PreconditionsException("UpdateTaskDto is empty");
+        throw new PreconditionsException(object.getClass().getSimpleName() + " is empty");
     }
 
     private static Object getObjectValue(Field field, Object object) {

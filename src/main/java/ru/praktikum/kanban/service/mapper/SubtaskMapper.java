@@ -45,7 +45,7 @@ public interface SubtaskMapper {
     }
 
     @Mapping(target = "status", expression = "java(TaskStatus.NEW)")
-    Subtask toEntity(Integer id, CreateSubtaskDto dto);
+    Subtask toEntity(Integer id, Integer epicId, CreateSubtaskDto dto);
 
     default Subtask toEntity(String[] values) {
         return new Subtask(

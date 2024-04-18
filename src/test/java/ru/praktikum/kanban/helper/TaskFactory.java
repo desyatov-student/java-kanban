@@ -74,12 +74,11 @@ public final class TaskFactory {
 
     public static CreateEpicDto CREATE_EPIC() { return new CreateEpicDto(DEFAULT_NAME, DEFAULT_DESCRIPTION); }
     public static UpdateEpicDto UPDATE_EPIC(String name) { return new UpdateEpicDto(name, DEFAULT_DESCRIPTION); }
-    public static CreateSubtaskDto CREATE_SUBTASK(Integer epicId) { return CREATE_SUBTASK(epicId, null, null); }
+    public static CreateSubtaskDto CREATE_SUBTASK = CREATE_SUBTASK(null, null);
     public static CreateSubtaskDto CREATE_SUBTASK(
-            Integer epicId,
             LocalDateTime startTime,
             Duration duration
-    ) { return new CreateSubtaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, epicId, startTime, duration); }
+    ) { return new CreateSubtaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, startTime, duration); }
     public static UpdateSubtaskDto UPDATE_SUBTASK(TaskStatus status) { return new UpdateSubtaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, status, null, null); }
     public static UpdateSubtaskDto UPDATE_SUBTASK(
             LocalDateTime startTime,

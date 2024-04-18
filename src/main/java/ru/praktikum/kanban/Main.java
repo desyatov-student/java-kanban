@@ -38,32 +38,28 @@ public class Main {
         );
 
         startTime = startTime.plusHours(1);
-        final SubtaskDto subtask1 = taskManager.createSubtask(
+        final SubtaskDto subtask1 = taskManager.createSubtask(epic.getId(),
                 new CreateSubtaskDto(
                         "Проектирование",
-                        "Description", epic.getId(), startTime, duration)
-        );
+                        "Description", startTime, duration));
 
         startTime = startTime.plusHours(1);
-        final SubtaskDto subtask2 = taskManager.createSubtask(
+        final SubtaskDto subtask2 = taskManager.createSubtask(epic.getId(),
                 new CreateSubtaskDto(
                         "Тест 1",
-                        "Description", epic.getId(), startTime, duration)
-        );
+                        "Description", startTime, duration));
 
         startTime = startTime.plusHours(1);
-        final SubtaskDto subtask3 = taskManager.createSubtask(
+        final SubtaskDto subtask3 = taskManager.createSubtask(epic.getId(),
                 new CreateSubtaskDto(
                         "Тест 2",
-                        "Description", epic.getId(), startTime, duration)
-        );
+                        "Description", startTime, duration));
 
         startTime = startTime.plusHours(1);
-        final SubtaskDto subtask4 = taskManager.createSubtask(
+        final SubtaskDto subtask4 = taskManager.createSubtask(epic.getId(),
                 new CreateSubtaskDto(
                         "Код",
-                        "Description", epic.getId(), startTime, duration)
-        );
+                        "Description", startTime, duration));
 
         taskManager.getEpic(epic.getId());
         System.out.println(taskManager.getHistory());
