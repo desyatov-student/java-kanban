@@ -81,7 +81,7 @@ public class TasksHandlerTest {
     }
 
     @Test
-    void getTask_ReturnTaskAndStatus200_TaskIsExistedAndNoError() throws IOException, InterruptedException {
+    void getTask_ReturnTaskAndStatus200_TaskExistsAndNoError() throws IOException, InterruptedException {
         // Given
 
         int taskId = 1;
@@ -106,7 +106,7 @@ public class TasksHandlerTest {
     }
 
     @Test
-    void getTask_ReturnEmptyResponseAndStatus404_TaskIsNotExisted() throws IOException, InterruptedException {
+    void getTask_ReturnEmptyResponseAndStatus404_TaskDoesNotExist() throws IOException, InterruptedException {
         // Given
 
         int taskId = 1;
@@ -234,7 +234,7 @@ public class TasksHandlerTest {
     }
 
     @Test
-    void updateTask_ReturnUpdatedTaskAndStatus200_TaskIsExisted() throws IOException, InterruptedException, TaskValidationException {
+    void updateTask_ReturnUpdatedTaskAndStatus200_TaskExists() throws IOException, InterruptedException, TaskValidationException {
         // Given
 
         int taskId = 1;
@@ -264,7 +264,7 @@ public class TasksHandlerTest {
     }
 
     @Test
-    void updateTask_ReturnEmptyResponseAndStatus404_TaskIsNotExisted() throws IOException, InterruptedException, TaskValidationException {
+    void updateTask_ReturnEmptyResponseAndStatus404_TaskDoesNotExist() throws IOException, InterruptedException, TaskValidationException {
         // Given
 
         int taskId = 1;

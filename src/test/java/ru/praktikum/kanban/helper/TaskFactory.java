@@ -73,6 +73,7 @@ public final class TaskFactory {
 
 
     public static CreateEpicDto CREATE_EPIC() { return new CreateEpicDto(DEFAULT_NAME, DEFAULT_DESCRIPTION); }
+    public static UpdateEpicDto UPDATE_EPIC() { return UPDATE_EPIC(DEFAULT_NAME); }
     public static UpdateEpicDto UPDATE_EPIC(String name) { return new UpdateEpicDto(name, DEFAULT_DESCRIPTION); }
     public static CreateSubtaskDto CREATE_SUBTASK = CREATE_SUBTASK(null, null);
     public static CreateSubtaskDto CREATE_SUBTASK(

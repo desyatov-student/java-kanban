@@ -6,9 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
-import ru.praktikum.kanban.dto.EpicDto;
 import ru.praktikum.kanban.dto.SubtaskDto;
-import ru.praktikum.kanban.dto.TaskDto;
 import ru.praktikum.kanban.service.http.GsonFactory;
 import ru.praktikum.kanban.service.mapper.TaskType;
 

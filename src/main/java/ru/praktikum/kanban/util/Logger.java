@@ -60,6 +60,7 @@ public class Logger {
         }
         System.out.println(format);
         if (level == Level.ERROR && exception != null) {
+            System.out.println();
             exception.printStackTrace();
         }
     }
