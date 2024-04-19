@@ -60,7 +60,7 @@ public class TasksHandlerTest {
     void getAllTasks_ReturnTasksAndStatus200_TaskManagerHasTasksAndNoError() throws IOException, InterruptedException {
         // Given
 
-        List<TaskDto> tasks = List.of(TASK_DTO(1), TASK_DTO(1));
+        List<TaskDto> tasks = List.of(TASK_DTO(1), TASK_DTO(2));
         Mockito.when(taskManager.getAllTasks()).thenReturn(tasks);
 
         URI uri = uriBuilder.create("/tasks");
@@ -84,11 +84,11 @@ public class TasksHandlerTest {
     void getTask_ReturnTaskAndStatus200_TaskExistsAndNoError() throws IOException, InterruptedException {
         // Given
 
-        int taskId = 1;
-        TaskDto task = TASK_DTO(taskId);
-        Mockito.when(taskManager.getTask(taskId)).thenReturn(Optional.of(task));
+        int id = 1;
+        TaskDto task = TASK_DTO(id);
+        Mockito.when(taskManager.getTask(id)).thenReturn(Optional.of(task));
 
-        URI uri = uriBuilder.create("/tasks/" + taskId);
+        URI uri = uriBuilder.create("/tasks/" + id);
         HttpRequest request = HttpRequest.newBuilder().GET().uri(uri).build();
         HttpResponse.BodyHandler<String> handler = HttpResponse.BodyHandlers.ofString();
 
@@ -101,7 +101,7 @@ public class TasksHandlerTest {
 
         assertEquals(SC_OK, response.statusCode());
         assertEquals(task, actualTask);
-        Mockito.verify(taskManager).getTask(taskId);
+        Mockito.verify(taskManager).getTask(id);
         Mockito.verifyNoMoreInteractions(taskManager);
     }
 
@@ -109,10 +109,10 @@ public class TasksHandlerTest {
     void getTask_ReturnEmptyResponseAndStatus404_TaskDoesNotExist() throws IOException, InterruptedException {
         // Given
 
-        int taskId = 1;
-        Mockito.when(taskManager.getTask(taskId)).thenReturn(Optional.empty());
+        int id = 1;
+        Mockito.when(taskManager.getTask(id)).thenReturn(Optional.empty());
 
-        URI uri = uriBuilder.create("/tasks/" + taskId);
+        URI uri = uriBuilder.create("/tasks/" + id);
         HttpRequest request = HttpRequest.newBuilder().GET().uri(uri).build();
         HttpResponse.BodyHandler<String> handler = HttpResponse.BodyHandlers.ofString();
 
@@ -124,7 +124,7 @@ public class TasksHandlerTest {
 
         assertEquals(SC_NOT_FOUND, response.statusCode());
         assertTrue(response.body().isEmpty());
-        Mockito.verify(taskManager).getTask(taskId);
+        Mockito.verify(taskManager).getTask(id);
         Mockito.verifyNoMoreInteractions(taskManager);
     }
 
@@ -132,10 +132,10 @@ public class TasksHandlerTest {
     void createTask_ReturnTaskAndStatus200_TaskSavedAndNoError() throws IOException, InterruptedException, TaskValidationException {
         // Given
 
-        int taskId = 1;
+        int id = 1;
         CreateTaskDto createTaskDto = CREATE_TASK;
         String createTaskDtoJson = gson.toJson(createTaskDto);
-        TaskDto taskDto = TASK_DTO(taskId);
+        TaskDto taskDto = TASK_DTO(id);
         Mockito.when(taskManager.createTask(createTaskDto)).thenReturn(taskDto);
 
         URI uri = uriBuilder.create("/tasks");
@@ -237,13 +237,13 @@ public class TasksHandlerTest {
     void updateTask_ReturnUpdatedTaskAndStatus200_TaskExists() throws IOException, InterruptedException, TaskValidationException {
         // Given
 
-        int taskId = 1;
+        int id = 1;
         UpdateTaskDto updateTaskDto = UPDATE_TASK;
         String updateTaskDtoJson = gson.toJson(updateTaskDto);
-        TaskDto taskDto = TASK_DTO(taskId);
-        Mockito.when(taskManager.updateTask(taskId, updateTaskDto)).thenReturn(Optional.of(taskDto));
+        TaskDto taskDto = TASK_DTO(id);
+        Mockito.when(taskManager.updateTask(id, updateTaskDto)).thenReturn(Optional.of(taskDto));
 
-        URI uri = uriBuilder.create("/tasks/" + taskId);
+        URI uri = uriBuilder.create("/tasks/" + id);
         HttpRequest request = HttpRequest.newBuilder()
                 .method("PATCH", HttpRequest.BodyPublishers.ofString(updateTaskDtoJson))
                 .uri(uri)
@@ -259,7 +259,7 @@ public class TasksHandlerTest {
 
         assertEquals(SC_OK, response.statusCode());
         assertEquals(taskDto, actualTask);
-        Mockito.verify(taskManager).updateTask(taskId, updateTaskDto);
+        Mockito.verify(taskManager).updateTask(id, updateTaskDto);
         Mockito.verifyNoMoreInteractions(taskManager);
     }
 
@@ -267,12 +267,12 @@ public class TasksHandlerTest {
     void updateTask_ReturnEmptyResponseAndStatus404_TaskDoesNotExist() throws IOException, InterruptedException, TaskValidationException {
         // Given
 
-        int taskId = 1;
+        int id = 1;
         UpdateTaskDto updateTaskDto = UPDATE_TASK;
         String updateTaskDtoJson = gson.toJson(updateTaskDto);
-        Mockito.when(taskManager.updateTask(taskId, updateTaskDto)).thenReturn(Optional.empty());
+        Mockito.when(taskManager.updateTask(id, updateTaskDto)).thenReturn(Optional.empty());
 
-        URI uri = uriBuilder.create("/tasks/" + taskId);
+        URI uri = uriBuilder.create("/tasks/" + id);
         HttpRequest request = HttpRequest.newBuilder()
                 .method("PATCH", HttpRequest.BodyPublishers.ofString(updateTaskDtoJson))
                 .uri(uri)
@@ -287,7 +287,7 @@ public class TasksHandlerTest {
 
         assertEquals(SC_NOT_FOUND, response.statusCode());
         assertTrue(response.body().isEmpty());
-        Mockito.verify(taskManager).updateTask(taskId, updateTaskDto);
+        Mockito.verify(taskManager).updateTask(id, updateTaskDto);
         Mockito.verifyNoMoreInteractions(taskManager);
     }
 
@@ -295,12 +295,12 @@ public class TasksHandlerTest {
     void updateTask_ReturnEmptyResponseAndStatus406_TaskHasTimeIntersection() throws IOException, InterruptedException, TaskValidationException {
         // Given
 
-        int taskId = 1;
+        int id = 1;
         UpdateTaskDto updateTaskDto = UPDATE_TASK;
         String updateTaskDtoJson = gson.toJson(updateTaskDto);
-        Mockito.when(taskManager.updateTask(taskId, updateTaskDto)).thenThrow(new TaskValidationException());
+        Mockito.when(taskManager.updateTask(id, updateTaskDto)).thenThrow(new TaskValidationException());
 
-        URI uri = uriBuilder.create("/tasks/" + taskId);
+        URI uri = uriBuilder.create("/tasks/" + id);
         HttpRequest request = HttpRequest.newBuilder()
                 .method("PATCH", HttpRequest.BodyPublishers.ofString(updateTaskDtoJson))
                 .uri(uri)
@@ -315,7 +315,7 @@ public class TasksHandlerTest {
 
         assertEquals(SC_NOT_ACCEPTABLE, response.statusCode());
         assertTrue(response.body().isEmpty());
-        Mockito.verify(taskManager).updateTask(taskId, updateTaskDto);
+        Mockito.verify(taskManager).updateTask(id, updateTaskDto);
         Mockito.verifyNoMoreInteractions(taskManager);
     }
 
@@ -323,8 +323,8 @@ public class TasksHandlerTest {
     void updateTask_ReturnEmptyResponseAndStatus400_BodyIsEmpty() throws IOException, InterruptedException, TaskValidationException {
         // Given
 
-        int taskId = 1;
-        URI uri = uriBuilder.create("/tasks/" + taskId);
+        int id = 1;
+        URI uri = uriBuilder.create("/tasks/" + id);
         HttpRequest request = HttpRequest.newBuilder()
                 .method("PATCH", HttpRequest.BodyPublishers.noBody())
                 .uri(uri)

@@ -80,6 +80,7 @@ public final class TaskFactory {
             LocalDateTime startTime,
             Duration duration
     ) { return new CreateSubtaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, startTime, duration); }
+    public static UpdateSubtaskDto UPDATE_SUBTASK() { return UPDATE_SUBTASK(null, null); }
     public static UpdateSubtaskDto UPDATE_SUBTASK(TaskStatus status) { return new UpdateSubtaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, status, null, null); }
     public static UpdateSubtaskDto UPDATE_SUBTASK(
             LocalDateTime startTime,
