@@ -19,7 +19,7 @@ public class PrioritizedHandler implements HttpHandler {
         this.endpointHandler = new EndpointHandler()
                 .handle(RequestMethod.GET, "/prioritized", this::getPrioritizedTasks);
 
-        this.gson = GsonFactory.taskGson();
+        this.gson = GsonFactory.gsonWithCustomSerializer();
     }
 
     @Override

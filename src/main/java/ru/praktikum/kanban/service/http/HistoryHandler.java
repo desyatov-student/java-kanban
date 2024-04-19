@@ -19,7 +19,7 @@ public class HistoryHandler implements HttpHandler {
         this.endpointHandler = new EndpointHandler()
                 .handle(RequestMethod.GET, "/history", this::getHistory);
 
-        this.gson = GsonFactory.taskGson();
+        this.gson = GsonFactory.gsonWithCustomSerializer();
     }
 
     @Override

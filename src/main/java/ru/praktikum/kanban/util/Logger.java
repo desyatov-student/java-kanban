@@ -59,6 +59,9 @@ public class Logger {
             format = format + " cause: " + exception;
         }
         System.out.println(format);
+        if (level == Level.ERROR && exception != null) {
+            exception.printStackTrace();
+        }
     }
 
     private String green(String value) {
