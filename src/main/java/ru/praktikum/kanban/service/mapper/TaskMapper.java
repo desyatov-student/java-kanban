@@ -1,7 +1,10 @@
 package ru.praktikum.kanban.service.mapper;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import ru.praktikum.kanban.dto.CreateTaskDto;
 import ru.praktikum.kanban.dto.TaskDto;
 import ru.praktikum.kanban.dto.UpdateTaskDto;
@@ -24,6 +27,7 @@ public interface TaskMapper {
 
     TaskDto toDto(Task task);
 
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromDto(UpdateTaskDto dto, @MappingTarget Task task);
 
     default String toString(Task task) {
@@ -39,6 +43,7 @@ public interface TaskMapper {
         );
     }
 
+    @Mapping(target = "status", expression = "java(TaskStatus.NEW)")
     Task toEntity(Integer id, CreateTaskDto dto);
 
     default Task toEntity(String[] values) {

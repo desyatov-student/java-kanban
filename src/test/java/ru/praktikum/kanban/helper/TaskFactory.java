@@ -3,9 +3,15 @@ package ru.praktikum.kanban.helper;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import ru.praktikum.kanban.dto.CreateEpicDto;
+import ru.praktikum.kanban.dto.CreateSubtaskDto;
+import ru.praktikum.kanban.dto.CreateTaskDto;
 import ru.praktikum.kanban.dto.EpicDto;
 import ru.praktikum.kanban.dto.SubtaskDto;
 import ru.praktikum.kanban.dto.TaskDto;
+import ru.praktikum.kanban.dto.UpdateEpicDto;
+import ru.praktikum.kanban.dto.UpdateSubtaskDto;
+import ru.praktikum.kanban.dto.UpdateTaskDto;
 import ru.praktikum.kanban.model.TaskStatus;
 import ru.praktikum.kanban.model.Epic;
 import ru.praktikum.kanban.model.Subtask;
@@ -66,4 +72,30 @@ public final class TaskFactory {
     public static TaskDto TASK_DTO(Integer id, TaskStatus status) { return new TaskDto(id, DEFAULT_NAME, DEFAULT_DESCRIPTION, status, null, null, null); }
 
 
+    public static CreateEpicDto CREATE_EPIC() { return new CreateEpicDto(DEFAULT_NAME, DEFAULT_DESCRIPTION); }
+    public static UpdateEpicDto UPDATE_EPIC() { return UPDATE_EPIC(DEFAULT_NAME); }
+    public static UpdateEpicDto UPDATE_EPIC(String name) { return new UpdateEpicDto(name, DEFAULT_DESCRIPTION); }
+    public static CreateSubtaskDto CREATE_SUBTASK = CREATE_SUBTASK(null, null);
+    public static CreateSubtaskDto CREATE_SUBTASK(
+            LocalDateTime startTime,
+            Duration duration
+    ) { return new CreateSubtaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, startTime, duration); }
+    public static UpdateSubtaskDto UPDATE_SUBTASK() { return UPDATE_SUBTASK(null, null); }
+    public static UpdateSubtaskDto UPDATE_SUBTASK(TaskStatus status) { return new UpdateSubtaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, status, null, null); }
+    public static UpdateSubtaskDto UPDATE_SUBTASK(
+            LocalDateTime startTime,
+            Duration duration
+    ) { return new UpdateSubtaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, TaskStatus.NEW, startTime, duration); }
+    public static final CreateTaskDto CREATE_TASK = CREATE_TASK(null, null);
+    public static CreateTaskDto CREATE_TASK(
+            LocalDateTime startTime,
+            Duration duration
+    ) { return new CreateTaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, startTime, duration); }
+
+    public static UpdateTaskDto UPDATE_TASK = UPDATE_TASK(null, null);
+    public static UpdateTaskDto UPDATE_TASK(TaskStatus status) { return new UpdateTaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, status, null, null); }
+    public static UpdateTaskDto UPDATE_TASK(
+            LocalDateTime startTime,
+            Duration duration
+    ) { return new UpdateTaskDto(DEFAULT_NAME, DEFAULT_DESCRIPTION, TaskStatus.NEW, startTime, duration); }
 }

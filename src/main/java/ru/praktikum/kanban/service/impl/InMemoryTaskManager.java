@@ -84,15 +84,15 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public TaskDto updateTask(Integer id, UpdateTaskDto updateTaskDto) throws TaskValidationException {
+    public Optional<TaskDto> updateTask(Integer id, UpdateTaskDto updateTaskDto) throws TaskValidationException {
         Task task = repository.getTask(id);
         if (task == null) {
-            return null;
+            return Optional.empty();
         }
         validateUpdateForTask(task, updateTaskDto);
         taskMapper.updateEntityFromDto(updateTaskDto, task);
         repository.saveTask(task);
-        return taskMapper.toDto(task);
+        return Optional.of(taskMapper.toDto(task));
     }
 
     @Override
@@ -145,14 +145,14 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public EpicDto updateEpic(Integer id, UpdateEpicDto updateEpicDto) {
+    public Optional<EpicDto> updateEpic(Integer id, UpdateEpicDto updateEpicDto) {
         Epic epic = repository.getEpic(id);
         if (epic == null) {
-            return null;
+            return Optional.empty();
         }
         epicMapper.updateEntityFromDto(updateEpicDto, epic);
         repository.saveEpic(epic);
-        return getEpicDtoWithEpicEntity(epic);
+        return Optional.of(getEpicDtoWithEpicEntity(epic));
     }
 
     @Override
@@ -207,15 +207,13 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public SubtaskDto createSubtask(CreateSubtaskDto createSubtaskDto) throws TaskValidationException {
-        Integer epicId = createSubtaskDto.getEpicId();
+    public SubtaskDto createSubtask(Integer epicId, CreateSubtaskDto createSubtaskDto) throws TaskValidationException {
         Epic epic = repository.getEpic(epicId);
         if (epic == null) {
             throw new TaskValidationException("Epic not found: " + epicId);
         }
-        Subtask subtask = subtaskMapper.toEntity(getNextTaskId(), createSubtaskDto);
+        Subtask subtask = subtaskMapper.toEntity(getNextTaskId(), epicId, createSubtaskDto);
         validateNewTask(subtask);
-        subtask.setEpicId(epicId);
         epic.subtasks.add(subtask.getId());
 
         repository.saveSubtask(subtask);
@@ -224,20 +222,20 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public SubtaskDto updateSubtask(Integer id, UpdateSubtaskDto updateSubtaskDto) throws TaskValidationException {
+    public Optional<SubtaskDto> updateSubtask(
+            Integer id, UpdateSubtaskDto updateSubtaskDto) throws TaskValidationException {
         Subtask subtask = repository.getSubtask(id);
         if (subtask == null) {
-            return null;
+            return Optional.empty();
         }
         validateUpdateForTask(subtask, updateSubtaskDto);
         Epic epic = repository.getEpic(subtask.getEpicId());
         if (epic == null) {
-            return null;
+            return Optional.empty();
         }
         subtaskMapper.updateEntityFromDto(updateSubtaskDto, subtask);
-        subtask.setEpicId(epic.getId());
         updateEpicData(epic);
-        return subtaskMapper.toDto(subtask);
+        return Optional.of(subtaskMapper.toDto(subtask));
     }
 
     @Override

@@ -38,32 +38,28 @@ public class Main {
         );
 
         startTime = startTime.plusHours(1);
-        final SubtaskDto subtask1 = taskManager.createSubtask(
+        final SubtaskDto subtask1 = taskManager.createSubtask(epic.getId(),
                 new CreateSubtaskDto(
                         "Проектирование",
-                        "Description", epic.getId(), startTime, duration)
-        );
+                        "Description", startTime, duration));
 
         startTime = startTime.plusHours(1);
-        final SubtaskDto subtask2 = taskManager.createSubtask(
+        final SubtaskDto subtask2 = taskManager.createSubtask(epic.getId(),
                 new CreateSubtaskDto(
                         "Тест 1",
-                        "Description", epic.getId(), startTime, duration)
-        );
+                        "Description", startTime, duration));
 
         startTime = startTime.plusHours(1);
-        final SubtaskDto subtask3 = taskManager.createSubtask(
+        final SubtaskDto subtask3 = taskManager.createSubtask(epic.getId(),
                 new CreateSubtaskDto(
                         "Тест 2",
-                        "Description", epic.getId(), startTime, duration)
-        );
+                        "Description", startTime, duration));
 
         startTime = startTime.plusHours(1);
-        final SubtaskDto subtask4 = taskManager.createSubtask(
+        final SubtaskDto subtask4 = taskManager.createSubtask(epic.getId(),
                 new CreateSubtaskDto(
                         "Код",
-                        "Description", epic.getId(), startTime, duration)
-        );
+                        "Description", startTime, duration));
 
         taskManager.getEpic(epic.getId());
         System.out.println(taskManager.getHistory());
@@ -79,14 +75,6 @@ public class Main {
         System.out.println(taskManager.getHistory());
         taskManager.getEpic(epic.getId());
         System.out.println(taskManager.getHistory());
-
-        System.out.println("Удаляем задачу...");
-        taskManager.removeTask(task1.getId());
-
-        System.out.println(taskManager.getHistory());
-
-        System.out.println("Удаляем эпик с подзадачами...");
-        taskManager.removeEpic(epic.getId());
 
         System.out.println();
         System.out.println("1️⃣ ****** Данные в первом менеджере: ******");

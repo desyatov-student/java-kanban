@@ -20,7 +20,7 @@ public interface TaskManager {
 
     TaskDto createTask(CreateTaskDto createTaskDto) throws TaskValidationException;
 
-    TaskDto updateTask(Integer id, UpdateTaskDto updateTaskDto) throws TaskValidationException;
+    Optional<TaskDto> updateTask(Integer id, UpdateTaskDto updateTaskDto) throws TaskValidationException;
 
     Optional<TaskDto> getTask(Integer id);
 
@@ -36,7 +36,7 @@ public interface TaskManager {
 
     EpicDto createEpic(CreateEpicDto epicDto);
 
-    EpicDto updateEpic(Integer id, UpdateEpicDto updateEpicDto);
+    Optional<EpicDto> updateEpic(Integer id, UpdateEpicDto updateEpicDto);
 
     void removeEpic(Integer id);
 
@@ -50,9 +50,9 @@ public interface TaskManager {
 
     List<SubtaskDto> getSubtasksWithEpicId(Integer id);
 
-    SubtaskDto createSubtask(CreateSubtaskDto subtaskDto) throws TaskValidationException;
+    SubtaskDto createSubtask(Integer epicId, CreateSubtaskDto subtaskDto) throws TaskValidationException;
 
-    SubtaskDto updateSubtask(Integer id, UpdateSubtaskDto updateSubtaskDto) throws TaskValidationException;
+    Optional<SubtaskDto> updateSubtask(Integer id, UpdateSubtaskDto updateSubtaskDto) throws TaskValidationException;
 
     void removeSubtask(Integer id);
 

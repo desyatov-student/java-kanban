@@ -1,8 +1,10 @@
 package ru.praktikum.kanban.service.mapper;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import ru.praktikum.kanban.dto.CreateSubtaskDto;
 import ru.praktikum.kanban.dto.SubtaskDto;
 import ru.praktikum.kanban.dto.UpdateSubtaskDto;
@@ -26,6 +28,7 @@ public interface SubtaskMapper {
     SubtaskDto toDto(Subtask subtask);
 
     @Mapping(target = "epicId", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromDto(UpdateSubtaskDto dto, @MappingTarget Subtask subtask);
 
     default String toString(Subtask subtask) {
@@ -41,7 +44,8 @@ public interface SubtaskMapper {
         );
     }
 
-    Subtask toEntity(Integer id, CreateSubtaskDto dto);
+    @Mapping(target = "status", expression = "java(TaskStatus.NEW)")
+    Subtask toEntity(Integer id, Integer epicId, CreateSubtaskDto dto);
 
     default Subtask toEntity(String[] values) {
         return new Subtask(
